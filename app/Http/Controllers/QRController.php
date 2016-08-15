@@ -26,7 +26,7 @@ public function UpdateCaseData(Request $request){
     $CasedId=Session::get('CaseId');
     DB::table('refundcase')
         ->where('RefundCase_Id', '=',$CasedId)
-        ->update(['RefundCaseDetail' => $request->getContent()]);
+        ->update(['RefundCaseDetail' => $request->getContent(),'RefundCaseStatus'=>'Label Generated']);
     return 'true';
 }
 

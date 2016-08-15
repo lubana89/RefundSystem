@@ -26,7 +26,7 @@ class RefundController extends Controller {
         $timeStamp=date("Y/m/d");
 
         $id =DB::table('refundcase')->insertGetId(
-            ['Seller_Id' => $request->sellerNumber, 'RefundCaseDetail' => $request->getContent()]
+            ['Seller_Id' => $request->sellerNumber, 'RefundCaseDetail' => $request->getContent(),'RefundCaseStatus'=>'Link Generated']
         );
         $refundLink= Crypt::encrypt( $timeStamp.'~/'. $id);
         DB::table('caselinks')->insert(

@@ -1,15 +1,10 @@
-CREATE TABLE Seller (
-Seller_Id INT AUTO_INCREMENT PRIMARY KEY,
-firstname VARCHAR(30) NOT NULL,
-lastname VARCHAR(30) NOT NULL,
-email VARCHAR(50),
-address VARCHAR(250)
-)
+
 
 CREATE TABLE RefundCase (
 RefundCase_Id INT AUTO_INCREMENT PRIMARY KEY,
 Seller_Id INT NOT NULL,
 RefundCaseDetail Text,
+RefundCaseStatus Text,
 FOREIGN KEY (Seller_Id) REFERENCES Seller(Seller_Id)
 ON DELETE CASCADE
        ON UPDATE CASCADE

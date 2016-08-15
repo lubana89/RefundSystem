@@ -91,9 +91,21 @@
       <file leaf-file-name="QRController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/QRController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="29" column="16" selection-start-line="29" selection-start-column="16" selection-end-line="29" selection-end-column="16" />
+            <state relative-caret-position="391">
+              <caret line="28" column="94" selection-start-line="28" selection-start-column="94" selection-end-line="28" selection-end-column="94" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RefundController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RefundController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="28" column="133" selection-start-line="28" selection-start-column="97" selection-end-line="28" selection-end-column="133" />
+              <folding>
+                <element signature="e#38#66#0#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -148,16 +160,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UserView.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/UserView.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="9" selection-end-column="6" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -204,19 +206,19 @@
         <option value="$PROJECT_DIR$/resources/views/AuthView.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/errors/InvalidLink.blade.php" />
         <option value="$PROJECT_DIR$/bower_components/angular/angular.js" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/RefundController.php" />
         <option value="$PROJECT_DIR$/resources/views/UserView.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/Index.blade.php" />
         <option value="$PROJECT_DIR$/bower_components/jsPDF/jsPDF.js" />
         <option value="$PROJECT_DIR$/bower_components/svg-png/saveSvgAsPng.js" />
         <option value="$PROJECT_DIR$/app/Http/routes.php" />
         <option value="$PROJECT_DIR$/resources/views/QR.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/QRController.php" />
         <option value="$PROJECT_DIR$/JS/Controllers/CustomerController.js" />
         <option value="$PROJECT_DIR$/resources/views/SellerRefundForm.blade.php" />
         <option value="$PROJECT_DIR$/JS/Controllers/UserController.js" />
         <option value="$PROJECT_DIR$/JS/Controllers/SellerController.js" />
         <option value="$PROJECT_DIR$/JS/Controllers/app.js" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/RefundController.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/QRController.php" />
       </list>
     </option>
   </component>
@@ -418,6 +420,28 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RefundSystem" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RefundSystem" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Http" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Controllers" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
@@ -522,12 +546,12 @@
       <workItem from="1470975815446" duration="20867000" />
       <workItem from="1471223524186" duration="13702000" />
       <workItem from="1471239466630" duration="6265000" />
-      <workItem from="1471246738466" duration="46000" />
+      <workItem from="1471246738466" duration="810000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="87694000" />
+    <option name="totallyTimeSpent" value="88458000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="0" />
@@ -851,13 +875,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RefundController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="349">
-          <caret line="28" column="96" selection-start-line="28" selection-start-column="52" selection-end-line="28" selection-end-column="96" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/UserView.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
@@ -932,10 +949,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/RefundController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="28" column="133" selection-start-line="28" selection-start-column="97" selection-end-line="28" selection-end-column="133" />
+          <folding>
+            <element signature="e#38#66#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/QRController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="29" column="16" selection-start-line="29" selection-start-column="16" selection-end-line="29" selection-end-column="16" />
+        <state relative-caret-position="391">
+          <caret line="28" column="94" selection-start-line="28" selection-start-column="94" selection-end-line="28" selection-end-column="94" />
           <folding />
         </state>
       </provider>
