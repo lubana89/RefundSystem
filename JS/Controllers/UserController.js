@@ -49,15 +49,19 @@
                     vm.logout();
             }
             vm.EditCase=function (Data) {
+                vm.EditFormData='';
                 vm.EditFormData=Data;
+
                 var editBox=$('#editDiv');
-                editBox.dialog({width:700,height:400}).show();
+                editBox.dialog({width:700,height:400,close:vm.refresh});
+                editBox.dialog('open');
             }
             vm.SubmitEditedForm=function () {
                 var id=vm.EditFormData.Id;
                 delete vm.EditFormData.Id;
                 $http.post(configuration.path+'/Seller/UpdateCaseData/'+id+ '?token=' + $auth.getToken(), JSON.stringify(vm.EditFormData)).success(function(data){
-                    $('#editDiv').dialog('close').hide();
+                    var editBox=$('#editDiv');
+                    editBox.dialog('destroy');
                     vm.refresh();
                 });
             }
