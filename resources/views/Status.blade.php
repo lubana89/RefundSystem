@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Link Not Valid.</title>
+    <title>Current Status</title>
 
     <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
 
@@ -40,7 +40,7 @@
 <body>
 <div class="container">
     <div class="content">
-        <div class="title">Link Is Not Valid</div>
+        <div class="title"> {!! $Status!!}</div>
     </div>
 </div>
 </body>

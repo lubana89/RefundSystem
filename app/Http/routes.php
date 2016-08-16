@@ -28,6 +28,8 @@ Route::group(['prefix' => 'api'], function()
 Route::post('/GenerateRefundLink','RefundController@GenerateLink');
 
 Route::get('/Seller/AllCases/{id}','RefundController@GetSellerAllCases');
+Route::get('/Seller/DeleteCase/{id}','RefundController@DeleteCase');
+Route::post('/Seller/UpdateCaseData/{id}','RefundController@UpdateCase');
 /*End*/
 
 Route::post('/UpdateCaseData','QRController@UpdateCaseData');
@@ -38,5 +40,5 @@ Route::get('/wish', 'FetchBasicDataController@GetWishes');
 Route::get('/reason', 'FetchBasicDataController@GetReasons');
 Route::get('/itemCondition', 'FetchBasicDataController@GetConditions');
 Route::get('/QR', 'QRController@GetQR');
-
+Route::get('/Status/{id}', 'QRController@ItemStatus');
 

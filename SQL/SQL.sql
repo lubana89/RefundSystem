@@ -5,7 +5,8 @@ RefundCase_Id INT AUTO_INCREMENT PRIMARY KEY,
 Seller_Id INT NOT NULL,
 RefundCaseDetail Text,
 RefundCaseStatus Text,
-FOREIGN KEY (Seller_Id) REFERENCES Seller(Seller_Id)
+RefundCaseStatusKey Text,
+       FOREIGN KEY (Seller_Id) REFERENCES Seller(Seller_Id)
 ON DELETE CASCADE
        ON UPDATE CASCADE
 )
@@ -24,7 +25,7 @@ ItemCondition Text
 )
 
 CREATE TABLE CaseLinks (
-RefundCase_ID INT,
+RefundCase_ID INT PRIMARY KEY,
 Seller_Id INT,
 Generation_Time Text,
 CaseLink Text,
@@ -35,6 +36,4 @@ FOREIGN KEY (RefundCase_ID) REFERENCES RefundCase(RefundCase_ID)ON DELETE CASCAD
        ON UPDATE CASCADE
 )
 
-
-delete from caselinks
 

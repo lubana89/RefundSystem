@@ -11,7 +11,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Contracts\Encryption\DecryptException;
 class RefundController extends Controller {
 
-    public function GenerateLink(Request $request){
+    private function Authentic(){
         try {
             if (! $user = JWTAuth::parseToken()->authenticate()) {
                 return response()->json(['user_not_found'], 404);
@@ -23,10 +23,12 @@ class RefundController extends Controller {
         } catch (JWTException $e) {
             return response()->json(['token_absent'], $e->getStatusCode());
         }
+    }
+    public function GenerateLink(Request $request){
+        $this->Authentic();
         $timeStamp=date("Y/m/d");
-
         $id =DB::table('refundcase')->insertGetId(
-            ['Seller_Id' => $request->sellerNumber, 'RefundCaseDetail' => $request->getContent(),'RefundCaseStatus'=>'Link Generated']
+            ['Seller_Id' => $request->sellerNumber, 'RefundCaseDetail' => $request->getContent(),'RefundCaseStatus'=>'Link Generated','RefundCaseStatusKey'=>'']
         );
         $refundLink= Crypt::encrypt( $timeStamp.'~/'. $id);
         DB::table('caselinks')->insert(
@@ -35,20 +37,10 @@ class RefundController extends Controller {
         return config('app.url').'/Customer/Refund/'.$refundLink;
     }
 
-    public function GetSellerAllCases(Request $request,$Id){
-        try {
-            if (! $user = JWTAuth::parseToken()->authenticate()) {
-                return response()->json(['user_not_found'], 404);
-            }
-        } catch (TokenExpiredException $e) {
-            return response()->json(['token_expired'], $e->getStatusCode());
-        } catch (TokenInvalidException $e) {
-            return response()->json(['token_invalid'], $e->getStatusCode());
-        } catch (JWTException $e) {
-            return response()->json(['token_absent'], $e->getStatusCode());
-        }
+    public function GetSellerAllCases($Id){
+       $this->Authentic();
         $data= DB::table('refundcase')
-            ->select('RefundCaseDetail')
+            ->select('RefundCaseDetail','RefundCase_Id')
             ->where('Seller_Id', '=',$Id)
             ->get();
 
@@ -82,5 +74,16 @@ class RefundController extends Controller {
             return view('errors.InvalidLink');
         }
     }
-
+    public function DeleteCase($id){
+        $this->Authentic();
+        DB::table('refundcase')->where('RefundCase_ID', '=', $id)->delete();
+        DB::table('caselinks')->where('RefundCase_ID', '=', $id)->delete();
+    }
+    public function UpdateCase(Request $request,$id){
+        $this->Authentic();
+        DB::table('refundcase')
+            ->where('RefundCase_Id', '=',$id)
+            ->update(['RefundCaseDetail' => $request->getContent()]);
+       return 'true';
+    }
 }
