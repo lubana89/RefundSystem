@@ -1,6 +1,6 @@
 <div ng-controller="SellerRefundFormCtrl">
     <div class="btn-group" style="margin:2%">
-        <button class="btn btn-danger" ng-click="logout()">Logout</button>
+        <button class="btn btn-danger" ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span></button>
     </div>
     <form class="form-horizontal" role="form" style="margin-top:5%;" action="#" >
 
@@ -36,7 +36,7 @@
         <div class="form-group">
             <label for="date" class="col-sm-2 control-label">Date</label>
             <div class="col-sm-4">
-                <input class="form-control" id="date" type="datetime" ng-model="form.date" >
+                <input class="form-control date" id="date" type="datetime" ng-model="form.date" >
             </div>
 
         </div>

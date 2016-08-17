@@ -40,7 +40,7 @@ class RefundController extends Controller {
     public function GetSellerAllCases($Id){
        $this->Authentic();
         $data= DB::table('refundcase')
-            ->select('RefundCaseDetail','RefundCase_Id')
+            ->select('RefundCaseDetail','RefundCase_Id','RefundCaseStatusKey')
             ->where('Seller_Id', '=',$Id)
             ->get();
 
@@ -85,5 +85,13 @@ class RefundController extends Controller {
             ->where('RefundCase_Id', '=',$id)
             ->update(['RefundCaseDetail' => $request->getContent()]);
        return 'true';
+    }
+    public function GetCaseLink($id){
+        $this->Authentic();
+        $refundLink=DB::table('caselinks')
+            ->select('CaseLink')
+            ->where('RefundCase_ID', '=', $id)
+            ->get();
+        return config('app.url').'/Customer/Refund/'.$refundLink[0]->CaseLink;
     }
 }

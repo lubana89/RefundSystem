@@ -30,10 +30,10 @@ Route::post('/GenerateRefundLink','RefundController@GenerateLink');
 Route::get('/Seller/AllCases/{id}','RefundController@GetSellerAllCases');
 Route::get('/Seller/DeleteCase/{id}','RefundController@DeleteCase');
 Route::post('/Seller/UpdateCaseData/{id}','RefundController@UpdateCase');
+Route::get('/Seller/GetLink/{id}','RefundController@GetCaseLink');
 /*End*/
 
 Route::post('/UpdateCaseData','QRController@UpdateCaseData');
-
 Route::get('/Customer/Refund/{id}/Fetch','FetchBasicDataController@FetchData');
 Route::get('/Customer/Refund/{id}', 'RefundController@DecryptLink');
 Route::get('/wish', 'FetchBasicDataController@GetWishes');
