@@ -25,20 +25,20 @@ Route::group(['prefix' => 'api'], function()
 });
 /*Authentication End*/
 /*Secured calls*/
-Route::post('/GenerateRefundLink','RefundController@GenerateLink');
+Route::post('/GenerateRefundLink','SellerController@GenerateLink');
 
-Route::get('/Seller/AllCases/{id}','RefundController@GetSellerAllCases');
-Route::get('/Seller/DeleteCase/{id}','RefundController@DeleteCase');
-Route::post('/Seller/UpdateCaseData/{id}','RefundController@UpdateCase');
+Route::get('/Seller/AllCases/{id}','SellerController@GetSellerAllCases');
+Route::get('/Seller/DeleteCase/{id}','SellerController@DeleteCase');
+Route::post('/Seller/UpdateCaseData/{id}','SellerController@UpdateCase');
+Route::get('/Seller/GetLink/{id}','SellerController@GetCaseLink');
 /*End*/
 
-Route::post('/UpdateCaseData','QRController@UpdateCaseData');
-
+Route::post('/UpdateCaseData','CustomerController@UpdateCaseData');
 Route::get('/Customer/Refund/{id}/Fetch','FetchBasicDataController@FetchData');
-Route::get('/Customer/Refund/{id}', 'RefundController@DecryptLink');
+Route::get('/Customer/Refund/{id}', 'SellerController@DecryptLink');
 Route::get('/wish', 'FetchBasicDataController@GetWishes');
 Route::get('/reason', 'FetchBasicDataController@GetReasons');
 Route::get('/itemCondition', 'FetchBasicDataController@GetConditions');
-Route::get('/QR', 'QRController@GetQR');
-Route::get('/Status/{id}', 'QRController@ItemStatus');
+Route::get('/QR', 'CustomerController@GetQR');
+Route::get('/Status/{id}', 'CustomerController@ItemStatus');
 

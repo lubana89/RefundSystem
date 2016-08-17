@@ -21,6 +21,7 @@
                         var detail = JSON.parse(data[index].RefundCaseDetail);
                         var id = JSON.parse(data[index].RefundCase_Id);
                         detail.Id = id;
+                        detail.IsLabelGenerated=data[index].RefundCaseStatusKey==""?false:true;
                         vm.CasesGrid.push(detail);
                     });
 
@@ -49,16 +50,31 @@
                     vm.logout();
             }
             vm.EditCase=function (Data) {
+                vm.EditFormData='';
                 vm.EditFormData=Data;
+
                 var editBox=$('#editDiv');
-                editBox.dialog({width:700,height:400}).show();
+                editBox.dialog({width:700,close:vm.refresh});
+                editBox.dialog('open');
             }
             vm.SubmitEditedForm=function () {
                 var id=vm.EditFormData.Id;
+                /*Delete unwanted properties*/
                 delete vm.EditFormData.Id;
+                delete vm.EditFormData.IsLabelGenerated;
+
+                var editBox=$('#editDiv');
+                editBox.dialog('destroy');
                 $http.post(configuration.path+'/Seller/UpdateCaseData/'+id+ '?token=' + $auth.getToken(), JSON.stringify(vm.EditFormData)).success(function(data){
-                    $('#editDiv').dialog('close').hide();
                     vm.refresh();
+                });
+            }
+            vm.GetLink=function (id) {
+                $http.get(configuration.path + '/Seller/GetLink/' +id + '?token=' + $auth.getToken()).success(function (data) {
+                    $('<div />').html(data).dialog({
+                        title: 'Copy & Send To Customer', width: $(window).width() - 20,
+                        height: 200
+                    });
                 });
             }
             vm.DeleteCase=function (id) {

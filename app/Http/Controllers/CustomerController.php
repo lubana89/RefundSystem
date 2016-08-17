@@ -7,7 +7,7 @@ use App\Http\Requests;
 use Session;
 use Exception;
 use DB;
-class QRController extends Controller
+class CustomerController extends Controller
 {
 
     private  function generateRandomString($length = 16) {
@@ -25,7 +25,7 @@ class QRController extends Controller
         $CasedId=Session::get('CaseId');
         Session::forget('CaseId');
         if($CasedId!=null){
-            DB::table('caselinks')->where('RefundCase_Id', '=',$CasedId)->update(['IsActive' => 1]);//change to 0
+            DB::table('caselinks')->where('RefundCase_Id', '=',$CasedId)->update(['IsActive' => 0]);//change to 0 for 1 time link
         return view('QR',['Data'=>$CasedId,'TrackingID'=>config('app.url').'/Status/'.$trackingId]);
         } else {
             return view('errors.InvalidLink');

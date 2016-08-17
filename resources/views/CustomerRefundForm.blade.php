@@ -14,6 +14,31 @@
     <script src="/RefundSystem/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/RefundSystem/JS/Controllers/CustomerController.js"></script>
     @include('Configuration.Configuration');
+    <style type="text/css">
+        select{width:200px}
+        form {
+            background: -webkit-linear-gradient(bottom, #CCCCCC, #EEEEEE 175px);
+            background: -moz-linear-gradient(bottom, #CCCCCC, #EEEEEE 175px);
+            background: linear-gradient(bottom, #CCCCCC, #EEEEEE 175px);
+            margin: auto;
+            position: relative;
+            width: 550px;
+            font-family: Tahoma, Geneva, sans-serif;
+            font-size: 14px;
+            font-style: italic;
+            line-height: 24px;
+            font-weight: bold;
+            color: black;
+            text-decoration: none;
+            border-radius: 10px;
+            padding: 10px;
+            border: 1px solid #999;
+            border: inset 1px solid #333;
+            -webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+            -moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+            box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
+        }
+    </style>
 </head>
 
 <body>
@@ -52,14 +77,14 @@
         <div class="form-group">
             <label for="date" class="col-sm-2 control-label">Date</label>
             <div class="col-sm-4">
-                <input class="form-control" id="date" type="datetime" ng-model="form.date" >
+                <input class="form-control date" id="date" type="datetime" ng-model="form.date" >
             </div>
 
         </div>
 
         <div class="form-group">
             <label for="reason" class="col-sm-2 control-label">Reason</label>
-            <div class="col-sm-4">
+            <div class="col-sm-4" >
                 <select ng-model="form.reason" ng-options="x for x in reasons">
                 </select>
             </div>
@@ -82,7 +107,7 @@
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-success" ng-click="SubmitForm()">Submit</button>
+                <button type="submit" class="btn btn-success" ng-click="SubmitForm()"><span class="glyphicon glyphicon-qrcode"></span></button>
             </div>
         </div>
 
