@@ -63,7 +63,6 @@
                 delete vm.EditFormData.Id;
                 delete vm.EditFormData.IsLabelGenerated;
 
-
                 var editBox=$('#editDiv');
                 editBox.dialog('destroy');
                 $http.post(configuration.path+'/Seller/UpdateCaseData/'+id+ '?token=' + $auth.getToken(), JSON.stringify(vm.EditFormData)).success(function(data){
