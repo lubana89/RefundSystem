@@ -27,6 +27,7 @@ Route::group(['prefix' => 'api'], function()
 /*Secured calls*/
 Route::post('/GenerateRefundLink','SellerController@GenerateLink');
 
+
 Route::get('/Seller/AllCases/{id}','SellerController@GetSellerAllCases');
 Route::get('/Seller/DeleteCase/{id}','SellerController@DeleteCase');
 Route::post('/Seller/UpdateCaseData/{id}','SellerController@UpdateCase');
