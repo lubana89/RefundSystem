@@ -52,13 +52,8 @@
             vm.EditCase=function (Data) {
                 vm.EditFormData='';
                 vm.EditFormData=Data;
-
                 var editBox=$('#editDiv');
-<<<<<<< HEAD
                 editBox.dialog({width:700,close:vm.refresh});
-=======
-                editBox.dialog({width:700,height:400,close:vm.refresh});
->>>>>>> origin/master
                 editBox.dialog('open');
             }
             vm.SubmitEditedForm=function () {
