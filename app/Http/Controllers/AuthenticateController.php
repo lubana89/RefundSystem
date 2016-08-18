@@ -22,7 +22,7 @@ class AuthenticateController extends Controller
      */
     public function index()
     {
-        return response()->json(['auth'=>JWTAuth::parseToken()->authenticate(), 'users'=>User::all()]);
+        return response()->json(['users'=>User::all()]);
     }
 
     /**

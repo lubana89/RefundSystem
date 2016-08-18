@@ -28,18 +28,18 @@ Route::group(['prefix' => 'api'], function()
 
 
 /*Authorization*/
-
-/*Admin only*/
-/*Route::post('role', 'AuthenticateController@createRole');
+Route::post('role', 'AuthenticateController@createRole');
 Route::post('permission', 'AuthenticateController@createPermission');
-Route::post('assign-role', 'AuthenticateController@assignRole');
-Route::post('attach-permission', 'AuthenticateController@attachPermission');*/
-
 // API route group that we need to protect
-Route::group(['prefix' => 'api', 'middleware' => ['ability:Admin,create-users']], function()
+Route::group(['prefix' => 'api', 'middleware' => ['ability:Admin,user-role-permission']], function()
 {
     // Protected route
     Route::get('users', 'AuthenticateController@index');
+
+
+    Route::post('assign-role', 'AuthenticateController@assignRole');
+    Route::post('attach-permission', 'AuthenticateController@attachPermission');
+
 });
 /*Authorization End*/
 

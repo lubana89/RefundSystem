@@ -12,9 +12,9 @@ class PermissionTableSeeder extends Seeder
     public function run()
     {
         $permission=new Permission();
-        $permission->name='create-users';
-        $permission->display_name='Create Users';
-        $permission->description='only Administrator can create users ';
+        $permission->name='user-role-permission';
+        $permission->display_name='user-role-permission';
+        $permission->description='only Administrator can create/edit users roles permissions ';
         $permission->save();
     }
 }
