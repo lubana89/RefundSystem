@@ -2,10 +2,17 @@
 
 namespace App;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Auth\Authenticatable as  Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
-class User extends Authenticatable
+use Zizaco\Entrust\Traits\EntrustUserTrait;
+class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
+    use EntrustUserTrait, Authenticatable, CanResetPassword;
+    protected $table = 'users';
     /**
      * The attributes that are mass assignable.
      *

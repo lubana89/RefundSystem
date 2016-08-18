@@ -19,14 +19,34 @@ Route::get('/', function () {
 });
 Route::group(['prefix' => 'api'], function()
 {
-    Route::resource('authenticate', 'AuthenticateController', ['only' => ['index']]);
+   /* Route::resource('authenticate', 'AuthenticateController', ['only' => ['index']]);*/
     Route::post('authenticate', 'AuthenticateController@authenticate');
     Route::get('authenticate/user', 'AuthenticateController@getAuthenticatedUser');
 });
 /*Authentication End*/
+
+
+
+/*Authorization*/
+
+/*Admin only*/
+/*Route::post('role', 'AuthenticateController@createRole');
+Route::post('permission', 'AuthenticateController@createPermission');
+Route::post('assign-role', 'AuthenticateController@assignRole');
+Route::post('attach-permission', 'AuthenticateController@attachPermission');*/
+
+// API route group that we need to protect
+Route::group(['prefix' => 'api', 'middleware' => ['ability:Admin,create-users']], function()
+{
+    // Protected route
+    Route::get('users', 'AuthenticateController@index');
+});
+/*Authorization End*/
+
+
+
 /*Secured calls*/
 Route::post('/GenerateRefundLink','SellerController@GenerateLink');
-
 
 Route::get('/Seller/AllCases/{id}','SellerController@GetSellerAllCases');
 Route::get('/Seller/DeleteCase/{id}','SellerController@DeleteCase');
