@@ -20,14 +20,15 @@ elixir(function(mix) {
         "./JS/Controllers/AuthController.js",
         "./JS/Controllers/UserController.js",
         "./JS/Controllers/SellerRefundFormController.js",
+        "./JS/Controllers/ManageUserController.js",
         "./JS/Global.js"
-    ], './Elixer/JS/Controllers/OUBOSeller.js');
+    ], './Elixer/JS/Controllers/OUBO-User.js');
     mix.scripts([
+        "./bower_components/jquery-ui/jquery-ui.min.js",
         "./bower_components/angular/angular.min.js",
         "./bower_components/angular-ui-router/release/angular-ui-router.min.js",
         "./bower_components/satellizer/dist/satellizer.js",
-        "./bower_components/jquery/dist/jquery.min.js",
-        "./bower_components/jquery-ui/jquery-ui.min.js"
+
     ], './Elixer/JS/OUBO-Dependencies.js');
     mix.scripts([
         "./JS/Controllers/CustomerController.js"

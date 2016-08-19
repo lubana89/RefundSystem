@@ -13,12 +13,12 @@ class FetchBasicDataController extends Controller
         return  $CaseData->RefundCaseDetail;
     }
     public function GetWishes (){
-        return DB::table('wish')->get();;
+        return DB::table('wish')->get();
     }
     public function GetReasons (){
-        return DB::table('reason')->get();;
+        return DB::table('reason')->get();
     }
     public function GetConditions (){
-        return DB::table('itemcondition')->get();;
+        return DB::table('itemcondition')->get();
     }
 }

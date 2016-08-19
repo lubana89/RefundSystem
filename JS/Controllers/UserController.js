@@ -13,7 +13,7 @@
             vm.reasons = [];
             vm.wishes = [];
             vm.conditions = [];
-
+            vm.Admin=getCookie('admin');
             vm.refresh = function() {
                 vm.CasesGrid = [];
                 $http.get(configuration.path + '/Seller/AllCases/' + user.id + '?token=' + $auth.getToken()).success(function (data) {
@@ -46,6 +46,12 @@
             vm.ToSellerForm = function () {
                 if ($rootScope.authenticated)
                     $state.go('sellerrefundform');
+                else
+                    vm.logout();
+            }
+            vm.ToUserGrid=function () {
+                if ($rootScope.authenticated && vm.Admin=="true")
+                    $state.go('manageuser');
                 else
                     vm.logout();
             }

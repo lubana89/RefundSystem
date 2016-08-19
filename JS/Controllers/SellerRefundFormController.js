@@ -45,9 +45,12 @@
             $scope.logout = function () {
                 Logout($auth, $rootScope, $state);
             }
+            $scope.Back = function () {
+                   Back();
+            }
             $scope.SubmitForm = function () {
                 if ($scope.form.sellerNumber != "") {
-                    $http.post(configuration.path + '/GenerateRefundLink?token=' + $auth.getToken(), JSON.stringify($scope.form)).success(function (data) {
+                    $http.post(configuration.path + '/Seller/GenerateRefundLink?token=' + $auth.getToken(), JSON.stringify($scope.form)).success(function (data) {
 
                         $('<div />').html(data).dialog({
                             title: 'Copy & Send To Customer', width: $(window).width() - 20,

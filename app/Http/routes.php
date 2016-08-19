@@ -14,45 +14,55 @@ Blade::setEscapedContentTags('<$$', '$$>');   // for escaped data
 |
 */
 /*Authentication*/
-Route::get('/', function () {
+Route::get('/',['as' => 'home', function () {
+    return view('Index');
+}]);
+Route::get('/admin', function () {
+    $cookie_name = "admin";
+    $cookie_value = "true";
+    setcookie($cookie_name, $cookie_value);
     return view('Index');
 });
 Route::group(['prefix' => 'api'], function()
 {
-   /* Route::resource('authenticate', 'AuthenticateController', ['only' => ['index']]);*/
     Route::post('authenticate', 'AuthenticateController@authenticate');
-    Route::get('authenticate/user', 'AuthenticateController@getAuthenticatedUser');
+    Route::get('authenticate/user', 'AuthenticateController@GetAuthenticatedUser');
 });
-/*Authentication End*/
 
 
 
-/*Authorization*/
-Route::post('role', 'AuthenticateController@createRole');
-Route::post('permission', 'AuthenticateController@createPermission');
-// API route group that we need to protect
+
+
 Route::group(['prefix' => 'api', 'middleware' => ['ability:Admin,user-role-permission']], function()
 {
     // Protected route
-    Route::get('users', 'AuthenticateController@index');
+    Route::get('Users', 'AuthenticateController@Index');
+    Route::post('CreateUser', 'AuthenticateController@CreateUser');
+    Route::post('UpdateUser', 'AuthenticateController@UpdateUser');
+    Route::get('DeleteUser/{id}', 'AuthenticateController@DeleteUser');
+    Route::get('Roles', 'AuthenticateController@GetRoles');
+    Route::post('CreateRole', 'AuthenticateController@CreateRole');
+    Route::post('CreatePermission', 'AuthenticateController@CreatePermission');
 
-
-    Route::post('assign-role', 'AuthenticateController@assignRole');
-    Route::post('attach-permission', 'AuthenticateController@attachPermission');
+    Route::post('AssignRole', 'AuthenticateController@AssignRole');
+    Route::post('AttachPermission', 'AuthenticateController@AttachPermission');
 
 });
-/*Authorization End*/
 
 
 
-/*Secured calls*/
-Route::post('/GenerateRefundLink','SellerController@GenerateLink');
 
-Route::get('/Seller/AllCases/{id}','SellerController@GetSellerAllCases');
-Route::get('/Seller/DeleteCase/{id}','SellerController@DeleteCase');
-Route::post('/Seller/UpdateCaseData/{id}','SellerController@UpdateCase');
-Route::get('/Seller/GetLink/{id}','SellerController@GetCaseLink');
-/*End*/
+
+Route::group(['prefix' => 'Seller', 'middleware' => ['ability:Admin|Seller,RefundCase']], function()
+{
+    Route::post('/GenerateRefundLink','SellerController@GenerateLink');
+
+    Route::get('/AllCases/{id}','SellerController@GetSellerAllCases');
+    Route::get('/DeleteCase/{id}','SellerController@DeleteCase');
+    Route::post('/UpdateCaseData/{id}','SellerController@UpdateCase');
+    Route::get('/GetLink/{id}','SellerController@GetCaseLink');
+});
+
 
 Route::post('/UpdateCaseData','CustomerController@UpdateCaseData');
 Route::get('/Customer/Refund/{id}/Fetch','FetchBasicDataController@FetchData');

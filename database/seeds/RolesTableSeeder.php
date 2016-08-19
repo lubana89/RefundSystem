@@ -23,10 +23,5 @@ class RolesTableSeeder extends Seeder
         $owner->description='Seller of the product';
         $owner->save();
 
-        $owner=new Role();
-        $owner->name='Super';
-        $owner->display_name='Super';
-        $owner->description='Super user have all permissions';
-        $owner->save();
     }
 }

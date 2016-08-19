@@ -8,6 +8,9 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use App\User;
 use App\Permission;
 use App\Role;
+use DB;
+use Hash;
+use DateTime;
 class AuthenticateController extends Controller
 {
     public function __construct()
@@ -20,7 +23,7 @@ class AuthenticateController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function Index()
     {
         return response()->json(['users'=>User::all()]);
     }
@@ -50,7 +53,7 @@ class AuthenticateController extends Controller
      *
      * @return Response
      */
-    public function getAuthenticatedUser()
+    public function GetAuthenticatedUser()
     {
         try {
             if (! $user = JWTAuth::parseToken()->authenticate()) {
@@ -66,41 +69,75 @@ class AuthenticateController extends Controller
         // the token is valid and we have found the user via the sub claim
         return response()->json(compact('user'));
     }
-    public function createRole(Request $request){
-
+    public function CreateRole(Request $request){
         $role = new Role();
         $role->name = $request->input('name');
         $role->save();
-
         return response()->json("created");
-
     }
 
-    public function createPermission(Request $request){
-
+    public function CreatePermission(Request $request){
         $viewUsers = new Permission();
         $viewUsers->name = $request->input('name');
         $viewUsers->save();
-
-        return response()->json("created");
-
-    }
-
-    public function assignRole(Request $request){
-        $user = User::where('email', '=', $request->input('email'))->first();
-
-        $role = Role::where('name', '=', $request->input('role'))->first();
-        //$user->attachRole($request->input('role'));
-        $user->roles()->attach($role->id);
-
         return response()->json("created");
     }
 
-    public function attachPermission(Request $request){
+    public function AssignRole(Request $request){
+        DB::table('role_user')
+            ->where('user_id', '=',$request->input('id'))
+            ->delete();
+        DB::table('role_user')
+            ->insert([
+                'user_id' => $request->input('id'),
+                'role_id' => $request->input('role')
+            ]);
+
+        return response()->json("assigned");
+    }
+
+    public function AttachPermission(Request $request){
         $role = Role::where('name', '=', $request->input('role'))->first();
         $permission = Permission::where('name', '=', $request->input('name'))->first();
         $role->attachPermission($permission);
 
         return response()->json("created");
+    }
+    public function CreateUser(Request $request){
+
+        DB::table('users')->insert([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
+            'created_at'=>new DateTime(),
+            'updated_at'=>new DateTime()
+        ]);
+        return response()->json("created");
+    }
+    public function UpdateUser(Request $request){
+        if($request->input('password') !=''){
+            DB::table('users')
+                ->where('id', '=',$request->input('id'))
+                ->update(['name' => $request->input('name'),'email' => $request->input('email'),'password' => Hash::make($request->input('password')),'updated_at'=>new DateTime()]);
+        }
+        else{
+            DB::table('users')
+                ->where('id', '=',$request->input('id'))
+                ->update(['name' => $request->input('name'),'email' => $request->input('email'),'updated_at'=>new DateTime()]);
+            DB::table('password_resets')->insert(['email' => $request->input('email'),'token' => Hash::make($request->input('password')),'created_at'=>new DateTime()]);
+
+        }
+        return response()->json("updated");
+    }
+    public function DeleteUser($id){
+            DB::table('users')
+                ->where('id', '=',$id)
+                ->delete();
+        return response()->json("deleted");
+    }
+    public function GetRoles(){
+        return DB::table('roles')
+            ->select('id','name')
+            ->get();
     }
 }

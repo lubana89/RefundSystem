@@ -44,6 +44,11 @@
                     url: '/sellerrefundform',
                     templateUrl: '../resources/views/SellerRefundForm.blade.php',
                     controller: 'SellerRefundFormCtrl as sellerrefundform'
+                })
+                .state('manageuser', {
+                    url: '/manageuser',
+                    templateUrl: '../resources/views/ManageUser.blade.php',
+                    controller: 'ManageUserCtrl as manageuser'
                 });
         })
         .run(function($rootScope, $state) {
@@ -54,7 +59,8 @@
                     $rootScope.currentUser = user;
                     if(toState.name === "auth") {
                         event.preventDefault();
-                        $state.go('users');
+                       /* $state.go('users');*/
+
                     }
                 }
             });
@@ -136,7 +142,7 @@
             vm.reasons = [];
             vm.wishes = [];
             vm.conditions = [];
-
+            vm.Admin=getCookie('admin');
             vm.refresh = function() {
                 vm.CasesGrid = [];
                 $http.get(configuration.path + '/Seller/AllCases/' + user.id + '?token=' + $auth.getToken()).success(function (data) {
@@ -169,6 +175,12 @@
             vm.ToSellerForm = function () {
                 if ($rootScope.authenticated)
                     $state.go('sellerrefundform');
+                else
+                    vm.logout();
+            }
+            vm.ToUserGrid=function () {
+                if ($rootScope.authenticated && vm.Admin=="true")
+                    $state.go('manageuser');
                 else
                     vm.logout();
             }
@@ -260,9 +272,12 @@
             $scope.logout = function () {
                 Logout($auth, $rootScope, $state);
             }
+            $scope.Back = function () {
+                   Back();
+            }
             $scope.SubmitForm = function () {
                 if ($scope.form.sellerNumber != "") {
-                    $http.post(configuration.path + '/GenerateRefundLink?token=' + $auth.getToken(), JSON.stringify($scope.form)).success(function (data) {
+                    $http.post(configuration.path + '/Seller/GenerateRefundLink?token=' + $auth.getToken(), JSON.stringify($scope.form)).success(function (data) {
 
                         $('<div />').html(data).dialog({
                             title: 'Copy & Send To Customer', width: $(window).width() - 20,
@@ -277,18 +292,154 @@
 });
 })();
 
+(function() {
+
+    'use strict';
+
+    angular
+        .module('RefundSystemApp')
+        .controller('ManageUserCtrl', ManageUserCtrl);
+
+    function ManageUserCtrl($http, $auth, $rootScope, $state) {
+        if(user && getCookie('admin')=="true") {
+            var vm = this;
+            vm.refresh = function() {
+                vm.UserGrid = [];
+                vm.EditFormData='';
+                $http.get(configuration.path + '/api/Users?token=' + $auth.getToken()).success(function (data) {
+                    jQuery.each(data.users, function(i, val) {
+                        if(val.id == user.id){
+                            delete data.users[i];
+                        }
+                    });
+                    vm.UserGrid=data.users;
+
+                });
+            };
+            vm.refresh();
+            vm.ToSellerForm = function () {
+                if ($rootScope.authenticated)
+                    $state.go('sellerrefundform');
+                else
+                    vm.logout();
+            };
+            vm.EditUser=function (Data) {
+                vm.EditFormData=Data;
+                var editBox=$('#editDiv');
+                editBox.dialog({width:700,close:vm.refresh});
+                editBox.dialog('open');
+            };
+            vm.SubmitEditedForm=function () {
+                 var editBox=$('#editDiv');
+                 editBox.dialog('destroy');
+                $http.post(configuration.path+'/api/UpdateUser?token=' + $auth.getToken(), JSON.stringify(vm.EditFormData)).success(function(data){
+                    vm.refresh();
+                });
+            };
+            vm.OpenAddUserForm=function () {
+                var UserBox=$('#addUserDiv');
+                UserBox.dialog({width:700,close:vm.refresh});
+                UserBox.dialog('open');
+            };
+            vm.SubmitNewUserForm=function () {
+                 var UserBox=$('#addUserDiv');
+                UserBox.dialog('destroy');
+                 $http.post(configuration.path+'/api/CreateUser?token=' + $auth.getToken(), JSON.stringify(vm.EditFormData)).success(function(data){
+                     vm.refresh();
+                 });
+            };
+            vm.AttachRole=function (userData) {
+                $http.get(configuration.path + '/api/Roles?token=' + $auth.getToken()).success(function (data) {
+                    var combo = $("<select class='form-control' id='asnRoleSelect'></select>");
+
+                    $.each(data, function (i, el) {
+                        combo.append("<option id="+ el.id +">" + el.name + "</option>");
+                    });
+                    var btn=$('<input/>').attr({
+                        type: "button",
+                        value:"Attach Role",
+                        style:'margin-top:2%',
+                        class:'btn btn-danger attachRole'
+                    });
+                    $(document).off('click').on('click', '.attachRole', function(){
+
+                        vm.AssignRole(userData);
+                    });
+                    $('<div  id="asnRole"/>').html(combo).append(btn).dialog({width:700,title: 'Select Role For User'});
+                });
+            };
+            vm.AssignRole=function (userData) {
+                userData.role=$('#asnRoleSelect').children(":selected").attr("id");
+                $('#asnRole').remove();
+                $http.post(configuration.path+'/api/AssignRole?token=' + $auth.getToken(), JSON.stringify(userData)).success(function(data){
+
+                });
+
+            }
+            vm.DeleteUser=function (id) {
+                $http.get(configuration.path + '/api/DeleteUser/'+id+'?token=' + $auth.getToken()).success(function (data) {
+                    vm.refresh();
+                });
+            };
+            vm.CreateRole=function () {
+                alert('This Feature is under construction');
+            };
+            vm.CreatePermission=function () {
+                alert('This Feature is under construction');
+            };
+            vm.AttachPermissionRole=function () {
+                alert('This Feature is under construction');
+            };
+            vm.logout = function () {
+                Logout($auth, $rootScope, $state);
+            };
+            vm.Back = function () {
+                Back();
+            }
+        }
+        else
+            Logout($auth, $rootScope, $state);
+    }
+})();
 /*Global Variable*/
 var user;
 
 /*Global Function*/
 function Logout($auth,$rootScope,$state) {
     $auth.logout().then(function() {
-
+        eraseCookie('admin');
         localStorage.removeItem('user');
         $rootScope.authenticated = false;
         $rootScope.currentUser = null;
         $state.go('auth');
     });
-
 }
-//# sourceMappingURL=OUBOSeller.js.map
+
+function createCookie(name,value,days) {
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime()+(days*24*60*60*1000));
+        var expires = "; expires="+date.toGMTString();
+    }
+    else var expires = "";
+    document.cookie = name+"="+value+expires+"; path=/";
+}
+
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+
+function eraseCookie(name) {
+    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+function Back() {
+    window.history.back();
+}
+//# sourceMappingURL=OUBO-User.js.map

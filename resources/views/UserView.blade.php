@@ -3,8 +3,10 @@
 <div style="margin:2%">
 
 			<button class="btn btn-primary" ng-click="user.ToSellerForm()"><span class="glyphicon glyphicon-edit"></span></button>
-			<button class="btn btn-success" ng-click="user.refresh()"><span class="glyphicon glyphicon-refresh"></span></button>
+			<button class="btn btn-primary" ng-click="user.refresh()"><span class="glyphicon glyphicon-refresh"></span></button>
+			<button class="btn btn-primary"  ng-if="user.Admin=='true'" ng-click="user.ToUserGrid()"><span class="glyphicon glyphicon-user"></span></button>
 			<button class="btn btn-danger" ng-click="user.logout()"><span class="glyphicon glyphicon-log-out"></span></button>
+
 
 </div>
 

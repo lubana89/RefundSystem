@@ -44,6 +44,11 @@
                     url: '/sellerrefundform',
                     templateUrl: '../resources/views/SellerRefundForm.blade.php',
                     controller: 'SellerRefundFormCtrl as sellerrefundform'
+                })
+                .state('manageuser', {
+                    url: '/manageuser',
+                    templateUrl: '../resources/views/ManageUser.blade.php',
+                    controller: 'ManageUserCtrl as manageuser'
                 });
         })
         .run(function($rootScope, $state) {
@@ -54,7 +59,8 @@
                     $rootScope.currentUser = user;
                     if(toState.name === "auth") {
                         event.preventDefault();
-                        $state.go('users');
+                       /* $state.go('users');*/
+
                     }
                 }
             });

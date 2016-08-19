@@ -11,21 +11,8 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Contracts\Encryption\DecryptException;
 class SellerController extends Controller {
 
-    private function Authentic(){
-        try {
-            if (! $user = JWTAuth::parseToken()->authenticate()) {
-                return response()->json(['user_not_found'], 404);
-            }
-        } catch (TokenExpiredException $e) {
-            return response()->json(['token_expired'], $e->getStatusCode());
-        } catch (TokenInvalidException $e) {
-            return response()->json(['token_invalid'], $e->getStatusCode());
-        } catch (JWTException $e) {
-            return response()->json(['token_absent'], $e->getStatusCode());
-        }
-    }
+
     public function GenerateLink(Request $request){
-        $this->Authentic();
         $timeStamp=date("Y/m/d");
         $id =DB::table('refundcase')->insertGetId(
             ['Seller_Id' => $request->sellerNumber, 'RefundCaseDetail' => $request->getContent(),'RefundCaseStatus'=>'Link Generated','RefundCaseStatusKey'=>'']
@@ -38,7 +25,6 @@ class SellerController extends Controller {
     }
 
     public function GetSellerAllCases($Id){
-       $this->Authentic();
         $data= DB::table('refundcase')
             ->select('RefundCaseDetail','RefundCase_Id','RefundCaseStatusKey')
             ->where('Seller_Id', '=',$Id)
@@ -75,19 +61,19 @@ class SellerController extends Controller {
         }
     }
     public function DeleteCase($id){
-        $this->Authentic();
+
         DB::table('refundcase')->where('RefundCase_ID', '=', $id)->delete();
         DB::table('caselinks')->where('RefundCase_ID', '=', $id)->delete();
     }
     public function UpdateCase(Request $request,$id){
-        $this->Authentic();
+
         DB::table('refundcase')
             ->where('RefundCase_Id', '=',$id)
             ->update(['RefundCaseDetail' => $request->getContent()]);
        return 'true';
     }
     public function GetCaseLink($id){
-        $this->Authentic();
+
         $refundLink=DB::table('caselinks')
             ->select('CaseLink')
             ->where('RefundCase_ID', '=', $id)

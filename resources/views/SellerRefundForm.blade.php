@@ -1,5 +1,6 @@
 <div ng-controller="SellerRefundFormCtrl">
     <div class="btn-group" style="margin:2%">
+        <button class="btn btn-success" ng-click="Back()"><span class="glyphicon glyphicon-arrow-left"></span></button>
         <button class="btn btn-danger" ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span></button>
     </div>
     <form class="form-horizontal" role="form" style="margin-top:5%;" action="#" >
