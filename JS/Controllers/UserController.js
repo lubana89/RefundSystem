@@ -8,12 +8,13 @@
 
     function UserController($http, $auth, $rootScope, $state) {
         if(user) {
+
             var vm = this;
             vm.CasesGrid = [];
             vm.reasons = [];
             vm.wishes = [];
             vm.conditions = [];
-            vm.Admin=getCookie('admin');
+            vm.Role=getCookie('Role');
             vm.refresh = function() {
                 vm.CasesGrid = [];
                 $http.get(configuration.path + '/Seller/AllCases/' + user.id + '?token=' + $auth.getToken()).success(function (data) {
@@ -26,7 +27,7 @@
                     });
 
                 });
-            }
+            };
             vm.refresh();
             $http.get(configuration.path+'/wish').success(function(data){
                 $.each(data, function(index) {
@@ -48,13 +49,19 @@
                     $state.go('sellerrefundform');
                 else
                     vm.logout();
-            }
+            };
             vm.ToUserGrid=function () {
-                if ($rootScope.authenticated && vm.Admin=="true")
+                if ($rootScope.authenticated && vm.Role=="Admin")
                     $state.go('manageuser');
                 else
                     vm.logout();
-            }
+            };
+            vm.ToWarehouseGrid=function () {
+                if ($rootScope.authenticated && vm.Role=="Admin")
+                    $state.go('warehouse');
+                else
+                    vm.logout();
+            };
             vm.EditCase=function (Data) {
                 vm.EditFormData='';
                 vm.EditFormData=Data;
@@ -62,7 +69,7 @@
                 var editBox=$('#editDiv');
                 editBox.dialog({width:700,close:vm.refresh});
                 editBox.dialog('open');
-            }
+            };
             vm.SubmitEditedForm=function () {
                 var id=vm.EditFormData.Id;
                 /*Delete unwanted properties*/
@@ -74,7 +81,7 @@
                 $http.post(configuration.path+'/Seller/UpdateCaseData/'+id+ '?token=' + $auth.getToken(), JSON.stringify(vm.EditFormData)).success(function(data){
                     vm.refresh();
                 });
-            }
+            };
             vm.GetLink=function (id) {
                 $http.get(configuration.path + '/Seller/GetLink/' +id + '?token=' + $auth.getToken()).success(function (data) {
                     $('<div />').html(data).dialog({
@@ -82,15 +89,15 @@
                         height: 200
                     });
                 });
-            }
+            };
             vm.DeleteCase=function (id) {
                 $http.get(configuration.path + '/Seller/DeleteCase/' +id + '?token=' + $auth.getToken()).success(function (data) {
                     vm.refresh();
                 });
-            }
+            };
             vm.logout = function () {
                 Logout($auth, $rootScope, $state);
-            }
+            };
         }
         else
             Logout($auth, $rootScope, $state);

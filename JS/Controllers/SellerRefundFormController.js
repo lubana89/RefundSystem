@@ -46,7 +46,7 @@
                 Logout($auth, $rootScope, $state);
             }
             $scope.Back = function () {
-                   Back();
+                   Back($state);
             }
             $scope.SubmitForm = function () {
                 if ($scope.form.sellerNumber != "") {

@@ -27,9 +27,11 @@
                 // user so that we can flatten the promise chain
                 return $http.get(configuration.path+'/api/authenticate/user?token='+$auth.getToken()).then(function(response) {
 
+
                     // Stringify the returned data to prepare it
                     // to go into local storage
                     var user = JSON.stringify(response.data.user);
+
 
                     // Set the stringified user data into local storage
                     localStorage.setItem('user', user);
@@ -45,8 +47,11 @@
 
                     // Everything worked out so we can now redirect to
                     // the users state to view the data
+                    $http.get(configuration.path+'/api/GetRole?token='+$auth.getToken()).success(function (data) {
+                        createCookie('Role',data);
+                        $state.go('users');
+                    });
 
-                    $state.go('users');
 
                 });
 
@@ -56,6 +61,7 @@
                 vm.loginErrorText = error.data.error;
             });
         }
+
     }
 
 })();

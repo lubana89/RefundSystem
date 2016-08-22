@@ -17,16 +17,12 @@ Blade::setEscapedContentTags('<$$', '$$>');   // for escaped data
 Route::get('/',['as' => 'home', function () {
     return view('Index');
 }]);
-Route::get('/admin', function () {
-    $cookie_name = "admin";
-    $cookie_value = "true";
-    setcookie($cookie_name, $cookie_value);
-    return view('Index');
-});
+
 Route::group(['prefix' => 'api'], function()
 {
     Route::post('authenticate', 'AuthenticateController@authenticate');
     Route::get('authenticate/user', 'AuthenticateController@GetAuthenticatedUser');
+    Route::get('GetRole','AuthenticateController@GetRole');
 });
 
 
@@ -47,6 +43,9 @@ Route::group(['prefix' => 'api', 'middleware' => ['ability:Admin,user-role-permi
     Route::post('AssignRole', 'AuthenticateController@AssignRole');
     Route::post('AttachPermission', 'AuthenticateController@AttachPermission');
 
+    Route::get('/AllReturnedCases','AuthenticateController@GetAllReturnedCases');
+
+    Route::post('UpdateCaseStatus','AuthenticateController@UpdateCaseStatus');
 });
 
 

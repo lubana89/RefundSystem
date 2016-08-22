@@ -21,6 +21,7 @@ elixir(function(mix) {
         "./JS/Controllers/UserController.js",
         "./JS/Controllers/SellerRefundFormController.js",
         "./JS/Controllers/ManageUserController.js",
+        "./JS/Controllers/WarehouseController.js",
         "./JS/Global.js"
     ], './Elixer/JS/Controllers/OUBO-User.js');
     mix.scripts([

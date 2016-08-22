@@ -4,7 +4,7 @@ var user;
 /*Global Function*/
 function Logout($auth,$rootScope,$state) {
     $auth.logout().then(function() {
-        eraseCookie('admin');
+        eraseCookie('Role');
         localStorage.removeItem('user');
         $rootScope.authenticated = false;
         $rootScope.currentUser = null;
@@ -36,6 +36,12 @@ function getCookie(name) {
 function eraseCookie(name) {
     document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
-function Back() {
-    window.history.back();
+function Back($state) {
+    if( window.history.back()== undefined)
+    {
+        $state.go('users');
+    }
+    else
+        window.history.back();
+
 }

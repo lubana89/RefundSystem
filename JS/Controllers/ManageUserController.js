@@ -7,7 +7,7 @@
         .controller('ManageUserCtrl', ManageUserCtrl);
 
     function ManageUserCtrl($http, $auth, $rootScope, $state) {
-        if(user && getCookie('admin')=="true") {
+        if(user) {
             var vm = this;
             vm.refresh = function() {
                 vm.UserGrid = [];
@@ -23,12 +23,6 @@
                 });
             };
             vm.refresh();
-            vm.ToSellerForm = function () {
-                if ($rootScope.authenticated)
-                    $state.go('sellerrefundform');
-                else
-                    vm.logout();
-            };
             vm.EditUser=function (Data) {
                 vm.EditFormData=Data;
                 var editBox=$('#editDiv');
@@ -99,8 +93,8 @@
             vm.logout = function () {
                 Logout($auth, $rootScope, $state);
             };
-            vm.Back = function () {
-                Back();
+            vm.back = function () {
+                Back($state);
             }
         }
         else

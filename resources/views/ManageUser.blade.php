@@ -1,7 +1,6 @@
 
 <div style="margin:2%">
     <button class="btn btn-success" ng-click="manageuser.Back();"><span class="glyphicon glyphicon-arrow-left"></span></button>
-    <button class="btn btn-primary" ng-click="manageuser.ToSellerForm()"><span class="glyphicon glyphicon-edit"></span></button>
     <button class="btn btn-primary" ng-click="manageuser.refresh()"><span class="glyphicon glyphicon-refresh"></span></button>
     <button class="btn btn-primary" ng-click="manageuser.OpenAddUserForm()"><span class="glyphicon glyphicon-plus"></span>User</button>
     <button class="btn btn-danger" ng-click="manageuser.logout()"><span class="glyphicon glyphicon-log-out"></span></button>

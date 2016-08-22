@@ -11,6 +11,7 @@ use App\Role;
 use DB;
 use Hash;
 use DateTime;
+use Illuminate\Support\Facades\Auth;
 class AuthenticateController extends Controller
 {
     public function __construct()
@@ -66,8 +67,12 @@ class AuthenticateController extends Controller
         } catch (JWTException $e) {
             return response()->json(['token_absent'], $e->getStatusCode());
         }
+
         // the token is valid and we have found the user via the sub claim
         return response()->json(compact('user'));
+    }
+    public function GetRole(){
+      return  response()->json(User::find(Auth::user()->id)->roles[0]->name);
     }
     public function CreateRole(Request $request){
         $role = new Role();
@@ -140,4 +145,18 @@ class AuthenticateController extends Controller
             ->select('id','name')
             ->get();
     }
+    public function GetAllReturnedCases(){
+        $data= DB::table('refundcase')
+            ->select('RefundCaseDetail','RefundCase_Id','RefundCaseStatusKey','RefundCaseStatus')
+            ->where('RefundCaseStatus', '<>','Link Generated')
+            ->get();
+        return response()->json($data);
+    }
+    public function UpdateCaseStatus(Request $request){
+        DB::table('refundcase')
+            ->where('RefundCase_Id', '=',$request->input('RefundCase_Id'))
+            ->update(['RefundCaseStatus' => $request->input('RefundCaseStatus')]);
+        return 'true';
+    }
+
 }

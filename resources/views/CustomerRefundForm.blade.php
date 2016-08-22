@@ -5,7 +5,7 @@
     <meta charset="utf-8">
 
     <title>Refund Form</title>
-
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
     <link href="/RefundSystem/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/RefundSystem/Elixer/CSS/all.css">
     <script src="/RefundSystem/Elixer/JS/OUBO-Dependencies.js"></script>
