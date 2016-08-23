@@ -122,14 +122,17 @@
                     // Everything worked out so we can now redirect to
                     // the users state to view the data
                     $http.get(configuration.path+'/api/GetRole?token='+$auth.getToken()).success(function (data) {
+                        console.log(data);
                         createCookie('Role',data);
                         if(data != 'Warehouse')
                         $state.go('users');
                         else if(data == 'Warehouse')
                             $state.go('warehouse');
+                    }).error(function(error) {
+                        vm.loginError = true;
+                        vm.loginErrorText ='Role Not Assigned!';
+                        Logout($auth,$rootScope,$state);
                     });
-
-
                 });
 
                 // Handle errors
@@ -578,7 +581,7 @@ function getCookie(name) {
 }
 
 function eraseCookie(name) {
-    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
 }
 function Back($state) {
     if( window.history.back()== undefined)

@@ -86,7 +86,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-success" ng-click="manageuser.SubmitNewUserForm()">Update</button>
+                <button type="submit" class="btn btn-success" ng-click="manageuser.SubmitNewUserForm()">Add</button>
             </div>
         </div>
     </form>
