@@ -49,7 +49,10 @@
                     // the users state to view the data
                     $http.get(configuration.path+'/api/GetRole?token='+$auth.getToken()).success(function (data) {
                         createCookie('Role',data);
+                        if(data != 'Warehouse')
                         $state.go('users');
+                        else if(data == 'Warehouse')
+                            $state.go('warehouse');
                     });
 
 

@@ -23,5 +23,11 @@ class RolesTableSeeder extends Seeder
         $owner->description='Seller of the product';
         $owner->save();
 
+        $owner=new Role();
+        $owner->name='Warehouse';
+        $owner->display_name='Warehouse';
+        $owner->description='Warehouse';
+        $owner->save();
+
     }
 }

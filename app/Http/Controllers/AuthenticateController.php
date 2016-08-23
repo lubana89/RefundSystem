@@ -26,7 +26,7 @@ class AuthenticateController extends Controller
      */
     public function Index()
     {
-        return response()->json(['users'=>User::all()]);
+        return response()->json(['users'=>User::with('roles')->get()]);
     }
 
     /**
@@ -144,19 +144,6 @@ class AuthenticateController extends Controller
         return DB::table('roles')
             ->select('id','name')
             ->get();
-    }
-    public function GetAllReturnedCases(){
-        $data= DB::table('refundcase')
-            ->select('RefundCaseDetail','RefundCase_Id','RefundCaseStatusKey','RefundCaseStatus')
-            ->where('RefundCaseStatus', '<>','Link Generated')
-            ->get();
-        return response()->json($data);
-    }
-    public function UpdateCaseStatus(Request $request){
-        DB::table('refundcase')
-            ->where('RefundCase_Id', '=',$request->input('RefundCase_Id'))
-            ->update(['RefundCaseStatus' => $request->input('RefundCaseStatus')]);
-        return 'true';
     }
 
 }

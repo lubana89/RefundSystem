@@ -12,6 +12,7 @@ use Illuminate\Contracts\Encryption\DecryptException;
 class SellerController extends Controller {
 
 
+
     public function GenerateLink(Request $request){
         $timeStamp=date("Y/m/d");
         $id =DB::table('refundcase')->insertGetId(

@@ -43,9 +43,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['ability:Admin,user-role-permi
     Route::post('AssignRole', 'AuthenticateController@AssignRole');
     Route::post('AttachPermission', 'AuthenticateController@AttachPermission');
 
-    Route::get('/AllReturnedCases','AuthenticateController@GetAllReturnedCases');
 
-    Route::post('UpdateCaseStatus','AuthenticateController@UpdateCaseStatus');
 });
 
 
@@ -61,7 +59,14 @@ Route::group(['prefix' => 'Seller', 'middleware' => ['ability:Admin|Seller,Refun
     Route::post('/UpdateCaseData/{id}','SellerController@UpdateCase');
     Route::get('/GetLink/{id}','SellerController@GetCaseLink');
 });
+Route::group(['prefix' => 'Warehouse', 'middleware' => ['ability:Admin|Warehouse,WarehousePermission']], function()
+{
 
+    Route::get('/AllReturnedCases','WarehouseController@GetAllReturnedCases');
+    Route::post('UpdateCaseStatus','WarehouseController@UpdateCaseStatus');
+    Route::get('ReturnedCase/{id}','WarehouseController@GetReturnedCase');
+    Route::post('/UpdateCaseData/{id}','WarehouseController@UpdateCase');
+});
 
 Route::post('/UpdateCaseData','CustomerController@UpdateCaseData');
 Route::get('/Customer/Refund/{id}/Fetch','FetchBasicDataController@FetchData');

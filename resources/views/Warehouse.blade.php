@@ -2,13 +2,69 @@
 
 <div style="margin:2%">
 
-    <button class="btn btn-success" ng-click="warehouse.Back()"><span class="glyphicon glyphicon-arrow-left"></span></button>
+    <button class="btn btn-success"  ng-if="warehouse.Role=='Admin'" ng-click="warehouse.Back()"><span class="glyphicon glyphicon-arrow-left"></span></button>
     <button class="btn btn-primary" ng-click="warehouse.refresh()"><span class="glyphicon glyphicon-refresh"></span></button>
     <button class="btn btn-danger" ng-click="warehouse.logout()"><span class="glyphicon glyphicon-log-out"></span></button>
 
 
 </div>
+<div class="container" style="margin-bottom: 2%">
+    <div class="row">
+        <div id="search-input">
+            <div class="col-md-4">
+                <input type="text"  class="search-query form-control" ng-model="warehouse.Search" placeholder="Search" />
 
+            </div>
+            <div class="col-md-4">
+            <span class="input-group-btn">
+                                    <button class="btn btn-danger" type="button"  ng-click="warehouse.SearchClick()">
+                                        <span class=" glyphicon glyphicon-search"></span>
+                                    </button>
+                                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="DetailDiv" hidden style="margin-bottom: 2%">
+
+    <div class="detail" >
+        <label >Customer Email :-</label>
+        <label> {{ warehouse.EditFormData.emailAddress}} </label>
+
+    </div>
+
+    <div class="detail" >
+        <label >Order Number :-</label>
+        <label> {{ warehouse.EditFormData.orderNumber}} </label>
+    </div>
+    <div class="detail" >
+        <label>Item SKU :-</label>
+        <label> {{ warehouse.EditFormData.itemSKU}} </label>
+
+    </div>
+    <div class="detail" >
+        <label>Price :-</label>
+        <label> {{ warehouse.EditFormData.price}} </label>
+    </div>
+    <div class="detail" >
+        <label >Date :-</label>
+        <label> {{ warehouse.EditFormData.date}} </label>
+
+    </div>
+    <div class="detail">
+        <label>Reason :-</label>
+        <label> {{ warehouse.EditFormData.reason}} </label>
+    </div>
+    <div class="detail">
+        <label >Item Condition :-</label>
+        <label> {{ warehouse.EditFormData.condition}} </label>
+    </div>
+    <div class="detail">
+        <label >Wish :-</label>
+        <label> {{ warehouse.EditFormData.wish}} </label>
+    </div>
+
+</div>
 <div class="table-responsive" >
     <table class="table table-bordered">
         <tr>
@@ -26,6 +82,7 @@
         </tr>
     </table>
 </div>
+
 <div id="editDiv" hidden>
     <form class="form-horizontal" role="form" style="margin-top:5%;" action="#">
         <div class="form-group" >

@@ -22,5 +22,11 @@ class PermissionTableSeeder extends Seeder
         $permission->display_name='RefundCase';
         $permission->description='only Administrator|Seller can create/edit RefundCase ';
         $permission->save();
+
+        $permission=new Permission();
+        $permission->name='WarehousePermission';
+        $permission->display_name='WarehousePermission';
+        $permission->description='WarehousePermission';
+        $permission->save();
     }
 }

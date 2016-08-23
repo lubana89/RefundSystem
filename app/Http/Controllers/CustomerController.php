@@ -41,17 +41,20 @@ class CustomerController extends Controller
         return 'true';
     }
     public function ItemStatus($Id){
+    try{
+            $CaseId=substr($Id, 16);
+            $Status= DB::table('refundcase')
+                ->select('RefundCaseStatus')
+                ->where([
+                    ['RefundCaseStatusKey', '=', $Id],
+                    ['RefundCase_Id', '=', $CaseId],
+                ])
+                ->get();
 
-        $CaseId=substr($Id, 16);
-        $Status= DB::table('refundcase')
-            ->select('RefundCaseStatus')
-            ->where([
-                ['RefundCaseStatusKey', '=', $Id],
-                ['RefundCase_Id', '=', $CaseId],
-            ])
-            ->get();
-
-        return view('Status',['Status'=>json_encode($Status[0]->RefundCaseStatus)]);
+            return view('Status',['Status'=>json_encode($Status[0]->RefundCaseStatus)]);
+        }catch(\Exception $e){
+            return view('errors.InvalidLink');
+        }
     }
 
 

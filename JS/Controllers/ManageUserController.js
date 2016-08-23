@@ -43,7 +43,7 @@
             };
             vm.SubmitNewUserForm=function () {
                  var UserBox=$('#addUserDiv');
-                UserBox.dialog('destroy');
+                UserBox.remove();
                  $http.post(configuration.path+'/api/CreateUser?token=' + $auth.getToken(), JSON.stringify(vm.EditFormData)).success(function(data){
                      vm.refresh();
                  });
@@ -72,7 +72,7 @@
                 userData.role=$('#asnRoleSelect').children(":selected").attr("id");
                 $('#asnRole').remove();
                 $http.post(configuration.path+'/api/AssignRole?token=' + $auth.getToken(), JSON.stringify(userData)).success(function(data){
-
+                    vm.refresh();
                 });
 
             }
@@ -93,7 +93,7 @@
             vm.logout = function () {
                 Logout($auth, $rootScope, $state);
             };
-            vm.back = function () {
+            vm.Back = function () {
                 Back($state);
             }
         }

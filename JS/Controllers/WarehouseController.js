@@ -14,22 +14,42 @@
             vm.reasons = [];
             vm.wishes = [];
             vm.conditions = [];
+            vm.Search='';
+            vm.Role=getCookie('Role');
             vm.StatusDropDownData={
                 "1":'Label Generated',
                 "2": 'Item Recieved at Warehouse',
                 "3":'Item Checked-Status(Dismatch)',
                 "4":'Item Checked-case in process',
                 "5":'refund/close case'
-        };
-            vm.Role=getCookie('Role');
-            vm.refresh = function() {
+            };
+            vm.SearchClick=function () {
                 vm.CasesGrid = [];
                 vm.EditFormData='';
-                $http.get(configuration.path + '/api/AllReturnedCases?token=' + $auth.getToken()).success(function (data) {
+                $http.get(configuration.path + '/Warehouse/ReturnedCase/'+ vm.Search +'?token=' + $auth.getToken()).success(function (data) {
+                    $('#DetailDiv').hide();
+                        if(data.length >0){
+                            vm.Search='';
+                            vm.CasesGrid.push(data[0]);
+                            var detail= JSON.parse(data[0].RefundCaseDetail);
+                            vm.EditFormData=detail;
+                            $('#DetailDiv').show();
+                            }
+                        else {
+                            alert('Case Id Not Found');
+                        }
+                });
+            };
+            vm.refresh = function() {
+                $('#DetailDiv').hide();
+                vm.CasesGrid = [];
+                vm.EditFormData='';
+                $http.get(configuration.path + '/Warehouse/AllReturnedCases?token=' + $auth.getToken()).success(function (data) {
+                    if(data.length >0){
                     $.each(data, function (index) {
-                        vm.CasesGrid.push(data[index]);
+                       vm.CasesGrid.push(data[index]);
                     });
-
+                    }
                 });
             };
             vm.refresh();
@@ -72,7 +92,7 @@
                 StatusObject.RefundCase_Id=caseID;
                 StatusObject.RefundCaseStatus=$('#updateCaseStatus').children(":selected").val();
                 $('#updateCaseStatusDiv').remove();
-                $http.post(configuration.path+'/api/UpdateCaseStatus?token=' + $auth.getToken(), JSON.stringify(StatusObject)).success(function(data){
+                $http.post(configuration.path+'/Warehouse/UpdateCaseStatus?token=' + $auth.getToken(), JSON.stringify(StatusObject)).success(function(data){
                     vm.refresh();
                 });
             };
@@ -91,12 +111,10 @@
                 delete vm.EditFormData.Id;
                 var editBox=$('#editDiv');
                 editBox.dialog('destroy');
-                $http.post(configuration.path+'/Seller/UpdateCaseData/'+id+ '?token=' + $auth.getToken(), JSON.stringify(vm.EditFormData)).success(function(data){
+                $http.post(configuration.path+'/Warehouse/UpdateCaseData/'+id+ '?token=' + $auth.getToken(), JSON.stringify(vm.EditFormData)).success(function(data){
                     vm.refresh();
                 });
             };
-
-
             vm.logout = function () {
                 Logout($auth, $rootScope, $state);
             };

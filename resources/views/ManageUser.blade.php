@@ -18,6 +18,7 @@
             <th>Id</th>
             <th>Name</th>
             <th>Email</th>
+            <th>Role</th>
             <th>Edit</th>
             <th>Delete</th>
             <th>Assign Role</th>
@@ -26,6 +27,7 @@
             <td>{{User.id}}</td>
             <td>{{User.name}}</td>
             <td>{{User.email}}</td>
+            <td>{{User.roles[0].name}}</td>
             <td><button class="btn btn-primary btn-xs" ng-click="manageuser.EditUser(User)"><span class="glyphicon glyphicon-pencil"></span></button></td>
             <td ><button class="btn btn-danger btn-xs" ng-click="manageuser.DeleteUser(User.id)"><span class="glyphicon glyphicon-trash"></span></button></td>
             <td ><button class="btn btn-danger btn-xs" ng-click="manageuser.AttachRole(User)"><span class="glyphicon glyphicon-plus-sign"></span></button></td>
