@@ -49,6 +49,9 @@ class AuthenticateController extends Controller
         // if no errors are encountered we can return a JWT
         return response()->json(compact('token'));
     }
+    public function logout(){
+        JWTAuth::invalidate();
+    }
     /**
      * Return the authenticated user
      *
@@ -145,5 +148,10 @@ class AuthenticateController extends Controller
             ->select('id','name')
             ->get();
     }
-
+    public function GetAllCases(){
+        $data= DB::table('refundcase')
+            ->select('RefundCaseDetail','RefundCase_Id','RefundCaseStatusKey','RefundCaseStatus')
+            ->get();
+        return response()->json($data);
+    }
 }

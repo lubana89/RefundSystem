@@ -23,6 +23,7 @@ Route::group(['prefix' => 'api'], function()
     Route::post('authenticate', 'AuthenticateController@authenticate');
     Route::get('authenticate/user', 'AuthenticateController@GetAuthenticatedUser');
     Route::get('GetRole','AuthenticateController@GetRole');
+
 });
 
 
@@ -43,7 +44,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['ability:Admin,user-role-permi
     Route::post('AssignRole', 'AuthenticateController@AssignRole');
     Route::post('AttachPermission', 'AuthenticateController@AttachPermission');
 
-
+    Route::get('/AllCases','AuthenticateController@GetAllCases');
 });
 
 
@@ -76,4 +77,4 @@ Route::get('/reason', 'FetchBasicDataController@GetReasons');
 Route::get('/itemCondition', 'FetchBasicDataController@GetConditions');
 Route::get('/QR', 'CustomerController@GetQR');
 Route::get('/Status/{id}', 'CustomerController@ItemStatus');
-
+Route::get('logout','AuthenticateController@logout');

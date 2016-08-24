@@ -64,9 +64,9 @@
                     $rootScope.currentUser = user;
                     if(toState.name === "auth") {
                         event.preventDefault();
-                        console.log(fromState.name);
-                        if(fromState.name === "")
+                        if(fromState.name === ""){
                             $state.go('users');
+                        }
                     }
                 }
             });
@@ -82,18 +82,14 @@
 
 
     function AuthController($auth, $state, $http, $rootScope) {
-
         var vm = this;
-
         vm.loginError = false;
         vm.loginErrorText;
-
         vm.login = function() {
-
             var credentials = {
                 email: vm.email,
                 password: vm.password
-            }
+            };
 
             $auth.login(credentials).then(function() {
 
@@ -122,7 +118,6 @@
                     // Everything worked out so we can now redirect to
                     // the users state to view the data
                     $http.get(configuration.path+'/api/GetRole?token='+$auth.getToken()).success(function (data) {
-                        console.log(data);
                         createCookie('Role',data);
                         if(data != 'Warehouse')
                         $state.go('users');
@@ -154,7 +149,7 @@
         .controller('UserController', UserController);
 
     function UserController($http, $auth, $rootScope, $state) {
-        if(user) {
+        if(user && getCookie('Role') !=null) {
 
             var vm = this;
             vm.CasesGrid = [];
@@ -257,7 +252,7 @@
     angular
         .module('RefundSystemApp')
         .controller('SellerRefundFormCtrl',function ($scope, $http,$auth,$rootScope,$state) {
-            if(user) {
+            if(user && getCookie('Role') !=null) {
             $scope.reasons = [];
             $scope.wishes = [];
             $scope.conditions = [];
@@ -326,7 +321,7 @@
         .controller('ManageUserCtrl', ManageUserCtrl);
 
     function ManageUserCtrl($http, $auth, $rootScope, $state) {
-        if(user) {
+        if(user && getCookie('Role') !=null) {
             var vm = this;
             vm.refresh = function() {
                 vm.UserGrid = [];
@@ -429,7 +424,7 @@
         .controller('WarehouseCtrl', WarehouseCtrl);
 
     function WarehouseCtrl($http, $auth, $rootScope, $state) {
-        if(user) {
+        if(user && getCookie('Role') !=null) {
 
             var vm = this;
             vm.CasesGrid = [];
@@ -443,7 +438,7 @@
                 "2": 'Item Recieved at Warehouse',
                 "3":'Item Checked-Status(Dismatch)',
                 "4":'Item Checked-case in process',
-                "5":'refund/close case'
+                "5":'refund-close case'
             };
             vm.SearchClick=function () {
                 vm.CasesGrid = [];
@@ -451,7 +446,7 @@
                 $http.get(configuration.path + '/Warehouse/ReturnedCase/'+ vm.Search +'?token=' + $auth.getToken()).success(function (data) {
                     $('#DetailDiv').hide();
                         if(data.length >0){
-                            vm.Search='';
+
                             vm.CasesGrid.push(data[0]);
                             var detail= JSON.parse(data[0].RefundCaseDetail);
                             vm.EditFormData=detail;
@@ -463,16 +458,21 @@
                 });
             };
             vm.refresh = function() {
-                $('#DetailDiv').hide();
-                vm.CasesGrid = [];
-                vm.EditFormData='';
-                $http.get(configuration.path + '/Warehouse/AllReturnedCases?token=' + $auth.getToken()).success(function (data) {
-                    if(data.length >0){
-                    $.each(data, function (index) {
-                       vm.CasesGrid.push(data[index]);
-                    });
-                    }
-                });
+                if(vm.Search!=''){
+                    vm.SearchClick();
+                }
+                else if(vm.Role=='Admin') {
+                        $('#DetailDiv').hide();
+                        vm.CasesGrid = [];
+                        vm.EditFormData='';
+                        $http.get(configuration.path + '/api/AllCases?token=' + $auth.getToken()).success(function (data) {
+                            if(data.length >0){
+                                $.each(data, function (index) {
+                                    vm.CasesGrid.push(data[index]);
+                                });
+                            }
+                        });
+                }
             };
             vm.refresh();
             $http.get(configuration.path+'/wish').success(function(data){
@@ -550,6 +550,7 @@ var user;
 
 /*Global Function*/
 function Logout($auth,$rootScope,$state) {
+    $.get(configuration.path + '/logout?token=' + $auth.getToken());
     $auth.logout().then(function() {
         eraseCookie('Role');
         localStorage.removeItem('user');

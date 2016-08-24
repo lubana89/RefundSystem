@@ -37,56 +37,58 @@
 
 
 <div id="editDiv" hidden>
-    <form class="form-horizontal" role="form" style="margin-top:5%;" action="#">
+    <form class="form-horizontal" novalidate  role="form" style="margin-top:5%;" ng-submit="editForm.$valid && manageuser.SubmitEditedForm()" name="editForm">
         <div class="form-group">
             <label for="name" class="col-sm-2 control-label">Name</label>
             <div class="col-sm-4">
-                <input class="form-control" id="email"   ng-model="manageuser.EditFormData.name" >
+                <input class="form-control"    ng-model="manageuser.EditFormData.name" >
             </div>
         </div>
         <div class="form-group">
             <label for="email" class="col-sm-2 control-label">Email</label>
             <div class="col-sm-4">
-                <input class="form-control" id="email"   ng-model="manageuser.EditFormData.email" >
+                <input class="form-control" name="email"   ng-model="manageuser.EditFormData.email"  ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/">
+                <span ng-show="editForm.email.$error.pattern">Not a valid mail!</span>
             </div>
         </div>
         <div class="form-group">
             <label for="email" class="col-sm-2 control-label">Password</label>
             <div class="col-sm-4">
-                <input class="form-control" id="email"   ng-model="manageuser.EditFormData.password" >
+                <input class="form-control"  ng-model="manageuser.EditFormData.password" >
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-success" ng-click="manageuser.SubmitEditedForm()">Update</button>
+                <button type="submit" class="btn btn-success" >Update</button>
             </div>
         </div>
     </form>
 </div>
 
 <div id="addUserDiv" hidden>
-    <form class="form-horizontal" role="form" style="margin-top:5%;" action="#">
+    <form class="form-horizontal" novalidate  role="form" style="margin-top:5%;" ng-submit="addUserForm.$valid && manageuser.SubmitNewUserForm()" name="addUserForm">
         <div class="form-group">
             <label for="name" class="col-sm-2 control-label">Name</label>
             <div class="col-sm-4">
-                <input class="form-control" id="email"   ng-model="manageuser.EditFormData.name" >
+                <input class="form-control"    ng-model="manageuser.EditFormData.name" >
             </div>
         </div>
         <div class="form-group">
             <label for="email" class="col-sm-2 control-label">Email</label>
             <div class="col-sm-4">
-                <input class="form-control" id="email"   ng-model="manageuser.EditFormData.email" >
+                <input class="form-control" name="email"   ng-model="manageuser.EditFormData.email" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/">
+                <span ng-show="addUserForm.email.$error.pattern">Not a valid mail!</span>
             </div>
         </div>
         <div class="form-group">
             <label for="email" class="col-sm-2 control-label">Password</label>
             <div class="col-sm-4">
-                <input class="form-control" id="email"   ng-model="manageuser.EditFormData.password" >
+                <input class="form-control"   ng-model="manageuser.EditFormData.password" >
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-success" ng-click="manageuser.SubmitNewUserForm()">Add</button>
+                <button type="submit" class="btn btn-success">Add</button>
             </div>
         </div>
     </form>

@@ -44,11 +44,12 @@
 	</table>
 </div>
 <div id="editDiv" hidden>
-<form class="form-horizontal" role="form" style="margin-top:5%;" action="#">
+	<form class="form-horizontal" name="ediForm" novalidate role="form" style="margin-top:5%;" ng-submit="ediForm.$valid && user.SubmitEditedForm()" >
 	<div class="form-group" ng-if="user.EditFormData.IsLabelGenerated == false">
 		<label for="email" class="col-sm-2 control-label">Customer Email</label>
 		<div class="col-sm-4">
-			<input class="form-control" id="email"   ng-model="user.EditFormData.emailAddress" >
+			<input class="form-control" name="email"   ng-model="user.EditFormData.emailAddress" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/">
+			<span ng-show="ediForm.email.$error.pattern">Not a valid mail!</span>
 		</div>
 
 	</div>
@@ -56,28 +57,28 @@
 	<div class="form-group" ng-if="user.EditFormData.IsLabelGenerated == false">
 		<label for="orderId" class="col-sm-2 control-label">Order Number</label>
 		<div class="col-sm-4">
-			<input class="form-control" id="orderId" ng-model="user.EditFormData.orderNumber" >
+			<input class="form-control"  ng-model="user.EditFormData.orderNumber" >
 		</div>
 
 	</div>
 	<div class="form-group" ng-if="user.EditFormData.IsLabelGenerated == false">
 		<label for="itemSKU" class="col-sm-2 control-label">Item SKU</label>
 		<div class="col-sm-4">
-			<input class="form-control" id="itemSKU" ng-model="user.EditFormData.itemSKU" >
+			<input class="form-control"  ng-model="user.EditFormData.itemSKU" >
 		</div>
 
 	</div>
 	<div class="form-group" ng-if="user.EditFormData.IsLabelGenerated == false">
 		<label for="price" class="col-sm-2 control-label">Price</label>
 		<div class="col-sm-4">
-			<input class="form-control" id="price" ng-model="user.EditFormData.price" >
+			<input class="form-control" ng-model="user.EditFormData.price" >
 		</div>
 
 	</div>
 	<div class="form-group" ng-if="user.EditFormData.IsLabelGenerated == false">
 		<label for="date" class="col-sm-2 control-label">Date</label>
 		<div class="col-sm-4">
-			<input class="form-control date" id="date" type="datetime" ng-model="user.EditFormData.date" >
+			<input class="form-control date"  type="datetime" ng-model="user.EditFormData.date" >
 		</div>
 
 	</div>
@@ -106,7 +107,7 @@
 
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-10">
-			<button type="submit" class="btn btn-success" ng-click="user.SubmitEditedForm()">Update</button>
+			<button type="submit" class="btn btn-success">Update</button>
 		</div>
 	</div>
 

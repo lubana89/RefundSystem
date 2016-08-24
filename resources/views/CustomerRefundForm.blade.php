@@ -15,13 +15,14 @@
 </head>
 
 <body>
-<div ng-app="Customer">
-    <form class="form-horizontal" role="form" style="margin-top:5%;" action="#" ng-controller="CustomerRefundCtrl">
+<div ng-app="Customer" ng-controller="CustomerRefundCtrl">
+    <form class="form-horizontal" name="CustomerForm" novalidate role="form" style="margin-top:5%;" ng-submit="CustomerForm.$valid && SubmitForm()" >
         <input class="form-control" id="sellerId" ng-model="form.sellerNumber" type="hidden">
         <div class="form-group">
             <label for="email" class="col-sm-2 control-label">Customer Email</label>
             <div class="col-sm-4">
-                <input class="form-control" id="email"   ng-model="form.emailAddress" >
+                <input class="form-control" name="email"   ng-model="form.emailAddress" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/">
+                <span ng-show="CustomerForm.email.$error.pattern">Not a valid mail!</span>
             </div>
 
         </div>
@@ -29,28 +30,28 @@
         <div class="form-group">
             <label for="orderId" class="col-sm-2 control-label">Order Number</label>
             <div class="col-sm-4">
-                <input class="form-control" id="orderId" ng-model="form.orderNumber" >
+                <input class="form-control"  ng-model="form.orderNumber" >
             </div>
 
         </div>
         <div class="form-group">
             <label for="itemSKU" class="col-sm-2 control-label">Item SKU</label>
             <div class="col-sm-4">
-                <input class="form-control" id="itemSKU" ng-model="form.itemSKU" >
+                <input class="form-control"  ng-model="form.itemSKU" >
             </div>
 
         </div>
         <div class="form-group">
             <label for="price" class="col-sm-2 control-label">Price</label>
             <div class="col-sm-4">
-                <input class="form-control" id="price" ng-model="form.price" >
+                <input class="form-control"  ng-model="form.price" >
             </div>
 
         </div>
         <div class="form-group">
             <label for="date" class="col-sm-2 control-label">Date</label>
             <div class="col-sm-4">
-                <input class="form-control date" id="date" type="datetime" ng-model="form.date" >
+                <input class="form-control date"  type="datetime" ng-model="form.date" >
             </div>
 
         </div>
@@ -80,7 +81,7 @@
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-success" ng-click="SubmitForm()"><span class="glyphicon glyphicon-qrcode"></span></button>
+                <button type="submit" class="btn btn-success" ><span class="glyphicon glyphicon-qrcode"></span></button>
             </div>
         </div>
 
