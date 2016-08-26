@@ -2,10 +2,10 @@
 
 <div style="margin:2%">
 
-    <button class="btn btn-success"  ng-if="warehouse.Role=='Admin'" ng-click="warehouse.Back()"><span class="glyphicon glyphicon-arrow-left"></span></button>
-    <button class="btn btn-primary" ng-click="warehouse.refresh()"><span class="glyphicon glyphicon-refresh"></span></button>
-    <button class="btn btn-danger" ng-click="warehouse.logout()"><span class="glyphicon glyphicon-log-out"></span></button>
-
+    <button class="btn btn-success"  ng-if="warehouse.Role=='Admin'" ng-click="warehouse.Back()"><span class="glyphicon glyphicon-arrow-left"> Back </span></button>
+    <button class="btn btn-primary" ng-click="warehouse.refresh()"><span class="glyphicon glyphicon-refresh"> Refresh </span></button>
+    <button class="btn btn-danger" ng-click="warehouse.logout()"><span class="glyphicon glyphicon-log-out"> Sign Out</span></button>
+    <button class="btn btn-danger" style="float:right;margin-right:2%" ng-if="warehouse.Role!='Seller'" ng-click="warehouse.CreateNotification()"><span class="glyphicon glyphicon-bell"> Notify Seller</span></button>
 
 </div>
 <div class="container" style="margin-bottom: 2%">
@@ -25,6 +25,7 @@
         </div>
     </div>
 </div>
+
 <div id="DetailDiv" hidden style="margin-bottom: 2%">
 
     <div class="detail" >
@@ -73,6 +74,7 @@
             <th>RefundCaseStatusKey</th>
             <th>Update Status</th>
             <th>Edit Case</th>
+            <th>Case Message</th>
         </tr>
         <tr ng-repeat="RefundCase in warehouse.CasesGrid">
             <td>{{RefundCase.RefundCase_Id}}</td>
@@ -80,6 +82,7 @@
             <td>{{RefundCase.RefundCaseStatusKey}}</td>
             <td><button class="btn btn-primary btn-xs" ng-click="warehouse.UpdateStatusCase(RefundCase.RefundCase_Id)" ><span class="glyphicon glyphicon-pencil"></span></button></td>
             <td><button class="btn btn-primary btn-xs" ng-click="warehouse.EditCase(RefundCase)" ><span class="glyphicon glyphicon-pencil"></span></button></td>
+            <td><button class="btn btn-primary btn-xs" ng-click="warehouse.AddComment(RefundCase)" ><span class="glyphicon glyphicon-pencil"></span></button></td>
         </tr>
     </table>
 </div>

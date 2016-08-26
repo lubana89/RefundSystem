@@ -20,7 +20,7 @@ class SellerController extends Controller {
         );
         $refundLink= Crypt::encrypt( $timeStamp.'~/'. $id);
         DB::table('caselinks')->insert(
-            ['Seller_Id' => $request->sellerNumber, 'RefundCase_ID' => $id,'Generation_Time'=>$timeStamp,'CaseLink'=>$refundLink]
+            ['Seller_Id' => $request->sellerNumber, 'RefundCase_Id' => $id,'Generation_Time'=>$timeStamp,'CaseLink'=>$refundLink]
         );
         return config('app.url').'/Customer/Refund/'.$refundLink;
     }
@@ -63,8 +63,8 @@ class SellerController extends Controller {
     }
     public function DeleteCase($id){
 
-        DB::table('refundcase')->where('RefundCase_ID', '=', $id)->delete();
-        DB::table('caselinks')->where('RefundCase_ID', '=', $id)->delete();
+        DB::table('refundcase')->where('RefundCase_Id', '=', $id)->delete();
+        DB::table('caselinks')->where('RefundCase_Id', '=', $id)->delete();
     }
     public function UpdateCase(Request $request,$id){
 
@@ -77,8 +77,60 @@ class SellerController extends Controller {
 
         $refundLink=DB::table('caselinks')
             ->select('CaseLink')
-            ->where('RefundCase_ID', '=', $id)
+            ->where('RefundCase_Id', '=', $id)
             ->get();
         return config('app.url').'/Customer/Refund/'.$refundLink[0]->CaseLink;
+    }
+    public function GetAllMessage($id){
+        $data= DB::table('casemessages')
+            ->where('RefundCase_Id', '=', $id)
+            ->get();
+        return response()->json($data);
+    }
+    public function GetNotificationCount($id){
+        $data= DB::table('notifications')
+            ->where('to_user_id', '=', $id)
+            ->where('is_read', '=', 0)
+            ->count();
+        return response()->json($data);
+
+    }
+    public function GetTopFiveNotifications($id){
+        $data= DB::table('notifications')
+            ->join('users as u', 'notifications.from_user_id', '=', 'u.id')
+            ->where('notifications.to_user_id', '=', $id)
+            ->where('notifications.is_read', '=', 0)
+            ->orderBy('notifications.id', 'DESC')
+            ->select('notifications.notificationMsg as Message', 'notifications.sent_at as DateTime', 'u.name as From_name')
+            ->paginate(15);
+        return response()->json($data);
+
+    }
+    public function GetAllNotifications($id){
+        $data= DB::table('notifications')
+            ->join('users as u', 'notifications.from_user_id', '=', 'u.id')
+            ->where('notifications.to_user_id', '=', $id)
+            ->orderBy('notifications.id', 'DESC')
+            ->select('notifications.id as Id','notifications.is_read as Read','notifications.notificationMsg as Message', 'notifications.sent_at as Date', 'u.name as From')
+            ->get();
+        return response()->json($data);
+    }
+    public function MarkAllNotificationRead($id){
+        DB::table('notifications')
+            ->where('to_user_id', '=',$id)
+            ->update(['is_read' =>1]);
+        return 'true';
+    }
+    public function MarkRead($id){
+        DB::table('notifications')
+            ->where('id', '=',$id)
+            ->update(['is_read' =>1]);
+        return 'true';
+    }
+    public function MarkUnRead($id){
+        DB::table('notifications')
+            ->where('id', '=',$id)
+            ->update(['is_read' =>0]);
+        return 'true';
     }
 }

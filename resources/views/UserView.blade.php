@@ -2,12 +2,12 @@
 
 <div style="margin:2%">
 
-			<button class="btn btn-primary" ng-click="user.ToSellerForm()"><span class="glyphicon glyphicon-edit"></span></button>
-			<button class="btn btn-primary" ng-click="user.refresh()"><span class="glyphicon glyphicon-refresh"></span></button>
-			<button class="btn btn-primary"  ng-if="user.Role=='Admin'" ng-click="user.ToUserGrid()"><span class="glyphicon glyphicon-user"></span></button>
-			<button class="btn btn-primary"  ng-if="user.Role=='Admin'" ng-click="user.ToWarehouseGrid()"><span class="glyphicon glyphicon-briefcase"></span></button>
-			<button class="btn btn-danger" ng-click="user.logout()"><span class="glyphicon glyphicon-log-out"></span></button>
-
+			<button class="btn btn-primary" ng-click="user.ToSellerForm()"><span class="glyphicon glyphicon-edit"> Fill Form </span></button>
+			<button class="btn btn-primary" ng-click="user.refresh()"><span class="glyphicon glyphicon-refresh"> Refresh </span></button>
+			<button class="btn btn-primary"  ng-if="user.Role=='Admin'" ng-click="user.ToUserGrid()"><span class="glyphicon glyphicon-user"> Manage User</span></button>
+			<button class="btn btn-primary"  ng-if="user.Role=='Admin'" ng-click="user.ToWarehouseGrid()"><span class="glyphicon glyphicon-briefcase"> Warehouse </span></button>
+			<button class="btn btn-danger" ng-click="user.logout()"><span class="glyphicon glyphicon-log-out"> Sign Out</span></button>
+			<button class="btn btn-info" id="notificationBtn" style="float:right;margin-right:2%" ng-if="user.Role=='Seller'"  ng-click="user.ShowNotifications()"><i class="glyphicon glyphicon-bell"> </i><span class="button__badge" ng-if="user.NotificationCount!=0">{{user.NotificationCount}}</span></button>
 
 </div>
 
@@ -23,9 +23,11 @@
 			<th>Reason</th>
 			<th>Condition</th>
 			<th>Wish</th>
+			<th>Case Message</th>
 			<th>Edit</th>
 			<th>Delete</th>
 			<th>Links</th>
+
 		</tr>
 		<tr ng-repeat="RefundCase in user.CasesGrid">
 			<td>{{RefundCase.Id}}</td>
@@ -37,9 +39,11 @@
 			<td>{{RefundCase.reason}}</td>
 			<td>{{RefundCase.condition}}</td>
 			<td>{{RefundCase.wish}}</td>
+			<td><button class="btn btn-primary btn-xs" ng-click="user.ShowMessages(RefundCase.Id)" ><span class="glyphicon glyphicon-list"></span></button></td>
 			<td><button class="btn btn-primary btn-xs" ng-click="user.EditCase(RefundCase)" ><span class="glyphicon glyphicon-pencil"></span></button></td>
 			<td ng-if="RefundCase.IsLabelGenerated == false"><button class="btn btn-danger btn-xs" ng-click="user.DeleteCase(RefundCase.Id)" ><span class="glyphicon glyphicon-trash"></span></button></td>
 			<td ng-if="RefundCase.IsLabelGenerated == false"><button class="btn btn-danger btn-xs" ng-click="user.GetLink(RefundCase.Id)" ><span class="glyphicon glyphicon-link"></span></button></td>
+
 		</tr>
 	</table>
 </div>
@@ -112,4 +116,11 @@
 	</div>
 
 </form>
+</div>
+<div id="messageDiv" class="panel panel-info" hidden>
+	<div class="panel-body">
+	<ul class="media-list" ng-repeat="message in user.Messages">
+		<message class="media" ></message>
+	</ul>
+</div>
 </div>

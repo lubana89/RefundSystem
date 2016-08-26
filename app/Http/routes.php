@@ -30,9 +30,8 @@ Route::group(['prefix' => 'api'], function()
 
 
 
-Route::group(['prefix' => 'api', 'middleware' => ['ability:Admin,user-role-permission']], function()
+Route::group(['prefix' => 'api', 'middleware' => ['ability:Admin,Admin']], function()
 {
-    // Protected route
     Route::get('Users', 'AuthenticateController@Index');
     Route::post('CreateUser', 'AuthenticateController@CreateUser');
     Route::post('UpdateUser', 'AuthenticateController@UpdateUser');
@@ -40,10 +39,8 @@ Route::group(['prefix' => 'api', 'middleware' => ['ability:Admin,user-role-permi
     Route::get('Roles', 'AuthenticateController@GetRoles');
     Route::post('CreateRole', 'AuthenticateController@CreateRole');
     Route::post('CreatePermission', 'AuthenticateController@CreatePermission');
-
     Route::post('AssignRole', 'AuthenticateController@AssignRole');
     Route::post('AttachPermission', 'AuthenticateController@AttachPermission');
-
     Route::get('/AllCases','AuthenticateController@GetAllCases');
 });
 
@@ -51,22 +48,33 @@ Route::group(['prefix' => 'api', 'middleware' => ['ability:Admin,user-role-permi
 
 
 
-Route::group(['prefix' => 'Seller', 'middleware' => ['ability:Admin|Seller,RefundCase']], function()
+Route::group(['prefix' => 'Seller', 'middleware' => ['ability:Admin|Seller,Seller']], function()
 {
     Route::post('/GenerateRefundLink','SellerController@GenerateLink');
-
     Route::get('/AllCases/{id}','SellerController@GetSellerAllCases');
     Route::get('/DeleteCase/{id}','SellerController@DeleteCase');
     Route::post('/UpdateCaseData/{id}','SellerController@UpdateCase');
     Route::get('/GetLink/{id}','SellerController@GetCaseLink');
+    Route::get('/GetAllMessage/{id}','SellerController@GetAllMessage');
+    Route::get('/GetNotificationCount/{id}','SellerController@GetNotificationCount');
+    Route::get('/GetTopFiveNotifications/{id}','SellerController@GetTopFiveNotifications');
+    Route::get('/MarkAllNotificationRead/{id}','SellerController@MarkAllNotificationRead');
+    Route::get('/GetAllNotifications/{id}','SellerController@GetAllNotifications');
+    //1 is for Mark read
+    Route::get('/MarkRead/{id}','SellerController@MarkRead');
+    Route::get('/MarkUnRead/{id}','SellerController@MarkUnRead');
 });
-Route::group(['prefix' => 'Warehouse', 'middleware' => ['ability:Admin|Warehouse,WarehousePermission']], function()
-{
 
+
+Route::group(['prefix' => 'Warehouse', 'middleware' => ['ability:Admin|Warehouse,Warehouse']], function()
+{
     Route::get('/AllReturnedCases','WarehouseController@GetAllReturnedCases');
     Route::post('UpdateCaseStatus','WarehouseController@UpdateCaseStatus');
     Route::get('ReturnedCase/{id}','WarehouseController@GetReturnedCase');
     Route::post('/UpdateCaseData/{id}','WarehouseController@UpdateCase');
+    Route::post('/AddMessage','WarehouseController@AddMessage');
+    Route::get('GetAllSellers','WarehouseController@GetAllSellers');
+    Route::post('/SendNotification','WarehouseController@SendNotification');
 });
 
 Route::post('/UpdateCaseData','CustomerController@UpdateCaseData');

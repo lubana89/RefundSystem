@@ -46,10 +46,11 @@ class AuthenticateController extends Controller
             // something went wrong
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
+
         // if no errors are encountered we can return a JWT
         return response()->json(compact('token'));
     }
-    public function logout(){
+    public function Logout(){
         JWTAuth::invalidate();
     }
     /**
@@ -150,7 +151,6 @@ class AuthenticateController extends Controller
     }
     public function GetAllCases(){
         $data= DB::table('refundcase')
-            ->select('RefundCaseDetail','RefundCase_Id','RefundCaseStatusKey','RefundCaseStatus')
             ->get();
         return response()->json($data);
     }

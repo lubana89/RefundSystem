@@ -64,4 +64,21 @@ form {
     border-width: 2px;
 }
 
+.button__badge {
+    background-color: #fa3e3e;
+    border-radius: 2px;
+    color: white;
+
+    padding: 1px 3px;
+    font-size: 10px;
+    margin-left: 1px;
+    margin-top: -6px;
+    position: absolute; /* Position the badge within the relatively positioned button */
+
+}
+.UNREAD > td {
+    background-color: #AAAAAA;
+}
+
+
 /*# sourceMappingURL=all.css.map */

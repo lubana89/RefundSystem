@@ -1,3 +1,55 @@
+/*Global Variable*/
+var user,NotificationInterval;
+
+/*Global Function*/
+function Logout($auth,$rootScope,$state) {
+    $.get(configuration.path + '/logout?token=' + $auth.getToken());
+    $auth.logout().then(function() {
+        if(getCookie('Role')=='Seller'){
+            clearInterval(NotificationInterval);
+        }
+        eraseCookie('Role');
+        localStorage.removeItem('user');
+        $rootScope.authenticated = false;
+        $rootScope.currentUser = null;
+        $state.go('auth');
+    });
+}
+
+function createCookie(name,value,days) {
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime()+(days*24*60*60*1000));
+        var expires = "; expires="+date.toGMTString();
+    }
+    else var expires = "";
+    document.cookie = name+"="+value+expires+"; path=/";
+}
+
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+
+function eraseCookie(name) {
+    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
+}
+function Back($state) {
+    if( window.history.back()== undefined)
+    {
+        $state.go('users');
+    }
+    else
+        window.history.back();
+
+}
+
 
 (function() {
 
@@ -54,7 +106,12 @@
                     url: '/warehouse',
                     templateUrl: '../resources/views/Warehouse.blade.php',
                     controller: 'WarehouseCtrl as warehouse'
-                });
+                })
+                .state('notification', {
+                url: '/notification',
+                templateUrl: '../resources/views/Notification.blade.php',
+                controller: 'NotificationCtrl as notification'
+            });
         })
         .run(function($rootScope, $state) {
             $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState) {
@@ -146,7 +203,11 @@
 
     angular
         .module('RefundSystemApp')
-        .controller('UserController', UserController);
+        .controller('UserController', UserController).directive('message', function() {
+        var directive = {};
+        directive.template = '<div class="media-body"><span class="text-muted pull-right"><small class="text-muted">{{message.DateTime}}</small></span><strong class="text-success">@{{message.From_name}}</strong><p>{{message.Message}}</p></div><hr>';
+        return directive;
+    });
 
     function UserController($http, $auth, $rootScope, $state) {
         if(user && getCookie('Role') !=null) {
@@ -156,7 +217,10 @@
             vm.reasons = [];
             vm.wishes = [];
             vm.conditions = [];
+            vm.Messages='';
             vm.Role=getCookie('Role');
+            vm.NotificationCount=0;
+            vm.NotificationBoxToggle=true;
             vm.refresh = function() {
                 vm.CasesGrid = [];
                 $http.get(configuration.path + '/Seller/AllCases/' + user.id + '?token=' + $auth.getToken()).success(function (data) {
@@ -171,6 +235,59 @@
                 });
             };
             vm.refresh();
+            vm.ReGetNotificationCount=function () {
+                $http.get(configuration.path+'/Seller/GetNotificationCount/'+user.id+ '?token=' + $auth.getToken()).success(function(data){
+                    vm.NotificationCount=data;
+                });
+            };
+            if(vm.Role=='Seller'){
+            vm.ReGetNotificationCount();
+                NotificationInterval=setInterval(function(){  vm.ReGetNotificationCount(); }, 60000);
+            }
+            vm.ShowNotifications=function () {
+                vm.HideDialog();
+                if(vm.NotificationBoxToggle){
+                    vm.NotificationBoxToggle=false;
+                vm.Messages='';
+                $http.get(configuration.path+'/Seller/GetTopFiveNotifications/'+user.id+ '?token=' + $auth.getToken()).success(function(notifications){
+                  if(notifications.data.length>0) {
+                      vm.Messages = notifications.data;
+                      $('#messageDiv').dialog({
+                          width: 300, height: 300, overflow: "auto", position: {
+                              my: 'top',
+                              at: 'bottom',
+                              of: $('#notificationBtn')
+                          }, buttons: {
+                              'ShowAll': function () {
+                                  vm.HideDialog();
+                                  vm.NotificationBoxToggle=true;
+                                  $state.go('notification');
+                              },
+                              'Mark All as Read': function () {
+                                  $http.get(configuration.path + '/Seller/MarkAllNotificationRead/' + user.id + '?token=' + $auth.getToken()).success(function () {
+                                      vm.HideDialog();
+                                      vm.NotificationBoxToggle=true;
+                                      vm.ReGetNotificationCount();
+                                  });
+                              }
+                          }
+                      });
+                      $('#messageDiv').dialog('open');
+                      $(".ui-dialog-titlebar").remove();
+                  }
+                });
+                }else{
+                    vm.NotificationBoxToggle=true;
+                }
+
+            };
+           vm.HideDialog=function () {
+               if($("#messageDiv").hasClass('ui-dialog-content')){
+                   $('#messageDiv').hide();
+                   $('#messageDiv').dialog("destroy");
+               }
+
+           };
             $http.get(configuration.path+'/wish').success(function(data){
                 $.each(data, function(index) {
                     vm.wishes.push(data[index].Wish);
@@ -237,6 +354,16 @@
                     vm.refresh();
                 });
             };
+            vm.ShowMessages=function (id) {
+                vm.HideDialog();
+                vm.NotificationBoxToggle=true;
+                vm.Messages='';
+                $http.get(configuration.path + '/Seller/GetAllMessage/' +id + '?token=' + $auth.getToken()).success(function (data) {
+                    vm.Messages=data;
+                    $('#messageDiv').dialog({width:400,title:'Messages',height:500, overflow:"auto"});
+                    $('#messageDiv').dialog('open');
+                });
+            }
             vm.logout = function () {
                 Logout($auth, $rootScope, $state);
             };
@@ -425,7 +552,6 @@
 
     function WarehouseCtrl($http, $auth, $rootScope, $state) {
         if(user && getCookie('Role') !=null) {
-
             var vm = this;
             vm.CasesGrid = [];
             vm.reasons = [];
@@ -433,6 +559,7 @@
             vm.conditions = [];
             vm.Search='';
             vm.Role=getCookie('Role');
+            vm.AllSellers=[];
             vm.StatusDropDownData={
                 "1":'Label Generated',
                 "2": 'Item Recieved at Warehouse',
@@ -440,38 +567,21 @@
                 "4":'Item Checked-case in process',
                 "5":'refund-close case'
             };
-            vm.SearchClick=function () {
-                vm.CasesGrid = [];
-                vm.EditFormData='';
-                $http.get(configuration.path + '/Warehouse/ReturnedCase/'+ vm.Search +'?token=' + $auth.getToken()).success(function (data) {
-                    $('#DetailDiv').hide();
-                        if(data.length >0){
-
-                            vm.CasesGrid.push(data[0]);
-                            var detail= JSON.parse(data[0].RefundCaseDetail);
-                            vm.EditFormData=detail;
-                            $('#DetailDiv').show();
-                            }
-                        else {
-                            alert('Case Id Not Found');
-                        }
-                });
-            };
             vm.refresh = function() {
                 if(vm.Search!=''){
                     vm.SearchClick();
                 }
                 else if(vm.Role=='Admin') {
-                        $('#DetailDiv').hide();
-                        vm.CasesGrid = [];
-                        vm.EditFormData='';
-                        $http.get(configuration.path + '/api/AllCases?token=' + $auth.getToken()).success(function (data) {
-                            if(data.length >0){
-                                $.each(data, function (index) {
-                                    vm.CasesGrid.push(data[index]);
-                                });
-                            }
-                        });
+                    $('#DetailDiv').hide();
+                    vm.CasesGrid = [];
+                    vm.EditFormData='';
+                    $http.get(configuration.path + '/api/AllCases?token=' + $auth.getToken()).success(function (data) {
+                        if(data.length >0){
+                            $.each(data, function (index) {
+                                vm.CasesGrid.push(data[index]);
+                            });
+                        }
+                    });
                 }
             };
             vm.refresh();
@@ -490,6 +600,76 @@
                     vm.conditions.push(data[index].ItemCondition);
                 });
             });
+            vm.CreateNotification=function () {
+                    $http.get(configuration.path + '/Warehouse/GetAllSellers?token=' + $auth.getToken()).success(function (data) {
+                        vm.AllSellers=data;
+                        var combo = $("<select class='form-control' id='allSeller'></select>");
+                        $.each(vm.AllSellers, function (i, el) {
+                            combo.append("<option id="+ el.id +">" + el.name + "</option>");
+                        });
+                        var textArea  = $('<textarea style="width: 600px; height: 200px;margin: 2%" class="msgText"/>');
+                        var btn=$('<input/>').attr({
+                            type: "button",
+                            value:"Submit",
+                            class:'btn btn-danger notificationmessage'
+                        });
+                        $(document).off('click').on('click', '.notificationmessage', function(){
+                            vm.SubmitNotification($('#allSeller').children(":selected").attr("id"),user.id,$('.msgText').val());
+                        });
+                        $('<div id="notificationmessageDiv" />').html(combo).append(textArea).append(btn).dialog({width:700,title: 'Notify Seller'});
+                    });
+
+            };
+            vm.SubmitNotification=function (_TO,_FROM,_Message) {
+                var notification={};
+                notification.to_user_id=_TO;
+                notification.from_user_id=_FROM;
+                notification.notificationMsg=_Message;
+                $http.post(configuration.path+'/Warehouse/SendNotification?token=' + $auth.getToken(), JSON.stringify(notification)).success(function(data){
+                    $('#notificationmessageDiv').remove();
+                });
+            };
+            vm.AddComment=function (messagecase) {
+                var textArea  = $('<textarea style="width: 674px; height: 28px;" class="msgText"/>');
+
+                var btn=$('<input/>').attr({
+                    type: "button",
+                    value:"Submit",
+                    style:'margin-top:2%;display:block;',
+                    class:'btn btn-danger sendMessage'
+                });
+                $(document).off('click').on('click', '.sendMessage', function(){
+                    vm.MessageSubmitted(messagecase,$('.msgText').val());
+                });
+                $('<div id="messageDiv" />').html(textArea).append(btn).dialog({width:700,title: 'Add Message'});
+            };
+            vm.MessageSubmitted=function (messageCase,messageText) {
+                var messageobj={};
+                messageobj.RefundCase_Id=messageCase.RefundCase_Id;
+                messageobj.From_name=user.name;
+                messageobj.Seller_Id=messageCase.Seller_Id;
+                messageobj.Message=messageText;
+                $http.post(configuration.path+'/Warehouse/AddMessage?token=' + $auth.getToken(), JSON.stringify(messageobj)).success(function(data){
+                    $('#messageDiv').remove();
+                    vm.refresh();
+                });
+            };
+            vm.SearchClick=function () {
+                vm.CasesGrid = [];
+                vm.EditFormData='';
+                $http.get(configuration.path + '/Warehouse/ReturnedCase/'+ vm.Search +'?token=' + $auth.getToken()).success(function (data) {
+                    $('#DetailDiv').hide();
+                        if(data.length >0){
+                            vm.CasesGrid.push(data[0]);
+                            var detail= JSON.parse(data[0].RefundCaseDetail);
+                            vm.EditFormData=detail;
+                            $('#DetailDiv').show();
+                            }
+                        else {
+                            alert('Case Id Not Found');
+                        }
+                });
+            };
             vm.Back=function () {
                 Back($state);
             };
@@ -505,14 +685,14 @@
                         class:'btn btn-danger updateCaseStatus'
                     });
                     $(document).off('click').on('click', '.updateCaseStatus', function(){
-                        vm.StatusUpdate(caseID);
+                        vm.StatusUpdate(caseID,$('#updateCaseStatus').children(":selected").val());
                     });
                     $('<div id="updateCaseStatusDiv" />').html(combo).append(btn).dialog({width:700,title: 'Select Role For User'});
             };
-            vm.StatusUpdate=function (caseID) {
+            vm.StatusUpdate=function (caseID,status) {
                 var StatusObject={};
                 StatusObject.RefundCase_Id=caseID;
-                StatusObject.RefundCaseStatus=$('#updateCaseStatus').children(":selected").val();
+                StatusObject.RefundCaseStatus=status;
                 $('#updateCaseStatusDiv').remove();
                 $http.post(configuration.path+'/Warehouse/UpdateCaseStatus?token=' + $auth.getToken(), JSON.stringify(StatusObject)).success(function(data){
                     vm.refresh();
@@ -545,52 +725,48 @@
             Logout($auth, $rootScope, $state);
     }
 })();
-/*Global Variable*/
-var user;
+(function() {
 
-/*Global Function*/
-function Logout($auth,$rootScope,$state) {
-    $.get(configuration.path + '/logout?token=' + $auth.getToken());
-    $auth.logout().then(function() {
-        eraseCookie('Role');
-        localStorage.removeItem('user');
-        $rootScope.authenticated = false;
-        $rootScope.currentUser = null;
-        $state.go('auth');
-    });
-}
+    'use strict';
 
-function createCookie(name,value,days) {
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime()+(days*24*60*60*1000));
-        var expires = "; expires="+date.toGMTString();
+    angular
+        .module('RefundSystemApp')
+        .controller('NotificationCtrl', NotificationCtrl);
+
+    function NotificationCtrl($http, $auth, $rootScope, $state) {
+        if(user && getCookie('Role') !=null) {
+            var vm = this;
+            vm.NotificationsGrid='';
+            vm.refresh=function () {
+                vm.NotificationsGrid='';
+                $http.get(configuration.path+'/Seller/GetAllNotifications/'+user.id+ '?token=' + $auth.getToken()).success(function(notifications){
+                    if(notifications.length>0) {
+                        vm.NotificationsGrid = notifications;
+                    }
+                });
+            };
+            vm.refresh();
+            vm.MarkRead=function (id) {
+                $http.get(configuration.path+'/Seller/MarkRead/'+id+ '?token=' + $auth.getToken()).success(function(notifications){
+                    vm.refresh();
+                });
+            };
+            vm.MarkUnRead=function (id) {
+                $http.get(configuration.path+'/Seller/MarkUnRead/'+id+ '?token=' + $auth.getToken()).success(function(notifications){
+                    vm.refresh();
+                });
+            };
+            vm.Back=function () {
+                Back($state);
+            };
+            vm.logout = function () {
+                Logout($auth, $rootScope, $state);
+            };
+        }else{
+            Logout($auth, $rootScope, $state);
+        }
+
     }
-    else var expires = "";
-    document.cookie = name+"="+value+expires+"; path=/";
-}
+})();
 
-function getCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-    }
-    return null;
-}
-
-function eraseCookie(name) {
-    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
-}
-function Back($state) {
-    if( window.history.back()== undefined)
-    {
-        $state.go('users');
-    }
-    else
-        window.history.back();
-
-}
 //# sourceMappingURL=OUBO-User.js.map

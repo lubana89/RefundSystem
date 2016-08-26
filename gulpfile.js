@@ -16,13 +16,14 @@ elixir(function(mix) {
         "./CSS/OUBO.css"
     ], './Elixer/CSS/all.css');
     mix.scripts([
+        "./JS/Global.js",
         "./JS/Controllers/app.js",
         "./JS/Controllers/AuthController.js",
         "./JS/Controllers/UserController.js",
         "./JS/Controllers/SellerRefundFormController.js",
         "./JS/Controllers/ManageUserController.js",
         "./JS/Controllers/WarehouseController.js",
-        "./JS/Global.js"
+        "./JS/Controllers/NotificationController.js",
     ], './Elixer/JS/Controllers/OUBO-User.js');
     mix.scripts([
         "./bower_components/jquery-ui/jquery-ui.min.js",

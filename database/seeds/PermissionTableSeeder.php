@@ -12,21 +12,21 @@ class PermissionTableSeeder extends Seeder
     public function run()
     {
         $permission=new Permission();
-        $permission->name='user-role-permission';
-        $permission->display_name='user-role-permission';
-        $permission->description='only Administrator can create/edit users roles permissions ';
+        $permission->name='Admin';
+        $permission->display_name='Admin';
+        $permission->description='Admin';
         $permission->save();
 
         $permission=new Permission();
-        $permission->name='RefundCase';
-        $permission->display_name='RefundCase';
-        $permission->description='only Administrator|Seller can create/edit RefundCase ';
+        $permission->name='Seller';
+        $permission->display_name='Seller';
+        $permission->description='Seller';
         $permission->save();
 
         $permission=new Permission();
-        $permission->name='WarehousePermission';
-        $permission->display_name='WarehousePermission';
-        $permission->description='WarehousePermission';
+        $permission->name='Warehouse';
+        $permission->display_name='Warehouse';
+        $permission->description='Warehouse';
         $permission->save();
     }
 }
