@@ -366,7 +366,7 @@ function Back($state) {
                 vm.Messages='';
                 $http.get(configuration.path + '/Communication/GetAllMessage/' +id + '?token=' + $auth.getToken()).success(function (data) {
                     vm.Messages=data;
-                    $('#messageDiv').dialog({width:400,title:'Messages',height:500, overflow:"auto",close:function(){$('#messageDiv').remove();}});
+                    $('#messageDiv').dialog({width:400,title:'Messages',height:500, overflow:"auto"});
                     $('#messageDiv').dialog('open');
                 });
             };
@@ -748,7 +748,7 @@ function Back($state) {
                 messageobj.From_name=user.name;
                 messageobj.Seller_Id=messageCase.Seller_Id;
                 messageobj.Message=messageText;
-                $http.post(configuration.path+'/Warehouse/AddMessage?token=' + $auth.getToken(), JSON.stringify(messageobj)).success(function(data){
+                $http.post(configuration.path+'/Communication/AddMessage?token=' + $auth.getToken(), JSON.stringify(messageobj)).success(function(data){
                     $('#messageDiv').remove();
                     vm.refresh();
                 });
@@ -902,7 +902,7 @@ function Back($state) {
                 vm.Messages='';
                 $http.get(configuration.path+'/Communication/GetChainNotifications/'+id+ '?token=' + $auth.getToken()).success(function(notifications){
                     vm.Messages=notifications;
-                    $('#messageDiv').dialog({width:400,title:'Messages',height:500, overflow:"auto",close:function(){$('#messageDiv').remove();}});
+                    $('#messageDiv').dialog({width:400,title:'Messages',height:500, overflow:"auto"});
                     $('#messageDiv').dialog('open');
 
                 } );
