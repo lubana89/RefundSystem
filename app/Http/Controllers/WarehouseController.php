@@ -42,32 +42,9 @@ class WarehouseController extends Controller
             ->update(['RefundCaseDetail' => $request->getContent()]);
         return 'true';
     }
-    public function AddMessage(Request $request){
 
-        DB::table('casemessages')->insert([
-            'RefundCase_Id' => $request->input('RefundCase_Id'),
-            'From_name' => $request->input('From_name'),
-            'Seller_Id' => $request->input('Seller_Id'),
-            'Message'=>$request->input('Message')
-        ]);
 
-        return 'true';
-    }
-    public function GetAllSellers(){
-        $data=  User::whereHas('roles', function($q)
-        {
-            $q->where('name', 'Seller');
-        })->get();
-        return response()->json($data);
-    }
 
-    public function SendNotification(Request $request){
-        DB::table('notifications')->insert([
-            'from_user_id' => $request->input('from_user_id'),
-            'to_user_id' => $request->input('to_user_id'),
-            'notificationMsg' => $request->input('notificationMsg')
-        ]);
 
-    }
 
 }

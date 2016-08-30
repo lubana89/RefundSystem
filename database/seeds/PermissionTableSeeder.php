@@ -28,5 +28,11 @@ class PermissionTableSeeder extends Seeder
         $permission->display_name='Warehouse';
         $permission->description='Warehouse';
         $permission->save();
+
+        $permission=new Permission();
+        $permission->name='Communication';
+        $permission->display_name='Communication';
+        $permission->description='Communication';
+        $permission->save();
     }
 }

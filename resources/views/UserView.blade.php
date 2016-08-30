@@ -3,11 +3,13 @@
 <div style="margin:2%">
 
 			<button class="btn btn-primary" ng-click="user.ToSellerForm()"><span class="glyphicon glyphicon-edit"> Fill Form </span></button>
+			<button class="btn btn-primary" ng-click="user.AllNotifications()"><span class="glyphicon glyphicon-edit"> Notification Inbox </span></button>
 			<button class="btn btn-primary" ng-click="user.refresh()"><span class="glyphicon glyphicon-refresh"> Refresh </span></button>
 			<button class="btn btn-primary"  ng-if="user.Role=='Admin'" ng-click="user.ToUserGrid()"><span class="glyphicon glyphicon-user"> Manage User</span></button>
 			<button class="btn btn-primary"  ng-if="user.Role=='Admin'" ng-click="user.ToWarehouseGrid()"><span class="glyphicon glyphicon-briefcase"> Warehouse </span></button>
 			<button class="btn btn-danger" ng-click="user.logout()"><span class="glyphicon glyphicon-log-out"> Sign Out</span></button>
-			<button class="btn btn-info" id="notificationBtn" style="float:right;margin-right:2%" ng-if="user.Role=='Seller'"  ng-click="user.ShowNotifications()"><i class="glyphicon glyphicon-bell"> </i><span class="button__badge" ng-if="user.NotificationCount!=0">{{user.NotificationCount}}</span></button>
+			<button class="btn btn-danger" style="float:right;margin-right:2%" ng-if="user.Role=='Seller'" ng-click="user.CreateNotification()"><span class="glyphicon glyphicon-bell"> Notify Admin</span></button>
+			<button class="btn btn-info" id="notificationBtn" style="float:right;margin-right:2%"   ng-click="user.ShowNotifications()"><i class="glyphicon glyphicon-bell"> </i><span class="button__badge" ng-if="user.NotificationCount!=0">{{user.NotificationCount}}</span></button>
 
 </div>
 

@@ -3,10 +3,11 @@
 <div style="margin:2%">
 
     <button class="btn btn-success"  ng-if="warehouse.Role=='Admin'" ng-click="warehouse.Back()"><span class="glyphicon glyphicon-arrow-left"> Back </span></button>
+    <button class="btn btn-primary" ng-click="warehouse.AllNotifications()"><span class="glyphicon glyphicon-edit"> Notification Inbox </span></button>
     <button class="btn btn-primary" ng-click="warehouse.refresh()"><span class="glyphicon glyphicon-refresh"> Refresh </span></button>
     <button class="btn btn-danger" ng-click="warehouse.logout()"><span class="glyphicon glyphicon-log-out"> Sign Out</span></button>
     <button class="btn btn-danger" style="float:right;margin-right:2%" ng-if="warehouse.Role!='Seller'" ng-click="warehouse.CreateNotification()"><span class="glyphicon glyphicon-bell"> Notify Seller</span></button>
-
+    <button class="btn btn-info" id="notificationBtn" style="float:right;margin-right:2%"   ng-click="warehouse.ShowNotifications()"><i class="glyphicon glyphicon-bell"> </i><span class="button__badge" ng-if="warehouse.NotificationCount!=0">{{warehouse.NotificationCount}}</span></button>
 </div>
 <div class="container" style="margin-bottom: 2%">
     <div class="row">
@@ -155,4 +156,11 @@
         </div>
 
     </form>
+</div>
+<div id="messageDiv" class="panel panel-info" hidden>
+    <div class="panel-body">
+        <ul class="media-list" ng-repeat="message in warehouse.Messages">
+            <message class="media" ></message>
+        </ul>
+    </div>
 </div>

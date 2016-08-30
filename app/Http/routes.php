@@ -42,6 +42,8 @@ Route::group(['prefix' => 'api', 'middleware' => ['ability:Admin,Admin']], funct
     Route::post('AssignRole', 'AuthenticateController@AssignRole');
     Route::post('AttachPermission', 'AuthenticateController@AttachPermission');
     Route::get('/AllCases','AuthenticateController@GetAllCases');
+    Route::get('/AllWarehouseUsers','FetchBasicDataController@GetAllWarehouseUsers');
+    Route::post('/UpdateNotification','CommunicationController@UpdateNotification');
 });
 
 
@@ -55,28 +57,37 @@ Route::group(['prefix' => 'Seller', 'middleware' => ['ability:Admin|Seller,Selle
     Route::get('/DeleteCase/{id}','SellerController@DeleteCase');
     Route::post('/UpdateCaseData/{id}','SellerController@UpdateCase');
     Route::get('/GetLink/{id}','SellerController@GetCaseLink');
-    Route::get('/GetAllMessage/{id}','SellerController@GetAllMessage');
-    Route::get('/GetNotificationCount/{id}','SellerController@GetNotificationCount');
-    Route::get('/GetTopFiveNotifications/{id}','SellerController@GetTopFiveNotifications');
-    Route::get('/MarkAllNotificationRead/{id}','SellerController@MarkAllNotificationRead');
-    Route::get('/GetAllNotifications/{id}','SellerController@GetAllNotifications');
-    //1 is for Mark read
-    Route::get('/MarkRead/{id}','SellerController@MarkRead');
-    Route::get('/MarkUnRead/{id}','SellerController@MarkUnRead');
+    Route::get('/GetAllAdmins','FetchBasicDataController@GetAllAdmins');
+
 });
 
 
 Route::group(['prefix' => 'Warehouse', 'middleware' => ['ability:Admin|Warehouse,Warehouse']], function()
 {
     Route::get('/AllReturnedCases','WarehouseController@GetAllReturnedCases');
-    Route::post('UpdateCaseStatus','WarehouseController@UpdateCaseStatus');
-    Route::get('ReturnedCase/{id}','WarehouseController@GetReturnedCase');
+    Route::post('/UpdateCaseStatus','WarehouseController@UpdateCaseStatus');
+    Route::get('/ReturnedCase/{id}','WarehouseController@GetReturnedCase');
     Route::post('/UpdateCaseData/{id}','WarehouseController@UpdateCase');
-    Route::post('/AddMessage','WarehouseController@AddMessage');
-    Route::get('GetAllSellers','WarehouseController@GetAllSellers');
-    Route::post('/SendNotification','WarehouseController@SendNotification');
-});
 
+    Route::get('/GetAllSellers','FetchBasicDataController@GetAllSellers');
+
+});
+Route::group(['prefix' => 'Communication', 'middleware' => ['ability:All,Communication']], function()
+{
+    Route::post('/SendNotification','CommunicationController@SendNotification');
+    Route::post('/AddMessage','CommunicationController@AddMessage');
+    Route::get('/GetAllMessage/{id}','CommunicationController@GetAllMessage');
+    Route::get('/GetNotificationCount/{id}','CommunicationController@GetNotificationCount');
+    Route::get('/GetTopFiveNotifications/{id}','CommunicationController@GetTopFiveNotifications');
+    Route::get('/MarkAllNotificationRead/{id}','CommunicationController@MarkAllNotificationRead');
+    Route::get('/GetAllNotifications/{id}','CommunicationController@GetAllNotifications');
+    //1 is for Mark read
+    Route::get('/MarkRead/{id}','CommunicationController@MarkRead');
+    Route::get('/MarkUnRead/{id}','CommunicationController@MarkUnRead');
+    Route::post('/ReplyNotification','CommunicationController@ReplyNotification');
+    Route::get('/GetChainNotifications/{id}','CommunicationController@GetChainNotifications');
+
+});
 Route::post('/UpdateCaseData','CustomerController@UpdateCaseData');
 Route::get('/Customer/Refund/{id}/Fetch','FetchBasicDataController@FetchData');
 Route::get('/Customer/Refund/{id}', 'SellerController@DecryptLink');
