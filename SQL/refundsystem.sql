@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 30, 2016 at 08:57 AM
+-- Generation Time: Aug 31, 2016 at 02:03 AM
 -- Server version: 5.7.11
 -- PHP Version: 5.6.19
 
@@ -195,6 +195,13 @@ CREATE TABLE `refundcase` (
   `RefundCaseStatusKey` text
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `refundcase`
+--
+
+INSERT INTO `refundcase` (`RefundCase_Id`, `Seller_Id`, `RefundCaseDetail`, `RefundCaseStatus`, `RefundCaseStatusKey`) VALUES
+(66, 2, '{"sellerNumber":2,"emailAddress":"customer1@gmail.com","orderNumber":"18dsa","date":"","price":"","itemSKU":"14reg","reason":"reason2","condition":"condition3","wish":"wish4"}', 'Label Generated', '647977344705552266');
+
 -- --------------------------------------------------------
 
 --
@@ -260,9 +267,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(3, 'warehouse', 'warehouse@oubo.de', '$2y$10$qP8XZBOaQehT5MUpNRtVg.tJ8.3jgeB7U5kF1TiOJYVCToy.Sy2y6', NULL, '2016-08-23 20:48:14', '2016-08-29 23:01:01'),
-(1, 'admin', 'admin@oubo.de', '$2y$10$ipUklkkJYIXi91Q1PJ2x/e/QW7/7cxFbacJiPKW41hNBcalpYaVGy', NULL, NULL, NULL),
-(2, 'seller', 'seller@oubo.de', '$2y$10$yUvve2mjEwseMqwZ9dmX1Oo1WXtW6XoEl99OsgngMN2ituBxQGHeG', NULL, '2016-08-23 20:04:07', '2016-08-29 23:01:56');
+(3, 'warehouse', 'warehouse@gmail.de', '$2y$10$qP8XZBOaQehT5MUpNRtVg.tJ8.3jgeB7U5kF1TiOJYVCToy.Sy2y6', NULL, '2016-08-23 20:48:14', '2016-08-29 23:01:01'),
+(1, 'admin', 'admin@gmail.de', '$2y$10$ipUklkkJYIXi91Q1PJ2x/e/QW7/7cxFbacJiPKW41hNBcalpYaVGy', NULL, NULL, NULL),
+(2, 'seller', 'seller@gmail.de', '$2y$10$yUvve2mjEwseMqwZ9dmX1Oo1WXtW6XoEl99OsgngMN2ituBxQGHeG', NULL, '2016-08-23 20:04:07', '2016-08-29 23:01:56');
 
 -- --------------------------------------------------------
 
@@ -384,7 +391,7 @@ ALTER TABLE `wish`
 -- AUTO_INCREMENT for table `casemessages`
 --
 ALTER TABLE `casemessages`
-  MODIFY `CaseMessage_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `CaseMessage_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `itemcondition`
 --
@@ -394,7 +401,7 @@ ALTER TABLE `itemcondition`
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 --
 -- AUTO_INCREMENT for table `permissions`
 --
@@ -409,7 +416,7 @@ ALTER TABLE `reason`
 -- AUTO_INCREMENT for table `refundcase`
 --
 ALTER TABLE `refundcase`
-  MODIFY `RefundCase_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `RefundCase_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 --
 -- AUTO_INCREMENT for table `roles`
 --
