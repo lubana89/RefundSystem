@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 31, 2016 at 02:03 AM
+-- Generation Time: Aug 31, 2016 at 02:14 AM
 -- Server version: 5.7.11
 -- PHP Version: 5.6.19
 
@@ -178,8 +178,8 @@ CREATE TABLE `reason` (
 
 INSERT INTO `reason` (`Reason_Id`, `Reason`) VALUES
 (1, 'reason1'),
-(3, 'reason2'),
-(4, 'reason3');
+(2, 'reason2'),
+(3, 'reason3');
 
 -- --------------------------------------------------------
 
@@ -194,13 +194,6 @@ CREATE TABLE `refundcase` (
   `RefundCaseStatus` text,
   `RefundCaseStatusKey` text
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `refundcase`
---
-
-INSERT INTO `refundcase` (`RefundCase_Id`, `Seller_Id`, `RefundCaseDetail`, `RefundCaseStatus`, `RefundCaseStatusKey`) VALUES
-(66, 2, '{"sellerNumber":2,"emailAddress":"customer1@gmail.com","orderNumber":"18dsa","date":"","price":"","itemSKU":"14reg","reason":"reason2","condition":"condition3","wish":"wish4"}', 'Label Generated', '647977344705552266');
 
 -- --------------------------------------------------------
 
@@ -287,10 +280,10 @@ CREATE TABLE `wish` (
 --
 
 INSERT INTO `wish` (`Wish_Id`, `Wish`) VALUES
-(4, 'wish3'),
-(2, 'wish1'),
-(3, 'wish2'),
-(7, 'wish4');
+(3, 'wish3'),
+(1, 'wish1'),
+(2, 'wish2'),
+(4, 'wish4');
 
 --
 -- Indexes for dumped tables

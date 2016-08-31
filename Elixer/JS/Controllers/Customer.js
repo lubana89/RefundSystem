@@ -27,4 +27,4 @@ app.controller('CustomerRefundCtrl', function ($scope, $http) {
         });
     };
 });
-//# sourceMappingURL=OUBOCustomer.js.map
+//# sourceMappingURL=Customer.js.map

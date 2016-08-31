@@ -1284,4 +1284,4 @@ a.get("$state.runtime").autoinject&&a.get("$state")}]),w.$inject=[],b.module("ui
 }));
 //# sourceMappingURL=satellizer.js.map
 
-//# sourceMappingURL=OUBO-Dependencies.js.map
+//# sourceMappingURL=Dependencies.js.map

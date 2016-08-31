@@ -22,10 +22,10 @@
 </body>
 
 <!-- Application Dependencies-->
-<script type="text/javascript" src="/RefundSystem/Elixer/JS/OUBO-Dependencies.js"></script>
+<script type="text/javascript" src="/RefundSystem/Elixer/JS/Dependencies.js"></script>
 
 <!-- Application Scripts-->
-<script type="text/javascript" src="/RefundSystem/Elixer/JS/Controllers/OUBO-User.js"></script>
+<script type="text/javascript" src="/RefundSystem/Elixer/JS/Controllers/User.js"></script>
 <!-- Insert this line after script imports -->
 <script>if (window.module) module = window.module;</script>
 

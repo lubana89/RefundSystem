@@ -8,8 +8,8 @@
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
     <link href="/RefundSystem/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/RefundSystem/Elixer/CSS/all.css">
-    <script src="/RefundSystem/Elixer/JS/OUBO-Dependencies.js"></script>
-    <script src="/RefundSystem/Elixer/JS/Controllers/OUBOCustomer.js"></script>
+    <script src="/RefundSystem/Elixer/JS/Dependencies.js"></script>
+    <script src="/RefundSystem/Elixer/JS/Controllers/Customer.js"></script>
     @include('Configuration.Configuration');
 
 </head>

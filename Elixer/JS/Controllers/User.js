@@ -115,6 +115,7 @@ function Back($state) {
         })
         .run(function($rootScope, $state) {
             $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState) {
+                $('.ui-dialog').remove();
                  user = JSON.parse(localStorage.getItem('user'));
                 if(user) {
                     $rootScope.authenticated = true;
@@ -932,4 +933,4 @@ function Back($state) {
     }
 })();
 
-//# sourceMappingURL=OUBO-User.js.map
+//# sourceMappingURL=User.js.map

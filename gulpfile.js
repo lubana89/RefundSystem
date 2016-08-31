@@ -13,7 +13,7 @@ var elixir = require('laravel-elixir');
 
 elixir(function(mix) {
     mix.styles([
-        "./CSS/OUBO.css"
+        "./CSS/RefundSystem.css"
     ], './Elixer/CSS/all.css');
     mix.scripts([
         "./JS/Global.js",
@@ -24,17 +24,17 @@ elixir(function(mix) {
         "./JS/Controllers/ManageUserController.js",
         "./JS/Controllers/WarehouseController.js",
         "./JS/Controllers/NotificationController.js",
-    ], './Elixer/JS/Controllers/OUBO-User.js');
+    ], './Elixer/JS/Controllers/User.js');
     mix.scripts([
         "./bower_components/jquery-ui/jquery-ui.min.js",
         "./bower_components/angular/angular.min.js",
         "./bower_components/angular-ui-router/release/angular-ui-router.min.js",
         "./bower_components/satellizer/dist/satellizer.js",
 
-    ], './Elixer/JS/OUBO-Dependencies.js');
+    ], './Elixer/JS/Dependencies.js');
     mix.scripts([
         "./JS/Controllers/CustomerController.js"
-    ], './Elixer/JS/Controllers/OUBOCustomer.js');
+    ], './Elixer/JS/Controllers/Customer.js');
 });
 
 
