@@ -26,6 +26,7 @@
 
 <!-- Application Scripts-->
 <script type="text/javascript" src="/RefundSystem/Elixer/JS/Controllers/User.js"></script>
+<script src="/RefundSystem/Elixer/JS/Controllers/Uploader.js"></script>
 <!-- Insert this line after script imports -->
 <script>if (window.module) module = window.module;</script>
 

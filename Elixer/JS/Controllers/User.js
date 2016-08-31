@@ -56,7 +56,7 @@ function Back($state) {
     'use strict';
 
     angular
-        .module('RefundSystemApp', ['ui.router', 'satellizer'])
+        .module('RefundSystemApp', ['ui.router', 'satellizer','angularFileUpload'])
         .config(function($stateProvider, $urlRouterProvider, $authProvider, $httpProvider, $provide,$locationProvider) {
 
             function redirectWhenLoggedOut($q, $injector) {
@@ -111,7 +111,15 @@ function Back($state) {
                 url: '/notification',
                 templateUrl: '../resources/views/Notification.blade.php',
                 controller: 'NotificationCtrl as notification'
-            });
+                 })
+                .state('upload', {
+                    url: '/upload',
+                    templateUrl: '../resources/views/Uploader.blade.php',
+                    params: {
+                        'casedId':-1
+                    }
+                })
+                ;
         })
         .run(function($rootScope, $state) {
             $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState) {
@@ -178,7 +186,7 @@ function Back($state) {
                     $http.get(configuration.path+'/api/GetRole?token='+$auth.getToken()).success(function (data) {
                         createCookie('Role',data);
                         if(data != 'Warehouse')
-                        $state.go('users');
+                            $state.go('users');
                         else if(data == 'Warehouse')
                             $state.go('warehouse');
                     }).error(function(error) {
@@ -212,7 +220,6 @@ function Back($state) {
 
     function UserController($http, $auth, $rootScope, $state) {
         if(user && getCookie('Role') !=null) {
-
             var vm = this;
             vm.CasesGrid = [];
             vm.reasons = [];
@@ -222,6 +229,9 @@ function Back($state) {
             vm.Role=getCookie('Role');
             vm.NotificationCount=0;
             vm.NotificationBoxToggle=true;
+            vm.AddImage=function (id) {
+                $state.go('upload',{ casedId:id });
+            };
             vm.refresh = function() {
                 vm.CasesGrid = [];
                 $http.get(configuration.path + '/Seller/AllCases/' + user.id + '?token=' + $auth.getToken()).success(function (data) {
@@ -243,14 +253,11 @@ function Back($state) {
                     });
 
             };
-
             vm.ReGetNotificationCount();
-                NotificationInterval=setInterval(function(){  vm.ReGetNotificationCount(); }, 60000);
-
+            NotificationInterval=setInterval(function(){  vm.ReGetNotificationCount(); }, 300000);
             vm.AllNotifications=function () {
                 $state.go('notification');
             };
-
             vm.ShowNotifications=function () {
                 vm.HideDialog();
                 if(vm.NotificationBoxToggle){
@@ -288,7 +295,7 @@ function Back($state) {
                 }
 
             };
-           vm.HideDialog=function () {
+            vm.HideDialog=function () {
                if($("#messageDiv").hasClass('ui-dialog-content')){
                    $('#messageDiv').hide();
                    $('#messageDiv').dialog("destroy");
@@ -366,9 +373,20 @@ function Back($state) {
                 vm.NotificationBoxToggle=true;
                 vm.Messages='';
                 $http.get(configuration.path + '/Communication/GetAllMessage/' +id + '?token=' + $auth.getToken()).success(function (data) {
+                    if(data.length>0){
                     vm.Messages=data;
                     $('#messageDiv').dialog({width:400,title:'Messages',height:500, overflow:"auto"});
                     $('#messageDiv').dialog('open');
+                    }
+                });
+            };
+            vm.ShowImages=function (id) {
+                $http.get(configuration.path + '/File/GetAllImages/' +id + '?token=' + $auth.getToken()).success(function (data) {
+                    var div = $("<div id='allimages'></div>");
+                    $.each(data, function (i, el) {
+                        div.append("<a target='_blank' href="+el.Image_Path+"\\"+ el.Image_Name +" >Image</a>");
+                    });
+                    $('<div />').html(div).dialog();
                 });
             };
             vm.CreateNotification=function () {
@@ -650,7 +668,7 @@ function Back($state) {
                 $state.go('notification');
             };
             vm.ReGetNotificationCount();
-            NotificationInterval=setInterval(function(){  vm.ReGetNotificationCount(); }, 60000);
+            NotificationInterval=setInterval(function(){  vm.ReGetNotificationCount(); }, 300000);;
 
             vm.AllNotifications=function () {
                 $state.go('notification');
@@ -831,7 +849,7 @@ function Back($state) {
 
     angular
         .module('RefundSystemApp')
-        .controller('NotificationCtrl', NotificationCtrl)
+        .controller('NotificationCtrl', NotificationCtrl);
 
     function NotificationCtrl($http, $auth, $rootScope, $state) {
         if(user && getCookie('Role') !=null) {
@@ -933,4 +951,38 @@ function Back($state) {
     }
 })();
 
+(function() {
+
+    'use strict';
+    angular
+        .module('RefundSystemApp')
+        .controller('UploaderCntrl', ['$scope', 'FileUploader','$stateParams','$state', function($scope, FileUploader,$stateParams,$state) {
+            $scope.Back=function () {
+                Back($state);
+            };
+            var uploader = $scope.uploader = new FileUploader({
+                url: configuration.path + '/File/Upload/'+$stateParams.casedId
+            });
+
+            // FILTERS
+
+            uploader.filters.push({
+                name: 'imageFilter',
+                fn: function(item /*{File|FileLikeObject}*/, options) {
+                    var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+                    return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+                }
+            });
+
+            // CALLBACKS
+
+            uploader.onSuccessItem = function(fileItem, response, status, headers) {
+                uploader.removeFromQueue(fileItem);
+            };
+            uploader.onErrorItem = function(fileItem, response, status, headers) {
+                console.info('onErrorItem', fileItem, response, status, headers);
+            };
+
+        }]);
+})();
 //# sourceMappingURL=User.js.map

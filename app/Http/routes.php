@@ -97,3 +97,7 @@ Route::get('/itemCondition', 'FetchBasicDataController@GetConditions');
 Route::get('/QR', 'CustomerController@GetQR');
 Route::get('/Status/{id}', 'CustomerController@ItemStatus');
 Route::get('logout','AuthenticateController@logout');
+
+/*image upload*/
+Route::post('/File/Upload/{id}', 'FileController@uploadImage');
+Route::get('/File/GetAllImages/{id}','FileController@GetAllImages');

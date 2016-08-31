@@ -16,7 +16,10 @@
 <div class="table-responsive" >
 	<table class="table table-bordered">
 		<tr>
+
 			<th>Case Id</th>
+			<th>Add Image</th>
+			<th>Case Images</th>
 			<th>Customer Email Address</th>
 			<th>Order Number</th>
 			<th>Date</th>
@@ -32,7 +35,10 @@
 
 		</tr>
 		<tr ng-repeat="RefundCase in user.CasesGrid">
+
 			<td>{{RefundCase.Id}}</td>
+			<td><button class="btn btn-primary btn-xs" ng-click="user.AddImage(RefundCase.Id)" ><span class="glyphicon glyphicon-plus"></span></button></td>
+			<td><button class="btn btn-primary btn-xs" ng-click="user.ShowImages(RefundCase.Id)" ><span class="glyphicon glyphicon-camera"></span></button></td>
 			<td>{{RefundCase.emailAddress}}</td>
 			<td>{{RefundCase.orderNumber}}</td>
 			<td>{{RefundCase.date}}</td>

@@ -6,7 +6,7 @@
 </div>
 <link rel="stylesheet" href="/RefundSystem/bower_components/bootstrap/dist/css/bootstrap.css">
 <script src="/RefundSystem/bower_components/svg-png/saveSvgAsPng.js"></script>
-<script src="/RefundSystem/bower_components/jsPDF/jsPDF.js"></script>
+<script src="/RefundSystem/bower_components/jspdf/dist/jspdf.min.js"></script>
 
 <script>
 function svg_to_pdf(svg, callback) {

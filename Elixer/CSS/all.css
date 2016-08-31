@@ -79,6 +79,21 @@ form {
 .UNREAD > td {
     background-color: #AAAAAA;
 }
+div.upload {
+    margin-top:10%;
+    width: 91px;
+    height: 23px;
+    background: url(http://gaiatruelife.com/wp-content/uploads/2015/11/select.gif);
+    overflow: hidden;
+}
 
+div.upload input {
+    margin-top:10%;
+    display: block !important;
+    width: 91px !important;
+    height: 23px !important;
+    opacity: 0 !important;
+    overflow: hidden !important;
+}
 
 /*# sourceMappingURL=all.css.map */
