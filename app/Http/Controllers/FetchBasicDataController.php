@@ -9,7 +9,7 @@ use Session;
 use App\User;
 class FetchBasicDataController extends Controller
 {
-    public function FetchData ($id){
+    public function FetchData (){
        $CaseData= DB::table('refundcase')->where('RefundCase_Id',Session::get('CaseId'))->first();
         return  $CaseData->RefundCaseDetail;
     }

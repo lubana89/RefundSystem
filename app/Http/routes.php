@@ -90,11 +90,12 @@ Route::group(['prefix' => 'Communication', 'middleware' => ['ability:All,Communi
 });
 Route::post('/UpdateCaseData','CustomerController@UpdateCaseData');
 Route::get('/Customer/Refund/{id}/Fetch','FetchBasicDataController@FetchData');
-Route::get('/Customer/Refund/{id}', 'SellerController@DecryptLink');
+Route::get('/Customer/Refund/{id}', 'CustomerController@DecryptLink');
 Route::get('/wish', 'FetchBasicDataController@GetWishes');
 Route::get('/reason', 'FetchBasicDataController@GetReasons');
 Route::get('/itemCondition', 'FetchBasicDataController@GetConditions');
 Route::get('/QR', 'CustomerController@GetQR');
+
 Route::get('/Status/{id}', 'CustomerController@ItemStatus');
 Route::get('logout','AuthenticateController@logout');
 

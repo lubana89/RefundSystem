@@ -1,9 +1,14 @@
 <?php namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Input;
 use DB;
+use Session;
 class FileController extends Controller {
     public function uploadImage($id) {
+        if(Session::has('CaseId')){
+            $id=Session::get('CaseId');
+        }
         if($id !=-1){
+
                 $image = Input::file('file');
                 $destinationPath = storage_path() . '\uploads';
                 $imageName=time().'.'.$image->getClientOriginalExtension();
@@ -22,6 +27,7 @@ class FileController extends Controller {
             return $this->errors(['message' => 'Error saving the file.', 'code' => 400]);
         }
     }
+
     public function GetAllImages($id){
        $data= DB::table('caseImages')
             ->where('RefundCase_Id', '=', $id)

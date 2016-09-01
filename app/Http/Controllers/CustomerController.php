@@ -7,6 +7,8 @@ use App\Http\Requests;
 use Session;
 use Exception;
 use DB;
+use Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
 class CustomerController extends Controller
 {
 
@@ -18,6 +20,33 @@ class CustomerController extends Controller
             $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
         return $randomString;
+    }
+    public function DecryptLink($id){
+        try{
+            $decryptLink=explode("~/",Crypt::decrypt($id)) ;
+            Session::put('CaseId', $decryptLink[1]);
+            $now =time();
+            $your_date = strtotime($decryptLink[0]);
+            $datediff = $now - $your_date;
+            $daysDiff= floor($datediff/(60*60*24));
+            $Active=DB::table('caselinks')
+                ->select('IsActive')
+                ->where('RefundCase_Id', '=',$decryptLink[1])
+                ->get();
+
+            if($daysDiff<30 && $Active[0]->IsActive==1){
+
+                return view('CustomerRefundForm');
+            }
+
+
+            else
+                return view('errors.InvalidLink');
+        }
+        catch (DecryptException  $e)
+        {
+            return view('errors.InvalidLink');
+        }
     }
     public function GetQR(){
         $trackingId=Session::get('TrackingID');

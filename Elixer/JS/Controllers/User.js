@@ -384,7 +384,7 @@ function Back($state) {
                 $http.get(configuration.path + '/File/GetAllImages/' +id + '?token=' + $auth.getToken()).success(function (data) {
                     var div = $("<div id='allimages'></div>");
                     $.each(data, function (i, el) {
-                        div.append("<a target='_blank' href="+el.Image_Path+"\\"+ el.Image_Name +" >Image</a>");
+                        div.append("<a target='_blank' href="+el.Image_Path+"\\"+ el.Image_Name +" ><img src="+el.Image_Path+"\\"+ el.Image_Name +" style='height: 60px;width: 60px;margin:10px;border:2px solid black;border-radius: 5px;' /></a>");
                     });
                     $('<div />').html(div).dialog();
                 });
@@ -668,12 +668,10 @@ function Back($state) {
                 $state.go('notification');
             };
             vm.ReGetNotificationCount();
-            NotificationInterval=setInterval(function(){  vm.ReGetNotificationCount(); }, 300000);;
-
+            NotificationInterval=setInterval(function(){  vm.ReGetNotificationCount(); }, 300000);
             vm.AllNotifications=function () {
                 $state.go('notification');
             };
-
             vm.ShowNotifications=function () {
                 vm.HideDialog();
                 if(vm.NotificationBoxToggle){
@@ -833,6 +831,18 @@ function Back($state) {
                 editBox.dialog('destroy');
                 $http.post(configuration.path+'/Warehouse/UpdateCaseData/'+id+ '?token=' + $auth.getToken(), JSON.stringify(vm.EditFormData)).success(function(data){
                     vm.refresh();
+                });
+            };
+            vm.AddImage=function (id) {
+                $state.go('upload',{ casedId:id });
+            };
+            vm.ShowImages=function (id) {
+                $http.get(configuration.path + '/File/GetAllImages/' +id + '?token=' + $auth.getToken()).success(function (data) {
+                    var div = $("<div id='allimages'></div>");
+                    $.each(data, function (i, el) {
+                        div.append("<a target='_blank' href="+el.Image_Path+"\\"+ el.Image_Name +" ><img src="+el.Image_Path+"\\"+ el.Image_Name +" style='height: 60px;width: 60px;margin:10px;border:2px solid black;border-radius: 5px;' /></a>");
+                    });
+                    $('<div />').html(div).dialog();
                 });
             };
             vm.logout = function () {

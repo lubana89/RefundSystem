@@ -10,12 +10,22 @@
     <link rel="stylesheet" href="/RefundSystem/Elixer/CSS/all.css">
     <script src="/RefundSystem/Elixer/JS/Dependencies.js"></script>
     <script src="/RefundSystem/Elixer/JS/Controllers/Customer.js"></script>
-    @include('Configuration.Configuration');
+    @include('Configuration.Configuration')
 
 </head>
 
 <body>
+
+
 <div ng-app="Customer" ng-controller="CustomerRefundCtrl">
+    <form id="imageform" role="form" ng-submit="SubmitImage()" enctype="multipart/form-data">
+       upload image:
+
+        <div  class="upload" style="margin: 1%">
+        <input   type="file" id="fileToUpload">
+        </div>
+        <button type="submit" style="margin: 1%" class="btn btn-success" ><span class="glyphicon glyphicon-upload"> Upload</span></button>
+    </form>
     <form class="form-horizontal" name="CustomerForm" novalidate role="form" style="margin-top:5%;" ng-submit="CustomerForm.$valid && SubmitForm()" >
         <input class="form-control" id="sellerId" ng-model="form.sellerNumber" type="hidden">
         <div class="form-group">

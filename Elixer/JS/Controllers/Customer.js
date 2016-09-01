@@ -3,6 +3,7 @@ app.controller('CustomerRefundCtrl', function ($scope, $http) {
     $scope.reasons = [];
     $scope.wishes = [];
     $scope.conditions = [];
+
     $http.get(configuration.path+'/wish').success(function(data){
         $.each(data, function(index) {
             $scope.wishes.push(data[index].Wish);
@@ -25,6 +26,28 @@ app.controller('CustomerRefundCtrl', function ($scope, $http) {
         $http.post(configuration.path+'/UpdateCaseData', JSON.stringify($scope.form)).success(function(data){
             window.location.href = configuration.path+'/QR';
         });
+    };
+    $scope.SubmitImage=function () {
+        var formData = new FormData();
+        formData.append('file', $('#fileToUpload')[0].files[0]);
+        $.ajax({
+            url: configuration.path + '/File/Upload/'+0,
+            type: "POST",
+            data: formData,
+            contentType: false,
+            cache: false,
+            processData:false,
+
+            success: function(data)
+            {
+                alert('image uploaded!');
+            },
+            error: function(e)
+            {
+
+            }
+        });
+
     };
 });
 //# sourceMappingURL=Customer.js.map

@@ -71,6 +71,8 @@
     <table class="table table-bordered">
         <tr>
             <th>Case Id</th>
+            <th>Add Image</th>
+            <th>Case Images</th>
             <th>RefundCaseStatus</th>
             <th>RefundCaseStatusKey</th>
             <th>Update Status</th>
@@ -79,6 +81,8 @@
         </tr>
         <tr ng-repeat="RefundCase in warehouse.CasesGrid">
             <td>{{RefundCase.RefundCase_Id}}</td>
+            <td><button class="btn btn-primary btn-xs" ng-click="warehouse.AddImage(RefundCase.RefundCase_Id)" ><span class="glyphicon glyphicon-plus"></span></button></td>
+            <td><button class="btn btn-primary btn-xs" ng-click="warehouse.ShowImages(RefundCase.RefundCase_Id)" ><span class="glyphicon glyphicon-camera"></span></button></td>
             <td>{{RefundCase.RefundCaseStatus}}</td>
             <td>{{RefundCase.RefundCaseStatusKey}}</td>
             <td><button class="btn btn-primary btn-xs" ng-click="warehouse.UpdateStatusCase(RefundCase.RefundCase_Id)" ><span class="glyphicon glyphicon-pencil"></span></button></td>
