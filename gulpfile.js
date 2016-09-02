@@ -1,5 +1,5 @@
 var elixir = require('laravel-elixir');
-
+require('laravel-elixir-js-uglify');
 /*
  |--------------------------------------------------------------------------
  | Elixir Asset Management
@@ -15,17 +15,28 @@ elixir(function(mix) {
     mix.styles([
         "./CSS/RefundSystem.css"
     ], './Elixer/CSS/all.css');
+
+
+
     mix.scripts([
         "./JS/Global.js",
-        "./JS/Controllers/app.js",
         "./JS/Controllers/AuthController.js",
         "./JS/Controllers/UserController.js",
         "./JS/Controllers/SellerRefundFormController.js",
         "./JS/Controllers/ManageUserController.js",
         "./JS/Controllers/WarehouseController.js",
         "./JS/Controllers/NotificationController.js",
-        "./JS/Controllers/UploaderController.js"
     ], './Elixer/JS/Controllers/User.js');
+    mix.uglify(
+        "./Elixer/JS/Controllers/User.js", 		// File to uglify
+        "./Elixer/JS/Controllers"				// Output path
+    );
+    mix.scripts([
+        "./JS/Controllers/app.js",
+        "./Elixer/JS/Controllers/User.js"
+    ], './Elixer/JS/Controllers/User.js');
+
+
     mix.scripts([
         "./bower_components/jquery-ui/jquery-ui.min.js",
         "./bower_components/angular/angular.min.js",
@@ -36,8 +47,18 @@ elixir(function(mix) {
     mix.scripts([
         "./JS/Controllers/CustomerController.js"
     ], './Elixer/JS/Controllers/Customer.js');
+    mix.scripts([
+        "./JS/Controllers/UploaderController.js"
+    ], './Elixer/JS/Controllers/Uploader.js');
 
-
+    mix.uglify(
+        "./Elixer/JS/Controllers/Customer.js", 		// File to uglify
+        "./Elixer/JS/Controllers"				// Output path
+    );
+    mix.uglify(
+        "./Elixer/JS/Controllers/Uploader.js", 		// File to uglify
+        "./Elixer/JS/Controllers"				// Output path
+    );
 });
 
 

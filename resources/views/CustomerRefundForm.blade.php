@@ -21,7 +21,7 @@
     <form id="imageform" role="form" ng-submit="SubmitImage()" enctype="multipart/form-data">
        upload image:
 
-        <div  class="upload" style="margin: 1%">
+        <div  class="" style="margin: 1%">
         <input   type="file" id="fileToUpload">
         </div>
         <button type="submit" style="margin: 1%" class="btn btn-success" ><span class="glyphicon glyphicon-upload"> Upload</span></button>
