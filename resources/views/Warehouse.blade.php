@@ -126,7 +126,7 @@
         <div class="form-group" >
             <label for="date" class="col-sm-2 control-label">Date</label>
             <div class="col-sm-4">
-                <input class="form-control date" id="date" type="datetime" ng-model="warehouse.EditFormData.date" >
+                <input class="form-control date"  type="text" ng-model="warehouse.EditFormData.date" >
             </div>
 
         </div>

@@ -28,8 +28,8 @@ elixir(function(mix) {
         "./JS/Controllers/NotificationController.js",
     ], './Elixer/JS/Controllers/User.js');
     mix.uglify(
-        "./Elixer/JS/Controllers/User.js", 		// File to uglify
-        "./Elixer/JS/Controllers"				// Output path
+        "./Elixer/JS/Controllers/User.js",
+        "./Elixer/JS/Controllers"
     );
     mix.scripts([
         "./JS/Controllers/app.js",
@@ -52,12 +52,12 @@ elixir(function(mix) {
     ], './Elixer/JS/Controllers/Uploader.js');
 
     mix.uglify(
-        "./Elixer/JS/Controllers/Customer.js", 		// File to uglify
-        "./Elixer/JS/Controllers"				// Output path
+        "./Elixer/JS/Controllers/Customer.js",
+        "./Elixer/JS/Controllers"
     );
     mix.uglify(
-        "./Elixer/JS/Controllers/Uploader.js", 		// File to uglify
-        "./Elixer/JS/Controllers"				// Output path
+        "./Elixer/JS/Controllers/Uploader.js",
+        "./Elixer/JS/Controllers"				
     );
 });
 

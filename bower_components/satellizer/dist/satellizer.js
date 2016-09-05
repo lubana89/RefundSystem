@@ -477,7 +477,6 @@
             options.withCredentials = options.withCredentials || this.SatellizerConfig.withCredentials;
             return this.$http(options).then(function (response) {
                 _this.SatellizerShared.setToken(response);
-
                 return response;
             });
         };

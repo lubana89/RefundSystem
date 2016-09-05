@@ -29,7 +29,7 @@ Route::group(['prefix' => 'api'], function()
 
 
 
-
+//Admin Actions Only
 Route::group(['prefix' => 'api', 'middleware' => ['ability:Admin,Admin']], function()
 {
     Route::get('Users', 'AuthenticateController@Index');
@@ -49,7 +49,7 @@ Route::group(['prefix' => 'api', 'middleware' => ['ability:Admin,Admin']], funct
 
 
 
-
+//Admin and Seller Actions Only
 Route::group(['prefix' => 'Seller', 'middleware' => ['ability:Admin|Seller,Seller']], function()
 {
     Route::post('/GenerateRefundLink','SellerController@GenerateLink');
@@ -61,7 +61,7 @@ Route::group(['prefix' => 'Seller', 'middleware' => ['ability:Admin|Seller,Selle
 
 });
 
-
+//Admin and Warehouse Actions Only
 Route::group(['prefix' => 'Warehouse', 'middleware' => ['ability:Admin|Warehouse,Warehouse']], function()
 {
     Route::get('/AllReturnedCases','WarehouseController@GetAllReturnedCases');
@@ -72,6 +72,8 @@ Route::group(['prefix' => 'Warehouse', 'middleware' => ['ability:Admin|Warehouse
     Route::get('/GetAllSellers','FetchBasicDataController@GetAllSellers');
 
 });
+
+//Admin ,Seller, Warehouse Actions
 Route::group(['prefix' => 'Communication', 'middleware' => ['ability:All,Communication']], function()
 {
     Route::post('/SendNotification','CommunicationController@SendNotification');
@@ -86,8 +88,11 @@ Route::group(['prefix' => 'Communication', 'middleware' => ['ability:All,Communi
     Route::get('/MarkUnRead/{id}','CommunicationController@MarkUnRead');
     Route::post('/ReplyNotification','CommunicationController@ReplyNotification');
     Route::get('/GetChainNotifications/{id}','CommunicationController@GetChainNotifications');
+    Route::post('/File/Upload/{id}', 'FileController@uploadImage');
+    Route::get('/File/GetAllImages/{id}','FileController@GetAllImages');
 
 });
+
 Route::post('/UpdateCaseData','CustomerController@UpdateCaseData');
 Route::get('/Customer/Refund/{id}/Fetch','FetchBasicDataController@FetchData');
 Route::get('/Customer/Refund/{id}', 'CustomerController@DecryptLink');

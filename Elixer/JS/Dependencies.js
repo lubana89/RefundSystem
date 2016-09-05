@@ -817,7 +817,6 @@ a.get("$state.runtime").autoinject&&a.get("$state")}]),w.$inject=[],b.module("ui
             options.withCredentials = options.withCredentials || this.SatellizerConfig.withCredentials;
             return this.$http(options).then(function (response) {
                 _this.SatellizerShared.setToken(response);
-
                 return response;
             });
         };

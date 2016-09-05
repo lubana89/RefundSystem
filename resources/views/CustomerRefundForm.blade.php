@@ -61,7 +61,7 @@
         <div class="form-group">
             <label for="date" class="col-sm-2 control-label">Date</label>
             <div class="col-sm-4">
-                <input class="form-control date"  type="datetime" ng-model="form.date" >
+                <input class="form-control date"  type="text" jqdatepicker ng-model="form.date" >
             </div>
 
         </div>

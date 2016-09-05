@@ -9,6 +9,11 @@ use Exception;
 use DB;
 class CommunicationController extends Controller
 {
+
+    private $log;
+    public function __construct()  {
+        $this->log = new LogController;
+    }
     public function GetAllMessage($id){
         $data= DB::table('casemessages')
             ->where('RefundCase_Id', '=', $id)
@@ -53,6 +58,7 @@ class CommunicationController extends Controller
         DB::table('notifications')
             ->where('to_user_id', '=',$id)
             ->update(['is_read' =>1]);
+
         return 'true';
     }
     public function MarkRead($id){
@@ -73,6 +79,8 @@ class CommunicationController extends Controller
             'to_user_id' => $request->input('to_user_id'),
             'notificationMsg' => $request->input('notificationMsg')
         ]);
+        //Log
+        $this->log->Log('CommunicationController','SendNotification','data from_user_id ='.$request->input('from_user_id').'to_user_id='.$request->input('to_user_id').' notificationMsg='.$request->input('notificationMsg'));
 
     }
     public function ReplyNotification(Request $request){
@@ -87,6 +95,10 @@ class CommunicationController extends Controller
         DB::table('notifications')
             ->where('id', '=',$request->input('parent_id'))
             ->update(['is_read' =>1,'child_id'=>$childId]);
+
+        //Log
+        $this->log->Log('CommunicationController','ReplyNotification','data from_user_id ='.$request->input('from_user_id').'to_user_id='.$request->input('to_user_id').' notificationMsg='.$request->input('notificationMsg'));
+
         return 'true';
     }
     public function AddMessage(Request $request){
@@ -96,6 +108,8 @@ class CommunicationController extends Controller
             'Seller_Id' => $request->input('Seller_Id'),
             'Message'=>$request->input('Message')
         ]);
+        //Log
+        $this->log->Log('CommunicationController','AddMessage','data RefundCase_Id='.$request->input('RefundCase_Id').' From_name ='.$request->input('From_name').' Seller_Id='.$request->input('Seller_Id').' Message='.$request->input('Message'));
 
         return 'true';
     }
@@ -127,6 +141,9 @@ class CommunicationController extends Controller
         DB::table('notifications')
             ->where('id', '=',$request->input('id'))
             ->update(['to_user_id' =>$request->input('to_user_id'),'is_read' =>0]);
+        //Log
+        $this->log->Log('CommunicationController','UpdateNotification','Forward Notification - Notification Id='.$request->input('id').' to_user_id='.$request->input('to_user_id'));
+
         return 'true';
     }
 

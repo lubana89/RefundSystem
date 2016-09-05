@@ -12,6 +12,7 @@ use Illuminate\Contracts\Encryption\DecryptException;
 class CustomerController extends Controller
 {
 
+    //To generate random strings
     private  function generateRandomString($length = 16) {
         $characters = '0123456789';
         $charactersLength = strlen($characters);
@@ -21,6 +22,8 @@ class CustomerController extends Controller
         }
         return $randomString;
     }
+
+    //Decrypt the encrypted link
     public function DecryptLink($id){
         try{
             $decryptLink=explode("~/",Crypt::decrypt($id)) ;
@@ -29,17 +32,12 @@ class CustomerController extends Controller
             $your_date = strtotime($decryptLink[0]);
             $datediff = $now - $your_date;
             $daysDiff= floor($datediff/(60*60*24));
-            $Active=DB::table('caselinks')
-                ->select('IsActive')
-                ->where('RefundCase_Id', '=',$decryptLink[1])
-                ->get();
-
+            $Active=DB::table('caselinks')->select('IsActive')->where('RefundCase_Id', '=',$decryptLink[1])->get();
+            //Link must not be 30 days old and must be active
             if($daysDiff<30 && $Active[0]->IsActive==1){
 
                 return view('CustomerRefundForm');
             }
-
-
             else
                 return view('errors.InvalidLink');
         }
@@ -48,6 +46,7 @@ class CustomerController extends Controller
             return view('errors.InvalidLink');
         }
     }
+    //Generate Qr Code and link for tracking status
     public function GetQR(){
         $trackingId=Session::get('TrackingID');
         Session::forget('TrackingID');
@@ -60,8 +59,11 @@ class CustomerController extends Controller
             return view('errors.InvalidLink');
         }
     }
+    //Update Case Related Data
     public function UpdateCaseData(Request $request){
         $CaseId=Session::get('CaseId');
+
+        //Generate Tracking Id
         Session::put('TrackingID', $this->generateRandomString().$CaseId);
 
         DB::table('refundcase')
@@ -69,17 +71,11 @@ class CustomerController extends Controller
             ->update(['RefundCaseDetail' => $request->getContent(),'RefundCaseStatus'=>'Label Generated','RefundCaseStatusKey'=>Session::get('TrackingID')]);
         return 'true';
     }
+    //Get Status of Item
     public function ItemStatus($Id){
     try{
             $CaseId=substr($Id, 16);
-            $Status= DB::table('refundcase')
-                ->select('RefundCaseStatus')
-                ->where([
-                    ['RefundCaseStatusKey', '=', $Id],
-                    ['RefundCase_Id', '=', $CaseId],
-                ])
-                ->get();
-
+            $Status= DB::table('refundcase')->select('RefundCaseStatus')->where([['RefundCaseStatusKey', '=', $Id],['RefundCase_Id', '=', $CaseId],])->get();
             return view('Status',['Status'=>json_encode($Status[0]->RefundCaseStatus)]);
         }catch(\Exception $e){
             return view('errors.InvalidLink');

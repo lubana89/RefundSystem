@@ -90,7 +90,7 @@
 	<div class="form-group" ng-if="user.EditFormData.IsLabelGenerated == false">
 		<label for="date" class="col-sm-2 control-label">Date</label>
 		<div class="col-sm-4">
-			<input class="form-control date"  type="datetime" ng-model="user.EditFormData.date" >
+			<input class="form-control"  jqdatepicker type="text" ng-model="user.EditFormData.date" >
 		</div>
 
 	</div>
