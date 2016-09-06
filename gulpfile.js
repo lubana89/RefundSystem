@@ -26,6 +26,8 @@ elixir(function(mix) {
         "./JS/Controllers/ManageUserController.js",
         "./JS/Controllers/WarehouseController.js",
         "./JS/Controllers/NotificationController.js",
+        "./JS/Directives/jqdatepicker.js",
+        "./JS/Directives/message.js",
     ], './Elixer/JS/Controllers/User.js');
     mix.uglify(
         "./Elixer/JS/Controllers/User.js",
@@ -57,7 +59,7 @@ elixir(function(mix) {
     );
     mix.uglify(
         "./Elixer/JS/Controllers/Uploader.js",
-        "./Elixer/JS/Controllers"				
+        "./Elixer/JS/Controllers"
     );
 });
 
