@@ -7,6 +7,8 @@
   "devDependencies": {
     "bootstrap-sass": "^3.0.0",
     "gulp": "^3.9.1",
+    "karma-firefox-launcher": "^1.0.0",
+    "karma-ie-launcher": "^1.0.0",
     "laravel-elixir": "^5.0.0",
     "laravel-elixir-js-uglify": "^1.0.1"
   }
