@@ -1,1 +1,68 @@
-var app=angular.module("Customer",[]).directive("jqdatepicker",function(){return{restrict:"A",require:"ngModel",link:function(t,n,o,e){n.datepicker({dateFormat:"DD, d  MM, yy",onSelect:function(n){t.date=n,t.$apply()}})}}});app.controller("CustomerRefundCtrl",["$scope","$http",function(t,n){t.reasons=[],t.wishes=[],t.conditions=[],n.get(configuration.path+"/wish").success(function(n){$.each(n,function(o){t.wishes.push(n[o].Wish)})}),n.get(configuration.path+"/reason").success(function(n){$.each(n,function(o){t.reasons.push(n[o].Reason)})}),n.get(configuration.path+"/itemCondition").success(function(n){$.each(n,function(o){t.conditions.push(n[o].ItemCondition)})}),n.get($(location).attr("href")+"/Fetch").success(function(n){t.form=n}),t.SubmitForm=function(){n.post(configuration.path+"/UpdateCaseData",JSON.stringify(t.form)).success(function(t){window.location.href=configuration.path+"/QR"})},t.SubmitImage=function(){var t=new FormData;t.append("file",$("#fileToUpload")[0].files[0]),$.ajax({url:configuration.path+"/File/Upload/0",type:"POST",data:t,contentType:!1,cache:!1,processData:!1,success:function(t){alert("image uploaded!")},error:function(t){}})}}]);
+var app = angular.module('Customer', []).directive('jqdatepicker', function () {
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function (scope, element, attrs, ngModelCtrl) {
+            element.datepicker({
+                dateFormat: 'DD, d  MM, yy',
+                onSelect: function (date) {
+                    scope.date = date;
+                    scope.$apply();
+                }
+            });
+        }
+    };
+});
+app.controller('CustomerRefundCtrl', ['$scope', '$http', function ($scope, $http) {
+    $scope.reasons = [];
+    $scope.wishes = [];
+    $scope.conditions = [];
+
+    $http.get(configuration.path + '/wish').success(function (data) {
+        $.each(data, function (index) {
+            $scope.wishes.push(data[index].Wish);
+        });
+    });
+    $http.get(configuration.path + '/reason').success(function (data) {
+        $.each(data, function (index) {
+            $scope.reasons.push(data[index].Reason);
+        });
+    });
+    $http.get(configuration.path + '/itemCondition').success(function (data) {
+        $.each(data, function (index) {
+            $scope.conditions.push(data[index].ItemCondition);
+        });
+    });
+    $http.get($(location).attr('href') + '/Fetch').success(function (data) {
+        $scope.form = data;
+    });
+    // on form submit generate qr code
+    $scope.SubmitForm = function () {
+        $http.post(configuration.path + '/UpdateCaseData', JSON.stringify($scope.form)).success(function (data) {
+            window.location.href = configuration.path + '/QR';
+        });
+    };
+
+    // upload image related to case
+    $scope.SubmitImage = function () {
+        var formData = new FormData();
+        formData.append('file', $('#fileToUpload')[0].files[0]);
+        $.ajax({
+            url: configuration.path + '/File/Upload/' + 0,
+            type: "POST",
+            data: formData,
+            contentType: false,
+            cache: false,
+            processData: false,
+
+            success: function (data) {
+                alert('image uploaded!');
+            },
+            error: function (e) {
+
+            }
+        });
+
+    };
+}]);
+//# sourceMappingURL=Customer.js.map

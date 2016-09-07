@@ -106,4 +106,3 @@ Route::get('logout','AuthenticateController@logout');
 
 /*image upload*/
 Route::post('/File/Upload/{id}', 'FileController@uploadImage');
-Route::get('/File/GetAllImages/{id}','FileController@GetAllImages');

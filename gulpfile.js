@@ -11,33 +11,29 @@ require('laravel-elixir-js-uglify');
  |
  */
 
-elixir(function(mix) {
+elixir(function (mix) {
     mix.styles([
         "./CSS/RefundSystem.css"
     ], './Elixer/CSS/all.css');
 
 
-
     mix.scripts([
         "./JS/Global.js",
+        "./JS/Controllers/app.js",
         "./JS/Controllers/AuthController.js",
+        "./JS/Directives/jqdatepicker.js",
+        "./JS/Directives/message.js",
         "./JS/Controllers/UserController.js",
         "./JS/Controllers/SellerRefundFormController.js",
         "./JS/Controllers/ManageUserController.js",
         "./JS/Controllers/WarehouseController.js",
         "./JS/Controllers/NotificationController.js",
-        "./JS/Directives/jqdatepicker.js",
-        "./JS/Directives/message.js",
-    ], './Elixer/JS/Controllers/User.js');
-    mix.uglify(
-        "./Elixer/JS/Controllers/User.js",
-        "./Elixer/JS/Controllers"
-    );
-    mix.scripts([
-        "./JS/Controllers/app.js",
-        "./Elixer/JS/Controllers/User.js"
-    ], './Elixer/JS/Controllers/User.js');
+        "./JS/Factories/API.js",
+        "./JS/Factories/Communication.js",
+        "./JS/Factories/Seller.js",
+        "./JS/Factories/Warehouse.js",
 
+    ], './Elixer/JS/Controllers/User.js');
 
     mix.scripts([
         "./bower_components/jquery-ui/jquery-ui.min.js",
@@ -52,7 +48,10 @@ elixir(function(mix) {
     mix.scripts([
         "./JS/Controllers/UploaderController.js"
     ], './Elixer/JS/Controllers/Uploader.js');
-
+    mix.uglify(
+        "./Elixer/JS/Controllers/User.js",
+        "./Elixer/JS/Controllers"
+    );
     mix.uglify(
         "./Elixer/JS/Controllers/Customer.js",
         "./Elixer/JS/Controllers"

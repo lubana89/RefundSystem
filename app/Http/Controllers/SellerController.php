@@ -42,7 +42,8 @@ class SellerController extends Controller {
 
         DB::table('refundcase')->where('RefundCase_Id', '=', $id)->delete();
         DB::table('caselinks')->where('RefundCase_Id', '=', $id)->delete();
-
+        DB::table('caseimages')->where('RefundCase_Id', '=', $id)->delete();
+        DB::table('casemessages')->where('RefundCase_Id', '=', $id)->delete();
         //Log
         $this->log->Log('SellerController','DeleteCase','Case Deleted, id='.$id);
     }
