@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 02. Sep 2016 um 04:59
+-- Erstellungszeit: 08. Sep 2016 um 04:38
 -- Server-Version: 5.7.11
 -- PHP-Version: 5.6.19
 
@@ -81,6 +81,21 @@ INSERT INTO `itemcondition` (`ItemCondition_Id`, `ItemCondition`) VALUES
 (1, 'condition1'),
 (2, 'condition2'),
 (3, 'condition3');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `log`
+--
+
+CREATE TABLE `log` (
+  `Id` int(11) NOT NULL,
+  `User_Id` int(11) DEFAULT NULL,
+  `Controller` text,
+  `Action` text NOT NULL,
+  `Content` text,
+  `DateTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -248,9 +263,7 @@ CREATE TABLE `role_user` (
 --
 
 INSERT INTO `role_user` (`user_id`, `role_id`) VALUES
-(1, 1),
-(2, 2),
-(3, 3);
+(1, 1);
 
 -- --------------------------------------------------------
 
@@ -273,9 +286,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(3, 'warehouse', 'warehouse@gmail.de', '$2y$10$qP8XZBOaQehT5MUpNRtVg.tJ8.3jgeB7U5kF1TiOJYVCToy.Sy2y6', NULL, '2016-08-23 20:48:14', '2016-08-29 23:01:01'),
-(1, 'admin', 'admin@gmail.de', '$2y$10$ipUklkkJYIXi91Q1PJ2x/e/QW7/7cxFbacJiPKW41hNBcalpYaVGy', NULL, NULL, NULL),
-(2, 'seller', 'seller@gmail.de', '$2y$10$yUvve2mjEwseMqwZ9dmX1Oo1WXtW6XoEl99OsgngMN2ituBxQGHeG', NULL, '2016-08-23 20:04:07', '2016-08-29 23:01:56');
+(1, 'SuperUser', 'super@admin.com', '$2y$10$zcRVbexuU3TjOFKHWbhpY.tWubto.akIMu2NSxdWrgmCi4VmfjWWW', NULL, NULL, '2016-09-07 18:44:12');
 
 -- --------------------------------------------------------
 
@@ -328,6 +339,13 @@ ALTER TABLE `casemessages`
 --
 ALTER TABLE `itemcondition`
   ADD PRIMARY KEY (`ItemCondition_Id`);
+
+--
+-- Indizes für die Tabelle `log`
+--
+ALTER TABLE `log`
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `User_Id` (`User_Id`);
 
 --
 -- Indizes für die Tabelle `notifications`
@@ -404,22 +422,27 @@ ALTER TABLE `wish`
 -- AUTO_INCREMENT für Tabelle `caseimages`
 --
 ALTER TABLE `caseimages`
-  MODIFY `Image_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `Image_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 --
 -- AUTO_INCREMENT für Tabelle `casemessages`
 --
 ALTER TABLE `casemessages`
-  MODIFY `CaseMessage_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `CaseMessage_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT für Tabelle `itemcondition`
 --
 ALTER TABLE `itemcondition`
   MODIFY `ItemCondition_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
+-- AUTO_INCREMENT für Tabelle `log`
+--
+ALTER TABLE `log`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+--
 -- AUTO_INCREMENT für Tabelle `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 --
 -- AUTO_INCREMENT für Tabelle `permissions`
 --
@@ -434,7 +457,7 @@ ALTER TABLE `reason`
 -- AUTO_INCREMENT für Tabelle `refundcase`
 --
 ALTER TABLE `refundcase`
-  MODIFY `RefundCase_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+  MODIFY `RefundCase_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
 --
 -- AUTO_INCREMENT für Tabelle `roles`
 --
@@ -444,7 +467,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT für Tabelle `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 --
 -- AUTO_INCREMENT für Tabelle `wish`
 --
