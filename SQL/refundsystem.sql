@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 08. Sep 2016 um 04:38
+-- Erstellungszeit: 15. Sep 2016 um 09:03
 -- Server-Version: 5.7.11
 -- PHP-Version: 5.6.19
 
@@ -437,7 +437,7 @@ ALTER TABLE `itemcondition`
 -- AUTO_INCREMENT für Tabelle `log`
 --
 ALTER TABLE `log`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 --
 -- AUTO_INCREMENT für Tabelle `notifications`
 --
