@@ -55,13 +55,16 @@ class WarehouseController extends Controller
     // update case
     public function UpdateCase(Request $request, $id)
     {
-
-        DB::table('refundcase')
-            ->where('RefundCase_Id', '=', $id)
-            ->update(['RefundCaseDetail' => $request->getContent()]);
-        //Log
-        $this->log->Log('WarehouseController', 'UpdateCase', 'Updated Case Id=' . $id . ' Updated Data=' . $request->getContent());
-        return 'true';
+        if (!$request->input('test')) {
+            DB::table('refundcase')
+                ->where('RefundCase_Id', '=', $id)
+                ->update(['RefundCaseDetail' => $request->getContent()]);
+            //Log
+            $this->log->Log('WarehouseController', 'UpdateCase', 'Updated Case Id=' . $id . ' Updated Data=' . $request->getContent());
+            return 'true';
+        } else {
+            return response()->json('UP');
+        }
     }
 
 

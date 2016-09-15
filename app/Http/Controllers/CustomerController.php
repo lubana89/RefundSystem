@@ -66,15 +66,19 @@ class CustomerController extends Controller
     //Update Case Related Data
     public function UpdateCaseData(Request $request)
     {
-        $CaseId = Session::get('CaseId');
+        if (!$request->input('test')) {
+            $CaseId = Session::get('CaseId');
 
-        //Generate Tracking Id
-        Session::put('TrackingID', $this->generateRandomString() . $CaseId);
+            //Generate Tracking Id
+            Session::put('TrackingID', $this->generateRandomString() . $CaseId);
 
-        DB::table('refundcase')
-            ->where('RefundCase_Id', '=', $CaseId)
-            ->update(['RefundCaseDetail' => $request->getContent(), 'RefundCaseStatus' => 'Label Generated', 'RefundCaseStatusKey' => Session::get('TrackingID')]);
-        return 'true';
+            DB::table('refundcase')
+                ->where('RefundCase_Id', '=', $CaseId)
+                ->update(['RefundCaseDetail' => $request->getContent(), 'RefundCaseStatus' => 'Label Generated', 'RefundCaseStatusKey' => Session::get('TrackingID')]);
+            return 'true';
+        } else {
+            return response()->json('UP');
+        }
     }
 
     //Get Status of Item

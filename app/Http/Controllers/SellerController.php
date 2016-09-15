@@ -25,19 +25,34 @@ class SellerController extends Controller
     //Generate Link For the Customer Refund
     public function GenerateLink(Request $request)
     {
-        $timeStamp = date("Y/m/d");
-        $id = DB::table('refundcase')->insertGetId(
-            ['Seller_Id' => $request->sellerNumber, 'RefundCaseDetail' => $request->getContent(), 'RefundCaseStatus' => 'Link Generated', 'RefundCaseStatusKey' => '']
-        );
-        $refundLink = Crypt::encrypt($timeStamp . '~/' . $id);
-        DB::table('caselinks')->insert(
-            ['Seller_Id' => $request->sellerNumber, 'RefundCase_Id' => $id, 'Generation_Time' => $timeStamp, 'CaseLink' => $refundLink]
-        );
-        //Log
-        $this->log->Log('SellerController', 'GenerateLink', $request->getContent());
-        return config('app.url') . '/Customer/Refund/' . $refundLink;
+        if (!$request->input('test')) {
+            $timeStamp = date("Y/m/d");
+            $id = DB::table('refundcase')->insertGetId(
+                ['Seller_Id' => $request->sellerNumber, 'RefundCaseDetail' => $request->getContent(), 'RefundCaseStatus' => 'Link Generated', 'RefundCaseStatusKey' => '']
+            );
+            $refundLink = Crypt::encrypt($timeStamp . '~/' . $id);
+            DB::table('caselinks')->insert(
+                ['Seller_Id' => $request->sellerNumber, 'RefundCase_Id' => $id, 'Generation_Time' => $timeStamp, 'CaseLink' => $refundLink]
+            );
+            //Log
+            $this->log->Log('SellerController', 'GenerateLink', $request->getContent());
+            return config('app.url') . '/Customer/Refund/' . $refundLink;
+        } else {
+            return response()->json('UP');
+        }
     }
-
+    //Update Case Data
+    public function UpdateCase(Request $request, $id)
+    {
+        if (!$request->input('test')) {
+            DB::table('refundcase')->where('RefundCase_Id', '=', $id)->update(['RefundCaseDetail' => $request->getContent()]);
+            //Log
+            $this->log->Log('SellerController', 'UpdateCase', 'Case Updated, id=' . $id . ' Updated Data=' . $request->getContent());
+            return 'true';
+        } else {
+            return response()->json('UP');
+        }
+    }
     //Fetch All cases belongs to seller
     public function GetSellerAllCases($Id)
     {
@@ -57,15 +72,7 @@ class SellerController extends Controller
         $this->log->Log('SellerController', 'DeleteCase', 'Case Deleted, id=' . $id);
     }
 
-    //Update Case Data
-    public function UpdateCase(Request $request, $id)
-    {
 
-        DB::table('refundcase')->where('RefundCase_Id', '=', $id)->update(['RefundCaseDetail' => $request->getContent()]);
-        //Log
-        $this->log->Log('SellerController', 'UpdateCase', 'Case Updated, id=' . $id . ' Updated Data=' . $request->getContent());
-        return 'true';
-    }
 
     //Get Case Link with case id
     public function GetCaseLink($id)

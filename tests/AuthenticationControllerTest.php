@@ -1,19 +1,9 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-
 class AuthenticationControllerTest extends TestCase
 {
 
 
-    /**
-     * A basic functional test example.
-     *
-     * @return void
-     *
-     */
     private function getToken($me)
     {
         $me->action('POST', 'AuthenticateController@authenticate', ['email' => 'super@admin.com', 'password' => 'admin']);

@@ -45,9 +45,9 @@ Route::group(['prefix' => 'api', 'middleware' => ['ability:Admin,Admin']], funct
 //Admin and Seller Actions Only
 Route::group(['prefix' => 'Seller', 'middleware' => ['ability:Admin|Seller,Seller']], function () {
     Route::post('GenerateRefundLink', 'SellerController@GenerateLink');
+    Route::post('UpdateCaseData/{id}', 'SellerController@UpdateCase');
     Route::get('AllCases/{id}', 'SellerController@GetSellerAllCases');
     Route::get('DeleteCase/{id}', 'SellerController@DeleteCase');
-    Route::post('UpdateCaseData/{id}', 'SellerController@UpdateCase');
     Route::get('GetLink/{id}', 'SellerController@GetCaseLink');
     Route::get('GetAllAdmins', 'FetchBasicDataController@GetAllAdmins');
 
@@ -56,8 +56,8 @@ Route::group(['prefix' => 'Seller', 'middleware' => ['ability:Admin|Seller,Selle
 //Admin and Warehouse Actions Only
 Route::group(['prefix' => 'Warehouse', 'middleware' => ['ability:Admin|Warehouse,Warehouse']], function () {
     Route::get('AllReturnedCases', 'WarehouseController@GetAllReturnedCases');
-    Route::post('UpdateCaseStatus', 'WarehouseController@UpdateCaseStatus');
     Route::get('ReturnedCase/{id}', 'WarehouseController@GetReturnedCase');
+    Route::post('UpdateCaseStatus', 'WarehouseController@UpdateCaseStatus');
     Route::post('UpdateCaseData/{id}', 'WarehouseController@UpdateCase');
 
     Route::get('GetAllSellers', 'FetchBasicDataController@GetAllSellers');
@@ -66,6 +66,7 @@ Route::group(['prefix' => 'Warehouse', 'middleware' => ['ability:Admin|Warehouse
 
 //Admin ,Seller, Warehouse Actions
 Route::group(['prefix' => 'Communication', 'middleware' => ['ability:All,Communication']], function () {
+
     Route::get('GetChainNotifications/{id}', 'CommunicationController@GetChainNotifications');
     Route::get('GetAllMessage/{id}', 'CommunicationController@GetAllMessage');
     Route::get('GetNotificationCount/{id}', 'CommunicationController@GetNotificationCount');
@@ -78,8 +79,10 @@ Route::group(['prefix' => 'Communication', 'middleware' => ['ability:All,Communi
     Route::post('SendNotification', 'CommunicationController@SendNotification');
     Route::post('AddMessage', 'CommunicationController@AddMessage');
     Route::post('ReplyNotification', 'CommunicationController@ReplyNotification');
-    Route::post('File/Upload/{id}', 'FileController@uploadImage');
+    //File Controller Handle following calls
     Route::get('File/GetAllImages/{id}', 'FileController@GetAllImages');
+    Route::post('File/Upload/{id}', 'FileController@uploadImage');
+
 
 });
 

@@ -16,6 +16,7 @@ class FileController extends Controller
     //Upload Case Images
     public function uploadImage($id)
     {
+        if (!$id=='test') {
         if (Session::has('CaseId')) {
             $id = Session::get('CaseId');
         }
@@ -33,6 +34,9 @@ class FileController extends Controller
             return response()->json(['success' => true], 200);
         } else {
             return $this->errors(['message' => 'Error saving the file.', 'code' => 400]);
+        }
+        } else {
+            return response()->json('UP');
         }
     }
 
