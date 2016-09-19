@@ -62,7 +62,20 @@ class CustomerController extends Controller
             return view('errors.InvalidLink');
         }
     }
-
+    //Generate bar Code and link for tracking status
+    public function GetBarCode()
+    {
+        $trackingId = Session::get('TrackingID');
+        Session::forget('TrackingID');
+        $CasedId = Session::get('CaseId');
+        Session::forget('CaseId');
+        if ($CasedId != null) {
+            DB::table('caselinks')->where('RefundCase_Id', '=', $CasedId)->update(['IsActive' => 0]);//change to 0 for 1 time link
+            return view('BarCode', ['Data' => $CasedId, 'TrackingID' => config('app.url') . '/Status/' . $trackingId]);
+        } else {
+            return view('errors.InvalidLink');
+        }
+    }
     //Update Case Related Data
     public function UpdateCaseData(Request $request)
     {

@@ -92,6 +92,8 @@ Route::get('Customer/Refund/{id}', 'CustomerController@DecryptLink');
 Route::get('wish', 'FetchBasicDataController@GetWishes');
 Route::get('reason', 'FetchBasicDataController@GetReasons');
 Route::get('itemCondition', 'FetchBasicDataController@GetConditions');
+
+Route::get('BarCode','CustomerController@GetBarCode');
 Route::get('QR', 'CustomerController@GetQR');
 
 Route::get('Status/{id}', 'CustomerController@ItemStatus');

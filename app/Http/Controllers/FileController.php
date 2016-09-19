@@ -16,7 +16,7 @@ class FileController extends Controller
     //Upload Case Images
     public function uploadImage($id)
     {
-        if (!$id=='test') {
+        if ($id != 'test') {
         if (Session::has('CaseId')) {
             $id = Session::get('CaseId');
         }
