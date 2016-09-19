@@ -16,11 +16,17 @@ class CustomerControllerTest extends TestCase
         $this->call('GET', '/QR');
         $this->assertResponseOk();
     }
+    public function testBarCode()
+    {
+        $this->call('GET', '/BarCode');
+        $this->assertResponseOk();
+    }
     public function testCustomerRefund()
     {
         $this->call('GET', 'Customer/Refund/-1');
         $this->assertResponseOk();
     }
+
     public function testUpdateCaseData()
     {
         $postData = ['test' => true];
