@@ -16,10 +16,20 @@ class SellerController extends Controller
 {
 
     private $log;
-
+    private $mailHandler;
+    private $htmlGeneratedLinkMessage='Dear Seller,
+                                       <br/>
+                                       We have sent you a Refund-Link via E-mail,
+                                       <br/><br/>
+                                       Please Forward it to your <mark><b>CUSTOMER</b></mark> for Refund Code Generation.
+                                       <br/><br/>
+                                       Regards
+                                       <br/>
+                                       Team OUBO';
     public function __construct()
     {
         $this->log = new LogController;
+        $this->mailHandler = new MailController;
     }
 
     //Generate Link For the Customer Refund
@@ -36,7 +46,9 @@ class SellerController extends Controller
             );
             //Log
             $this->log->Log('SellerController', 'GenerateLink', $request->getContent());
-            return config('app.url') . '/Customer/Refund/' . $refundLink;
+
+            $this->mailHandler->Email('Refund Link',config('app.url') . '/Customer/Refund/' . $refundLink);
+            return $this->htmlGeneratedLinkMessage;
         } else {
             return response()->json('UP');
         }

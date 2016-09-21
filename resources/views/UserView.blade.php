@@ -31,8 +31,8 @@
 			<th>Case Message</th>
 			<th>Edit</th>
 			<th>Delete</th>
-			<th>Links</th>
-
+			<th>Link</th>
+			<th>Email-ME-Link</th>
 		</tr>
 		<tr ng-repeat="RefundCase in user.CasesGrid">
 
@@ -51,7 +51,7 @@
 			<td><button class="btn btn-primary btn-xs" ng-click="user.EditCase(RefundCase)" ><span class="glyphicon glyphicon-pencil"></span></button></td>
 			<td ng-if="RefundCase.IsLabelGenerated == false"><button class="btn btn-danger btn-xs" ng-click="user.DeleteCase(RefundCase.Id)" ><span class="glyphicon glyphicon-trash"></span></button></td>
 			<td ng-if="RefundCase.IsLabelGenerated == false"><button class="btn btn-danger btn-xs" ng-click="user.GetLink(RefundCase.Id)" ><span class="glyphicon glyphicon-link"></span></button></td>
-
+			<td ng-if="RefundCase.IsLabelGenerated == false"><button class="btn btn-danger btn-xs" ng-click="user.MailLink(RefundCase.Id)" ><span class="glyphicon glyphicon-envelope"></span></button></td>
 		</tr>
 	</table>
 </div>

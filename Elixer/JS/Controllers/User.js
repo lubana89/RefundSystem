@@ -375,7 +375,7 @@ var user, NotificationInterval;
             vm.GetLink = function (id) {
                 SellerSVC.GetLink(id).success(function (data) {
                     $('<div />').html(data).dialog({
-                        title: 'Copy & Send To Customer', width: $(window).width() - 20,
+                        title: 'Case Link', width: $(window).width() - 20,
                         height: 200
                     });
                 });
@@ -497,11 +497,8 @@ var user, NotificationInterval;
                 $scope.SubmitForm = function () {
                     if ($scope.form.sellerNumber != "") {
                         SellerSVC.GenerateRefundLink($scope.form).success(function (data) {
-                            // link for customer to generate QR
-                            $('<div />').html(data).dialog({
-                                title: 'Copy & Send To Customer', width: $(window).width() - 20,
-                                height: 200
-                            });
+                            // link for customer to generate QR/Bar Code
+                            $('<div />').html(data).dialog({title: 'Message', width: 400,height: 350,close: $scope.Back});
                         });
                     }
                 };

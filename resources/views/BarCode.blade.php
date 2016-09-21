@@ -12,26 +12,6 @@
     JsBarcode("#barcode", data,{displayValue:false});
 </script>
 <script>
-    function svg_to_pdf(svg, callback) {
-        svgAsDataUri(svg, {}, function(svg_uri) {
-            var image = document.createElement('img');
-
-            image.src = svg_uri;
-            image.onload = function() {
-                var canvas = document.createElement('canvas');
-                var context = canvas.getContext('2d');
-
-                var dataUrl;
-                canvas.width = image.width;
-                canvas.height = image.height;
-                context.drawImage(image, 0, 0, image.width, image.height);
-                dataUrl = canvas.toDataURL('image/jpeg');
-                doc.addImage(dataUrl, 'JPEG', 0, 0, image.width, image.height);
-
-                callback(doc);
-            }
-        });
-    }
     function download_pdf(name, dataUriString) {
         var link = document.createElement('a');
         link.addEventListener('click', function(ev) {
@@ -45,7 +25,7 @@
     document.querySelector("button").addEventListener("click", function () {
         var image=document.querySelector("img");
         var doc = new jsPDF('portrait', 'pt');
-        doc.addImage(image.src, 'JPEG', 100, 200, image.width, image.height);
+        doc.addImage(image.src, 'JPEG', 150, 100, image.width, image.height);
         var trackingID={!! json_encode($TrackingID) !!}
         doc.setFont("helvetica");
         doc.setFontType("bold");

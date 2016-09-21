@@ -101,3 +101,4 @@ Route::get('logout', 'AuthenticateController@logout');
 
 /*image upload*/
 Route::post('File/Upload/{id}', 'FileController@uploadImage');
+
