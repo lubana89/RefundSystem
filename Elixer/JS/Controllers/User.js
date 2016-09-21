@@ -380,6 +380,12 @@ var user, NotificationInterval;
                     });
                 });
             };
+            // Mail Link
+            vm.MailLink=function (id) {
+                SellerSVC.MailLink(id).success(function (data) {
+                    $('<div />').html(data).dialog({title: 'Message', width: 400,height: 350});
+                });
+            };
             // delete case
             vm.DeleteCase = function (id) {
                 SellerSVC.DeleteCase(id).success(function (data) {
@@ -1129,6 +1135,9 @@ var user, NotificationInterval;
             };
             factory.GetAllAdmins = function () {
                 return $http.get(configuration.path + '/Seller/GetAllAdmins' + '?token=' + $auth.getToken());
+            };
+            factory.MailLink=function (id) {
+                return $http.get(configuration.path + '/Seller/MailLink/' + id + '?token=' + $auth.getToken());
             };
             return factory;
         }]);

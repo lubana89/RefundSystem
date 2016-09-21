@@ -49,6 +49,7 @@ Route::group(['prefix' => 'Seller', 'middleware' => ['ability:Admin|Seller,Selle
     Route::get('AllCases/{id}', 'SellerController@GetSellerAllCases');
     Route::get('DeleteCase/{id}', 'SellerController@DeleteCase');
     Route::get('GetLink/{id}', 'SellerController@GetCaseLink');
+    Route::get('MailLink/{id}', 'SellerController@GetMailLink');
     Route::get('GetAllAdmins', 'FetchBasicDataController@GetAllAdmins');
 
 });

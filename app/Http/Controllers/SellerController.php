@@ -92,5 +92,9 @@ class SellerController extends Controller
         $refundLink = DB::table('caselinks')->select('CaseLink')->where('RefundCase_Id', '=', $id)->get();
         return config('app.url') . '/Customer/Refund/' . $refundLink[0]->CaseLink;
     }
-
+    public function GetMailLink($id){
+        $refundLink = DB::table('caselinks')->select('CaseLink')->where('RefundCase_Id', '=', $id)->get();
+        $this->mailHandler->Email('Refund Link',config('app.url') . '/Customer/Refund/' . $refundLink[0]->CaseLink);
+        return $this->htmlGeneratedLinkMessage;
+    }
 }
