@@ -27,7 +27,10 @@ class SellerControllerTest extends TestCase
         $this->call('GET', '/Seller/GetLink/-1?token=' . $this->getToken($this));
         $this->assertResponseStatus(500);
     }
-
+    public function testGetMailLink(){
+        $this->call('GET', '/Seller/GetMailLink/-1?token=' . $this->getToken($this));
+        $this->assertResponseStatus(404);
+    }
     public function testGetAllAdmins()
     {
         $this->call('GET', '/Seller/GetAllAdmins?token=' . $this->getToken($this));
