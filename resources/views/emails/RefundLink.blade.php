@@ -16,7 +16,7 @@
 Dear {!! $name !!},
 <br/>
 <br/>
-Following is the Refund Link for the Item You have Requested.
+Following is the <b>Refund Link</b> for the Item you have requested.
 <br/>
 <br/>
 <a class="btn" href={!! $link !!} target="_blank">Refund Item Link</a>
