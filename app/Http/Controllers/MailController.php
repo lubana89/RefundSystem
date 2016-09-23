@@ -14,12 +14,14 @@ class MailController extends Controller
 
     public function Email($Subject, $Body)
     {
-        if($Subject=='Refund Link'){
-        Mail::send('emails.RefundLink', array('link' => $Body, 'name' => Auth::user()->name), function ($message) use ($Subject) {
-            $message->to(Auth::user()->email, Auth::user()->name)->subject
-            ($Subject);
-            $message->from('no-reply@oubo.de', 'OUBO');
-        });
+        if ($Subject == 'Refund Link') {
+
+                Mail::send('emails.RefundLink', array('link' => $Body, 'name' => Auth::user()->name), function ($message) use ($Subject) {
+                    $message->to(Auth::user()->email, Auth::user()->name)->subject
+                    ($Subject);
+                    $message->from('no-reply@oubo.de', 'OUBO');
+                });
+
         }
         return;
     }

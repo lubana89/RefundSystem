@@ -19,7 +19,6 @@ elixir(function (mix) {
 
     mix.scripts([
         "./JS/Global.js",
-        "./JS/Controllers/app.js",
         "./JS/Controllers/AuthController.js",
         "./JS/Directives/jqdatepicker.js",
         "./JS/Directives/message.js",
@@ -45,6 +44,7 @@ elixir(function (mix) {
     mix.scripts([
         "./JS/Controllers/CustomerController.js"
     ], './Elixer/JS/Controllers/Customer.js');
+    mix.scripts(["./JS/Controllers/app.js",],'./Elixer/JS/Controllers/app.js');
     mix.scripts([
         "./JS/Controllers/UploaderController.js"
     ], './Elixer/JS/Controllers/Uploader.js');

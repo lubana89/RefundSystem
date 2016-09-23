@@ -11,13 +11,12 @@ use JWTAuth;
 use App\Http\Controllers\LogController;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Contracts\Encryption\DecryptException;
-
 class SellerController extends Controller
 {
 
     private $log;
     private $mailHandler;
-    private $htmlGeneratedLinkMessage='Dear Seller,
+    private $htmlGeneratedLinkMessage = 'Dear Seller,
                                        <br/>
                                        We have sent you a Refund-Link via E-mail,
                                        <br/><br/>
@@ -26,6 +25,7 @@ class SellerController extends Controller
                                        Regards
                                        <br/>
                                        Team OUBO';
+
     public function __construct()
     {
         $this->log = new LogController;
@@ -47,12 +47,14 @@ class SellerController extends Controller
             //Log
             $this->log->Log('SellerController', 'GenerateLink', $request->getContent());
 
-            $this->mailHandler->Email('Refund Link',config('app.url') . '/Customer/Refund/' . $refundLink);
-            return $this->htmlGeneratedLinkMessage;
+                $this->mailHandler->Email('Refund Link', config('app.url') . '/Customer/Refund/' . $refundLink);
+                return $this->htmlGeneratedLinkMessage;
+
         } else {
             return response()->json('UP');
         }
     }
+
     //Update Case Data
     public function UpdateCase(Request $request, $id)
     {
@@ -65,6 +67,7 @@ class SellerController extends Controller
             return response()->json('UP');
         }
     }
+
     //Fetch All cases belongs to seller
     public function GetSellerAllCases($Id)
     {
@@ -85,16 +88,17 @@ class SellerController extends Controller
     }
 
 
-
     //Get Case Link with case id
     public function GetCaseLink($id)
     {
         $refundLink = DB::table('caselinks')->select('CaseLink')->where('RefundCase_Id', '=', $id)->get();
         return config('app.url') . '/Customer/Refund/' . $refundLink[0]->CaseLink;
     }
-    public function GetMailLink($id){
+
+    public function GetMailLink($id)
+    {
         $refundLink = DB::table('caselinks')->select('CaseLink')->where('RefundCase_Id', '=', $id)->get();
-        $this->mailHandler->Email('Refund Link',config('app.url') . '/Customer/Refund/' . $refundLink[0]->CaseLink);
+        $this->mailHandler->Email('Refund Link', config('app.url') . '/Customer/Refund/' . $refundLink[0]->CaseLink);
         return $this->htmlGeneratedLinkMessage;
     }
 }
