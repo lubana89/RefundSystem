@@ -1,7 +1,7 @@
+<div data-ng-include="getGlobals('configuration_MenuPath')"></div>
 <div ng-controller="SellerRefundFormCtrl">
     <div class="btn-group" style="margin:2%">
         <button class="btn btn-success" ng-click="Back()"><span class="glyphicon glyphicon-arrow-left"> Back </span></button>
-        <button class="btn btn-danger" ng-click="logout()"><span class="glyphicon glyphicon-log-out"> Sign Out</span></button>
     </div>
     <form class="form-horizontal" name="SellerForm" novalidate role="form" style="margin-top:5%;" ng-submit="SellerForm.$valid && SubmitForm()" >
 

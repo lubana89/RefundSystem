@@ -1,4 +1,4 @@
-
+<div data-ng-include="getGlobals('configuration_MenuPath')"></div>
 <div ng-controller="UploaderCntrl" nv-file-drop="" uploader="uploader" filters="queueLimit, customFilter">
     <div style="margin:2%">
         <button class="btn btn-success" ng-click="Back();"><span class="glyphicon glyphicon-arrow-left"> Back </span></button>

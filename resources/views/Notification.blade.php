@@ -1,7 +1,7 @@
+<div data-ng-include="getGlobals('configuration_MenuPath')"></div>
 <div style="margin:2%">
     <button class="btn btn-success" ng-click="notification.Back()"><span class="glyphicon glyphicon-arrow-left"> Back </span></button>
     <button class="btn btn-primary" ng-click="notification.refresh()"><span class="glyphicon glyphicon-refresh"> Refresh </span></button>
-    <button class="btn btn-danger" ng-click="notification.logout()"><span class="glyphicon glyphicon-log-out"> Sign Out</span></button>
 </div>
 
 

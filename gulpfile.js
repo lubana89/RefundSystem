@@ -22,6 +22,7 @@ elixir(function (mix) {
         "./JS/Controllers/AuthController.js",
         "./JS/Directives/jqdatepicker.js",
         "./JS/Directives/message.js",
+        "./JS/Controllers/MenuController.js",
         "./JS/Controllers/UserController.js",
         "./JS/Controllers/SellerRefundFormController.js",
         "./JS/Controllers/ManageUserController.js",

@@ -1,9 +1,8 @@
-
+<div data-ng-include="getGlobals('configuration_MenuPath')"></div>
 <div style="margin:2%">
     <button class="btn btn-success" ng-click="manageuser.Back();"><span class="glyphicon glyphicon-arrow-left"> Back </span></button>
     <button class="btn btn-primary" ng-click="manageuser.refresh()"><span class="glyphicon glyphicon-refresh"> Refresh </span></button>
     <button class="btn btn-primary" ng-click="manageuser.OpenAddUserForm()"><span class="glyphicon glyphicon-plus"></span>User</button>
-    <button class="btn btn-danger" ng-click="manageuser.logout()"><span class="glyphicon glyphicon-log-out"> Sign Out</span></button>
 </div>
 <div style="margin-top:2%;margin-bottom: 2%;">
 

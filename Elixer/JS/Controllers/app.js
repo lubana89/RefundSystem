@@ -68,7 +68,10 @@
                 })
             ;
         }])
-        .run(['$rootScope', '$state', function ($rootScope, $state) {
+        .run(['$rootScope', '$state','$window', function ($rootScope, $state,$window) {
+            $rootScope.getGlobals = function(variableName){
+                return $window[variableName];
+            };
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState) {
                 $('.ui-dialog').remove();
                 user = JSON.parse(localStorage.getItem('user'));

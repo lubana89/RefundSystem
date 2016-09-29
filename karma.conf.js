@@ -18,7 +18,7 @@ module.exports = function(config) {
       "./bower_components/angular/angular.min.js",
       "./bower_components/angular-ui-router/release/angular-ui-router.min.js",
       './node_modules/angular-mocks/angular-mocks.js',
-      './ClientTests/Factories/TestRefundSystemModule.js',
+      './ClientTests/TestRefundSystemModule.js',
       './Elixer/JS/Controllers/User.js',
       './ClientTests/Factories/API.spec.js',
       './ClientTests/Factories/Communication.spec.js',
