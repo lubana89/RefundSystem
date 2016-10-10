@@ -71,7 +71,7 @@ class CustomerController extends Controller
         Session::forget('CaseId');
         if ($CasedId != null) {
             DB::table('caselinks')->where('RefundCase_Id', '=', $CasedId)->update(['IsActive' => 0]);//change to 0 for 1 time link
-            return view('BarCode', ['Data' => $CasedId, 'TrackingID' => config('app.url') . '/Status/' . $trackingId]);
+            return view('BarCode', ['Data' => $CasedId, 'TrackingID' => $trackingId]);
         } else {
             return view('errors.InvalidLink');
         }

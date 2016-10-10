@@ -171,6 +171,12 @@ var user, NotificationInterval;
                 else
                     vm.logout();
             };
+            vm.ToUserPage=function () {
+                if ($rootScope.authenticated && vm.Role != "Warehouse")
+                    $state.go('users');
+                else
+                    vm.logout();
+            };
         }
     }
 

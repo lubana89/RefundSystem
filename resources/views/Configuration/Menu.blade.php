@@ -12,6 +12,7 @@
         <nav class="drawer-nav" role="navigation">
             <ul class="drawer-menu">
                 <li class="drawer-brand">MENU</li>
+                <li><a class="drawer-menu-item" href ng-if="menu.Role!='Warehouse'" ng-click="menu.ToUserPage()">Home</a></li>
                 <li><a class="drawer-menu-item" href ng-if="menu.Role!='Warehouse'" ng-click="menu.ToSellerForm()">Fill Form</a></li>
                 <li><a class="drawer-menu-item" href ng-click="menu.AllNotifications()"> Notification Inbox</a></li>
                 <li><a class="drawer-menu-item" href  ng-if="menu.Role=='Admin'" ng-click="menu.ToUserGrid()">Manage User</a></li>

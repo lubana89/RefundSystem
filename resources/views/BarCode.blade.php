@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="/RefundSystem/bower_components/bootstrap/dist/css/bootstrap.css">
 <script src="/RefundSystem/bower_components/jspdf/dist/jspdf.min.js"></script>
 <script src="/RefundSystem/bower_components/JsBarcode/dist/JsBarcode.all.min.js"></script>
+@include('Configuration.Configuration')
 <script type="application/javascript">
     var data={!! $Data !!}
     JsBarcode("#barcode", data,{displayValue:false});
@@ -31,7 +32,8 @@
         doc.setFontType("bold");
         doc.setFontSize(9);
         doc.setTextColor(255,0,0);
-        doc.textWithLink('Click To Check Status',10, 20,{ url:  trackingID  });
+        doc.textWithLink('Click To Track',10, 20,{ url:  configuration.path+'/customer?trackID='+trackingID  });
+        doc.text('Tracking Id:'.concat(trackingID),150, 80);
         download_pdf('RefundCode.pdf', doc.output('dataurlstring'));
 
     });

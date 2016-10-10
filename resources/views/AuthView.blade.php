@@ -1,6 +1,6 @@
 
 <div class="col-sm-4 col-sm-offset-4" style="margin-top:20%">
-		<form novalidate name="AuthForm" ng-submit="AuthForm.$valid && auth.login()">
+		<form id="auth" novalidate name="AuthForm" ng-submit="AuthForm.$valid && auth.login()">
 			<p class="alert alert-danger" ng-if="auth.loginError"><strong>Error:</strong> {{auth.loginErrorText}}</p>
 			<div class="form-group">
 		    	<input  name="email" class="form-control" placeholder="Email" ng-model="auth.email" ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/" required>

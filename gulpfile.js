@@ -43,6 +43,9 @@ elixir(function (mix) {
         "./bower_components/angular-file-upload/dist/angular-file-upload.min.js"
     ], './Elixer/JS/Dependencies.js');
     mix.scripts([
+        "./JS/sliding.form.js"
+    ], './Elixer/JS/sliding.form.js');
+    mix.scripts([
         "./JS/Controllers/CustomerController.js"
     ], './Elixer/JS/Controllers/Customer.js');
     mix.scripts(["./JS/Controllers/app.js",],'./Elixer/JS/Controllers/app.js');

@@ -16,7 +16,9 @@ Blade::setEscapedContentTags('<$$', '$$>');   // for escaped data
 Route::get('/', ['as' => 'home', function () {
     return view('Index');
 }]);
-
+Route::get('/customer', ['as' => 'home', function () {
+    return view('Customer');
+}]);
 //for all login users
 Route::group(['prefix' => 'api'], function () {
     Route::post('authenticate', 'AuthenticateController@authenticate');

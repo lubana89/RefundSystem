@@ -66,4 +66,67 @@ app.controller('CustomerRefundCtrl', ['$scope', '$http', function ($scope, $http
 
     };
 }]);
+app.controller('CustomerRefundTrackCtrl', ['$scope', '$http', function ($scope, $http) {
+
+    $scope.getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : sParameterName[1];
+            }
+        }
+    };
+
+    $scope.SubmitForm = function () {
+        var trackID=$scope.getUrlParameter('trackID');
+        var url=configuration.path+ "/Status/";
+        if(trackID!=undefined)
+        url += trackID;
+        else
+            url +=$('.trackerID').val();
+        window.location.href = url;
+
+
+    };
+
+    $scope.openDialog=function(){
+
+        $('.dialogForm').show();
+        $('.ui-widget-overlay').css('opacity','0.3');
+        $('.returnBtn').attr('disabled', true);
+        $('.trackBtn').attr('disabled', true);
+        $('.trackerID').attr('disabled', true);
+
+    }
+
+    $scope.close=function(){
+
+        $('.dialogForm').hide();
+        $('.ui-widget-overlay').css('opacity','1');
+        $('.returnBtn').attr('disabled', false);
+        $('.trackBtn').attr('disabled', false);
+        $('.trackerID').attr('disabled', false);
+    }
+
+    $scope.send=function() {
+        var sellerName = $( "input[name='sellerName']" ).val();
+        var email = $( "input[name='email']" ).val();
+        var orderNr = $( "input[name='orderNr']" ).val();
+        alert(sellerName+" "+email+" "+orderNr);
+
+    }
+
+    $scope.init = function () {
+
+        var trackID = $scope.getUrlParameter('trackID');
+        $('.trackerID').val(trackID);
+    };
+
+}]);
 //# sourceMappingURL=Customer.js.map
