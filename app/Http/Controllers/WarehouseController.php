@@ -23,15 +23,34 @@ class WarehouseController extends Controller
         $this->log = new LogController;
     }
 
-    //Fetch All Cases whoes link has been generated
-    public function GetAllReturnedCases()
+    //Fetch All Closed Cases
+    public function GetAllArchivedCases()
     {
         $data = DB::table('refundcase')
-            ->where('RefundCaseStatus', '<>', 'Link Generated')
+            ->where('RefundCaseStatus', '=', 'refund-close case')
             ->get();
         return response()->json($data);
     }
-
+    //Future Cases
+    public function GetAllForecastCases()
+    {
+        $data = DB::table('refundcase')
+            ->where('RefundCaseStatus', '=', 'Label Generated')
+            ->get();
+        return response()->json($data);
+    }
+    //Buffer Cases
+    public function GetAllCasesInBuffer()
+    {
+        $data = DB::table('refundcase')
+            ->where([
+                ['RefundCaseStatus', '<>', 'Label Generated'],
+                ['RefundCaseStatus', '<>', 'refund-close case'],
+                ['RefundCaseStatus', '<>', 'Link Generated']
+            ])
+            ->get();
+        return response()->json($data);
+    }
     //update case status of returned items
     public function UpdateCaseStatus(Request $request)
     {

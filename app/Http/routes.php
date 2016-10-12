@@ -58,7 +58,9 @@ Route::group(['prefix' => 'Seller', 'middleware' => ['ability:Admin|Seller,Selle
 
 //Admin and Warehouse Actions Only
 Route::group(['prefix' => 'Warehouse', 'middleware' => ['ability:Admin|Warehouse,Warehouse']], function () {
-    Route::get('AllReturnedCases', 'WarehouseController@GetAllReturnedCases');
+    Route::get('AllBufferCases','WarehouseController@GetAllCasesInBuffer');
+    Route::get('AllForecastCases', 'WarehouseController@GetAllForecastCases');
+    Route::get('AllArchivedCases', 'WarehouseController@GetAllArchivedCases');
     Route::get('ReturnedCase/{id}', 'WarehouseController@GetReturnedCase');
     Route::post('UpdateCaseStatus', 'WarehouseController@UpdateCaseStatus');
     Route::post('UpdateCaseData/{id}', 'WarehouseController@UpdateCase');

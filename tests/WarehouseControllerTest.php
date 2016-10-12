@@ -9,9 +9,19 @@ class WarehouseControllerTest extends TestCase
         $me->action('POST', 'AuthenticateController@authenticate', ['email' => 'super@admin.com', 'password' => 'admin']);
         return json_decode($me->response->getContent(), true)['token'];
     }
-    public function testAllReturnedCases()
+    public function testAllArchivedCases()
     {
-        $this->call('GET', '/Warehouse/AllReturnedCases?token='. $this->getToken($this));
+        $this->call('GET', '/Warehouse/AllArchivedCases?token='. $this->getToken($this));
+        $this->assertResponseOk();
+    }
+    public function testAllForecastCases()
+    {
+        $this->call('GET', '/Warehouse/AllForecastCases?token='. $this->getToken($this));
+        $this->assertResponseOk();
+    }
+    public function testAllBufferCases()
+    {
+        $this->call('GET', '/Warehouse/AllBufferCases?token='. $this->getToken($this));
         $this->assertResponseOk();
     }
     public function testReturnedCase()

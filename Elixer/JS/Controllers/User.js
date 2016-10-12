@@ -371,11 +371,13 @@ var user, NotificationInterval;
             //show case images
             vm.ShowImages = function (id) {
                 CommunicationSVC.GetAllImages(id).success(function (data) {
-                    var div = $("<div id='allimages'></div>");
-                    $.each(data, function (i, el) {
-                        div.append("<a target='_blank' href=" + el.Image_Path + "\\" + el.Image_Name + " ><img src=" + el.Image_Path + "\\" + el.Image_Name + " style='height: 60px;width: 60px;margin:10px;border:2px solid black;border-radius: 5px;' /></a>");
-                    });
-                    $('<div />').html(div).dialog();
+                    if (data.length > 0) {
+                        var div = $("<div id='allimages'></div>");
+                        $.each(data, function (i, el) {
+                            div.append("<a target='_blank' href=" + el.Image_Path + "\\" + el.Image_Name + " ><img src=" + el.Image_Path + "\\" + el.Image_Name + " style='height: 60px;width: 60px;margin:10px;border:2px solid black;border-radius: 5px;' /></a>");
+                        });
+                        $('<div />').html(div).dialog();
+                    }
                 });
             };
             //create notification
@@ -605,10 +607,11 @@ var user, NotificationInterval;
 
     angular
         .module('RefundSystemApp')
-        .controller('WarehouseCtrl', ['$http', '$auth', '$rootScope', '$state', 'WarehouseSVC', 'CommunicationSVC', 'ApiSVC', WarehouseCtrl]);
+        .controller('WarehouseCtrl', ['$document', '$http', '$auth', '$rootScope', '$state', 'WarehouseSVC', 'CommunicationSVC', 'ApiSVC', WarehouseCtrl]);
 
-    function WarehouseCtrl($http, $auth, $rootScope, $state, WarehouseSVC, CommunicationSVC, ApiSVC) {
+    function WarehouseCtrl($document, $http, $auth, $rootScope, $state, WarehouseSVC, CommunicationSVC, ApiSVC) {
         if (user && getCookie('Role') != null) {
+
             var vm = this;
             vm.CasesGrid = [];
             vm.reasons = [];
@@ -620,6 +623,17 @@ var user, NotificationInterval;
             vm.Messages = '';
             vm.NotificationCount = 0;
             vm.NotificationBoxToggle = true;
+            vm.GridStyle = {color: 'black'};
+            vm.GridInit = function (textcolor) {
+                $(".search-query").val('');
+                //default focus
+                $(".search-query").focus();
+                vm.GridStyle = {color: textcolor};
+                $('#DetailDiv').hide();
+                vm.CasesGrid = [];
+                vm.EditFormData = '';
+            };
+            //Case Satus options
             vm.StatusDropDownData = {
                 "1": 'Label Generated',
                 "2": 'Item Recieved at Warehouse',
@@ -627,22 +641,61 @@ var user, NotificationInterval;
                 "4": 'Item Checked-case in process',
                 "5": 'refund-close case'
             };
+            // keyboard key handler
+            vm.KeyHandler = function (event) {
+
+                switch (event.keyCode) {
+                    case 113:
+
+                        vm.AllBufferCases();
+                        break;
+                    case 115:
+
+                        vm.AllForecastCases();
+                        break;
+                    case 119:
+
+                        vm.AllArchivedCases();
+                        break;
+                    case 13:
+                        vm.SearchClick();
+                        break;
+
+                }
+            };
+            $document.bind('keyup', vm.KeyHandler);
+            vm.AllBufferCases = function () {
+                vm.GridInit('blue');
+                WarehouseSVC.GetAllBufferCases().success(function (data) {
+                    if (data.length > 0) {
+                        $.each(data, function (index) {
+                            vm.CasesGrid.push(data[index]);
+                        });
+                    }
+                });
+            };
+            vm.AllForecastCases = function () {
+                vm.GridInit('red');
+                WarehouseSVC.GetAllForecastCases().success(function (data) {
+                    if (data.length > 0) {
+                        $.each(data, function (index) {
+                            vm.CasesGrid.push(data[index]);
+                        });
+                    }
+                });
+            };
+            vm.AllArchivedCases = function () {
+                vm.GridInit('green');
+                WarehouseSVC.GetAllArchivedCases().success(function (data) {
+                    if (data.length > 0) {
+                        $.each(data, function (index) {
+                            vm.CasesGrid.push(data[index]);
+                        });
+                    }
+                });
+            };
             vm.refresh = function () {
-                if (vm.Search != '') {
-                    vm.SearchClick();
-                }
-                else if (vm.Role == 'Admin') {
-                    $('#DetailDiv').hide();
-                    vm.CasesGrid = [];
-                    vm.EditFormData = '';
-                    ApiSVC.GetAllCase().success(function (data) {
-                        if (data.length > 0) {
-                            $.each(data, function (index) {
-                                vm.CasesGrid.push(data[index]);
-                            });
-                        }
-                    });
-                }
+                vm.AllBufferCases();
             };
             vm.refresh();
             $http.get(configuration.path + '/wish').success(function (data) {
@@ -772,20 +825,22 @@ var user, NotificationInterval;
                 });
             };
             vm.SearchClick = function () {
-                vm.CasesGrid = [];
-                vm.EditFormData = '';
-                WarehouseSVC.SearchReturnedCase(vm.Search).success(function (data) {
-                    $('#DetailDiv').hide();
-                    if (data.length > 0) {
-                        vm.CasesGrid.push(data[0]);
-                        var detail = JSON.parse(data[0].RefundCaseDetail);
-                        vm.EditFormData = detail;
-                        $('#DetailDiv').show();
-                    }
-                    else {
-                        alert('Case Id Not Found');
-                    }
-                });
+                vm.GridInit('black');
+                if (vm.Search != '') {
+                    WarehouseSVC.SearchReturnedCase(vm.Search).success(function (data) {
+                        $('#DetailDiv').hide();
+                        if (data.length > 0) {
+                            vm.CasesGrid.push(data[0]);
+                            var detail = JSON.parse(data[0].RefundCaseDetail);
+                            vm.EditFormData = detail;
+                            $('#DetailDiv').show();
+                        }
+                        else {
+                            vm.Search = '';
+                            alert('Case Id Not Found');
+                        }
+                    });
+                }
             };
             vm.Back = function () {
                 Back($state);
@@ -841,11 +896,13 @@ var user, NotificationInterval;
             };
             vm.ShowImages = function (id) {
                 CommunicationSVC.GetAllImages(id).success(function (data) {
-                    var div = $("<div id='allimages'></div>");
-                    $.each(data, function (i, el) {
-                        div.append("<a target='_blank' href=" + el.Image_Path + "\\" + el.Image_Name + " ><img src=" + el.Image_Path + "\\" + el.Image_Name + " style='height: 60px;width: 60px;margin:10px;border:2px solid black;border-radius: 5px;' /></a>");
-                    });
-                    $('<div />').html(div).dialog();
+                    if (data.length > 0) {
+                        var div = $("<div id='allimages'></div>");
+                        $.each(data, function (i, el) {
+                            div.append("<a target='_blank' href=" + el.Image_Path + "\\" + el.Image_Name + " ><img src=" + el.Image_Path + "\\" + el.Image_Name + " style='height: 60px;width: 60px;margin:10px;border:2px solid black;border-radius: 5px;' /></a>");
+                        });
+                        $('<div />').html(div).dialog();
+                    }
                 });
             };
             vm.logout = function () {
@@ -1016,7 +1073,7 @@ var user, NotificationInterval;
             factory.DeleteUser = function (id) {
                 return $http.get(configuration.path + '/api/DeleteUser/' + id + '?token=' + $auth.getToken());
             };
-            factory.GetAllCase = function () {
+            factory.GetAllCases = function () {
                 return $http.get(configuration.path + '/api/AllCases' + '?token=' + $auth.getToken());
             };
             return factory;
@@ -1123,6 +1180,15 @@ var user, NotificationInterval;
             };
             factory.UpdateCaseData = function (id, data) {
                 return $http.post(configuration.path + '/Warehouse/UpdateCaseData/' + id + '?token=' + $auth.getToken(), JSON.stringify(data))
+            };
+            factory.GetAllBufferCases=function () {
+                return $http.get(configuration.path + '/Warehouse/AllBufferCases' + '?token=' + $auth.getToken());
+            };
+            factory.GetAllForecastCases=function () {
+                return $http.get(configuration.path + '/Warehouse/AllForecastCases' + '?token=' + $auth.getToken());
+            };
+            factory.GetAllArchivedCases=function () {
+                return $http.get(configuration.path + '/Warehouse/AllArchivedCases' + '?token=' + $auth.getToken());
             };
             return factory;
         }]);

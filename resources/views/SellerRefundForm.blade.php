@@ -8,7 +8,7 @@
     <script type="text/javascript" src="/RefundSystem/Elixer/JS/sliding.form.js"></script>
     <div id="content">
         <div id="wrapper">
-            <div id="steps">
+            <div id="steps" style="width: 3000px;">
                 <form class="form-horizontal" id="formElem" name="SellerForm" novalidate role="form" style="margin-top:5%;"
                       ng-submit="SellerForm.$valid && SubmitForm()">
 

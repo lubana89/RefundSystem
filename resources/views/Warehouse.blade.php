@@ -7,6 +7,11 @@
     <button class="btn btn-danger" style="float:right;margin-right:2%" ng-if="warehouse.Role!='Seller'" ng-click="warehouse.CreateNotification()"><span class="glyphicon glyphicon-bell"> Notify Seller</span></button>
     <button class="btn btn-info" id="notificationBtn" style="float:right;margin-right:2%"   ng-click="warehouse.ShowNotifications()"><i class="glyphicon glyphicon-bell"> </i><span class="button__badge" ng-if="warehouse.NotificationCount!=0">{{warehouse.NotificationCount}}</span></button>
 </div>
+<div style="margin:2%">
+<button class="btn btn-warning" ng-click="warehouse.AllBufferCases()"><span>Buffer(F2)</span></button>
+<button class="btn btn-warning" ng-click="warehouse.AllForecastCases()"><span>Forecast(F4)</span></button>
+<button class="btn btn-warning" ng-click="warehouse.AllArchivedCases()"><span>Archived(F8)</span></button>
+</div>
 <div class="container" style="margin-bottom: 2%">
     <div class="row">
         <div id="search-input">
@@ -77,7 +82,7 @@
             <th>Edit Case</th>
             <th>Case Message</th>
         </tr>
-        <tr ng-repeat="RefundCase in warehouse.CasesGrid">
+        <tr ng-repeat="RefundCase in warehouse.CasesGrid" ng-style="warehouse.GridStyle">
             <td>{{RefundCase.RefundCase_Id}}</td>
             <td><button class="btn btn-primary btn-xs" ng-click="warehouse.AddImage(RefundCase.RefundCase_Id)" ><span class="glyphicon glyphicon-plus"></span></button></td>
             <td><button class="btn btn-primary btn-xs" ng-click="warehouse.ShowImages(RefundCase.RefundCase_Id)" ><span class="glyphicon glyphicon-camera"></span></button></td>
@@ -92,42 +97,6 @@
 
 <div id="editDiv" hidden>
     <form class="form-horizontal" role="form" style="margin-top:5%;" action="#">
-        <div class="form-group" >
-            <label for="email" class="col-sm-2 control-label">Customer Email</label>
-            <div class="col-sm-4">
-                <input class="form-control" id="email"   ng-model="warehouse.EditFormData.emailAddress" >
-            </div>
-
-        </div>
-
-        <div class="form-group" >
-            <label for="orderId" class="col-sm-2 control-label">Order Number</label>
-            <div class="col-sm-4">
-                <input class="form-control" id="orderId" ng-model="warehouse.EditFormData.orderNumber" >
-            </div>
-
-        </div>
-        <div class="form-group" >
-            <label for="itemSKU" class="col-sm-2 control-label">Item SKU</label>
-            <div class="col-sm-4">
-                <input class="form-control" id="itemSKU" ng-model="warehouse.EditFormData.itemSKU" >
-            </div>
-
-        </div>
-        <div class="form-group" >
-            <label for="price" class="col-sm-2 control-label">Price</label>
-            <div class="col-sm-4">
-                <input class="form-control" id="price" ng-model="warehouse.EditFormData.price" >
-            </div>
-
-        </div>
-        <div class="form-group" >
-            <label for="date" class="col-sm-2 control-label">Date</label>
-            <div class="col-sm-4">
-                <input class="form-control date"  type="text" ng-model="warehouse.EditFormData.date" >
-            </div>
-
-        </div>
         <div class="form-group">
             <label for="reason" class="col-sm-2 control-label">Reason</label>
             <div class="col-sm-4">
