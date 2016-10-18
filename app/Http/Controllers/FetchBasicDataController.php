@@ -23,6 +23,11 @@ class FetchBasicDataController extends Controller
         return DB::table('wish')->get();
     }
 
+    public function GetStatusAction()
+    {
+        return DB::table('warehouseitem_status_action')->get();
+    }
+
     //Fetch All Reasons from DB
     public function GetReasons()
     {

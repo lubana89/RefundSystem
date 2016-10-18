@@ -11,6 +11,7 @@ use JWTAuth;
 use App\Http\Controllers\LogController;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Contracts\Encryption\DecryptException;
+
 class SellerController extends Controller
 {
 
@@ -37,18 +38,23 @@ class SellerController extends Controller
     {
         if (!$request->input('test')) {
             $timeStamp = date("Y/m/d");
+            //insert new
             $id = DB::table('refundcase')->insertGetId(
                 ['Seller_Id' => $request->sellerNumber, 'RefundCaseDetail' => $request->getContent(), 'RefundCaseStatus' => 'Link Generated', 'RefundCaseStatusKey' => '']
             );
+            //update case history
+            $this->UpdateCaseHistory($id,'Seller|LinkGenerated');
+
+            //insert to keep check for link generated and active
             $refundLink = Crypt::encrypt($timeStamp . '~/' . $id);
             DB::table('caselinks')->insert(
                 ['Seller_Id' => $request->sellerNumber, 'RefundCase_Id' => $id, 'Generation_Time' => $timeStamp, 'CaseLink' => $refundLink]
             );
+
             //Log
             $this->log->Log('SellerController', 'GenerateLink', $request->getContent());
-
-                $this->mailHandler->Email('Refund Link', config('app.url') . '/Customer/Refund/' . $refundLink);
-                return $this->htmlGeneratedLinkMessage;
+            $this->mailHandler->Email('Refund Link', config('app.url') . '/Customer/Refund/' . $refundLink);
+            return $this->htmlGeneratedLinkMessage;
 
         } else {
             return response()->json('UP');
@@ -60,6 +66,8 @@ class SellerController extends Controller
     {
         if (!$request->input('test')) {
             DB::table('refundcase')->where('RefundCase_Id', '=', $id)->update(['RefundCaseDetail' => $request->getContent()]);
+            //update case history
+            $this->UpdateCaseHistory($id,'Seller|Updated');
             //Log
             $this->log->Log('SellerController', 'UpdateCase', 'Case Updated, id=' . $id . ' Updated Data=' . $request->getContent());
             return 'true';
@@ -83,6 +91,7 @@ class SellerController extends Controller
         DB::table('caselinks')->where('RefundCase_Id', '=', $id)->delete();
         DB::table('caseimages')->where('RefundCase_Id', '=', $id)->delete();
         DB::table('casemessages')->where('RefundCase_Id', '=', $id)->delete();
+        DB::table('casehistory')->where('RefundCase_Id', '=', $id)->delete();
         //Log
         $this->log->Log('SellerController', 'DeleteCase', 'Case Deleted, id=' . $id);
     }
@@ -93,6 +102,14 @@ class SellerController extends Controller
     {
         $refundLink = DB::table('caselinks')->select('CaseLink')->where('RefundCase_Id', '=', $id)->get();
         return config('app.url') . '/Customer/Refund/' . $refundLink[0]->CaseLink;
+    }
+
+    public function UpdateCaseHistory($id,$message)
+    {
+        //insert into history
+        DB::table('casehistory')->insert(
+            ['RefundCase_Id' => $id, 'Time' => date('Y-m-d H:i:s'), 'HistoryLog' => $message]
+        );
     }
 
     public function GetMailLink($id)

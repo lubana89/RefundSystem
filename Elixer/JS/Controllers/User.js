@@ -624,48 +624,53 @@ var user, NotificationInterval;
             vm.NotificationCount = 0;
             vm.NotificationBoxToggle = true;
             vm.GridStyle = {color: 'black'};
-            vm.GridInit = function (textcolor) {
+            vm.GridInit = function (textcolor, clearGrid) {
                 $(".search-query").val('');
                 //default focus
                 $(".search-query").focus();
-                vm.GridStyle = {color: textcolor};
-                $('#DetailDiv').hide();
-                vm.CasesGrid = [];
+
+
+                if (clearGrid) {
+                    vm.CasesGrid = [];
+                    vm.GridStyle = {color: textcolor};
+                } else {
+                    vm.GridStyle = {color: 'black'};
+                }
+
                 vm.EditFormData = '';
             };
             //Case Satus options
             vm.StatusDropDownData = {
                 "1": 'Label Generated',
-                "2": 'Item Recieved at Warehouse',
-                "3": 'Item Checked-Status(Dismatch)',
-                "4": 'Item Checked-case in process',
-                "5": 'refund-close case'
+                "2": 'In Warehouse',
+                "3": 'In Process',
+                "4": 'Rejected|Closed',
+                "5": 'Passed|Closed'
             };
             // keyboard key handler
             vm.KeyHandler = function (event) {
 
                 switch (event.keyCode) {
                     case 113:
-
-                        vm.AllBufferCases();
+                        vm.AllBufferCases(true);
                         break;
                     case 115:
 
-                        vm.AllForecastCases();
+                        vm.AllForecastCases(true);
                         break;
                     case 119:
 
-                        vm.AllArchivedCases();
+                        vm.AllArchivedCases(true);
                         break;
                     case 13:
-                        vm.SearchClick();
+                        vm.SearchClick(true);
                         break;
 
                 }
             };
-            $document.bind('keyup', vm.KeyHandler);
-            vm.AllBufferCases = function () {
-                vm.GridInit('blue');
+            $document.unbind('keyup').bind('keyup', vm.KeyHandler);
+            vm.AllBufferCases = function (clearGrid) {
+                vm.GridInit('blue', clearGrid);
                 WarehouseSVC.GetAllBufferCases().success(function (data) {
                     if (data.length > 0) {
                         $.each(data, function (index) {
@@ -674,8 +679,8 @@ var user, NotificationInterval;
                     }
                 });
             };
-            vm.AllForecastCases = function () {
-                vm.GridInit('red');
+            vm.AllForecastCases = function (clearGrid) {
+                vm.GridInit('red', clearGrid);
                 WarehouseSVC.GetAllForecastCases().success(function (data) {
                     if (data.length > 0) {
                         $.each(data, function (index) {
@@ -684,8 +689,8 @@ var user, NotificationInterval;
                     }
                 });
             };
-            vm.AllArchivedCases = function () {
-                vm.GridInit('green');
+            vm.AllArchivedCases = function (clearGrid) {
+                vm.GridInit('green', clearGrid);
                 WarehouseSVC.GetAllArchivedCases().success(function (data) {
                     if (data.length > 0) {
                         $.each(data, function (index) {
@@ -695,7 +700,8 @@ var user, NotificationInterval;
                 });
             };
             vm.refresh = function () {
-                vm.AllBufferCases();
+                vm.AllBufferCases(true);
+                vm.AllForecastCases(false);
             };
             vm.refresh();
             $http.get(configuration.path + '/wish').success(function (data) {
@@ -824,16 +830,22 @@ var user, NotificationInterval;
                     vm.refresh();
                 });
             };
-            vm.SearchClick = function () {
-                vm.GridInit('black');
+            vm.SearchClick = function (clearGrid) {
+                vm.GridInit('black', clearGrid);
                 if (vm.Search != '') {
                     WarehouseSVC.SearchReturnedCase(vm.Search).success(function (data) {
-                        $('#DetailDiv').hide();
                         if (data.length > 0) {
-                            vm.CasesGrid.push(data[0]);
-                            var detail = JSON.parse(data[0].RefundCaseDetail);
-                            vm.EditFormData = detail;
-                            $('#DetailDiv').show();
+                            if (data.length == 1) {
+                                if(data[0].RefundCaseStatus=="Label Generated"){
+                                    data[0].RefundCaseStatus=vm.StatusDropDownData[2];
+                                    vm.StatusUpdate(data[0].RefundCase_Id,vm.StatusDropDownData[2]);
+                                }
+                                $state.go('warehouseitem', {casedata: data[0]});
+                                //redirect to warehouse item handel page
+                            } else {
+                                vm.CasesGrid=data;
+                            }
+
                         }
                         else {
                             vm.Search = '';
@@ -869,6 +881,7 @@ var user, NotificationInterval;
                 StatusObject.RefundCase_Id = caseID;
                 StatusObject.RefundCaseStatus = status;
                 $('#updateCaseStatusDiv').remove();
+                WarehouseSVC.UpdateCaseHistory(caseID,user.name+'|'+status);
                 WarehouseSVC.UpdateCaseStatus(StatusObject).success(function (data) {
                     vm.refresh();
                 });
@@ -1036,6 +1049,102 @@ var user, NotificationInterval;
 })();
 
 (function () {
+    'use strict';
+    angular
+        .module('RefundSystemApp')
+        .controller('WarehouseItemCtrl', ['$http', '$document', '$scope', '$stateParams', '$state', '$auth', 'WarehouseSVC', function ($http, $document, $scope, $stateParams, $state, $auth, WarehouseSVC) {
+            if (user && getCookie('Role') != null) {
+                var vm = this;
+                vm.CaseID = $stateParams.casedata.RefundCase_Id;
+                vm.CaseDetails = JSON.parse($stateParams.casedata.RefundCaseDetail);
+                $http.get(configuration.path + '/item_status_action').success(function (data) {
+                    vm.status_action = data;
+                });
+                WarehouseSVC.GetHistory(vm.CaseID).success(function (data) {
+                    vm.history = data;
+                });
+                //Case Satus options
+                vm.StatusDropDownData = {
+                    "1": 'Label Generated',
+                    "2": 'In Warehouse',
+                    "3": 'In Process',
+                    "4": 'Rejected|Closed',
+                    "5": 'Passed|Closed'
+                };
+                // keyboard key handler
+                vm.KeyHandler = function (event) {
+                    switch (event.keyCode) {
+                        case 112:
+                            vm.StatusUpdate(vm.CaseID, vm.StatusDropDownData[5]);
+                            break;
+                        case 113:
+                            vm.StatusUpdate(vm.CaseID, vm.StatusDropDownData[3]);
+                            break;
+                        case 114:
+                            vm.StatusUpdate(vm.CaseID, vm.StatusDropDownData[4]);
+                            break;
+                        case 115:
+                            vm.UpdateWarehouseStatusAction(vm.CaseID);
+                            break;
+
+                    }
+                };
+                vm.UpdateWarehouseStatusAction = function (caseID, refundCaseStatus) {
+                    var combo = $("<select class='form-control' id='status_action'></select>");
+                    $.each(vm.status_action, function (i, el) {
+                        combo.append("<option id=" + el.statusaction_Id + ">" + el.status + '|' + el.action + "</option>");
+                    });
+                    var btn = $('<input/>').attr({
+                        type: "button",
+                        value: "Submit",
+                        style: 'margin-top:5px',
+                        class: 'btn btn-danger status_action'
+                    });
+                    $(document).off('click').on('click', '.status_action', function () {
+                        vm.SubmitWarehouseStatusAction($('#status_action').children(":selected").text(), caseID, refundCaseStatus);
+                    });
+                    $('<div id="status_actionDiv" />').html(combo).append(btn).dialog({
+                        width: 700,
+                        title: 'Update Status'
+                    });
+                };
+                vm.SubmitWarehouseStatusAction = function (status_action, caseID, status) {
+                    $('#status_actionDiv').remove();
+                    vm.CaseDetails.warehouse_status_action = status_action;
+                    WarehouseSVC.UpdateCaseHistory(caseID, user.name + '|' + status_action);
+                    WarehouseSVC.UpdateCaseData(caseID, vm.CaseDetails).success(function (data) {
+                        if (status) {
+                            vm.StatusUpdate(caseID, status);
+                        }
+                    });
+                };
+                $document.unbind('keyup').bind('keyup', vm.KeyHandler);
+                vm.StatusUpdate = function (caseID, status) {
+                    if (vm.CaseDetails.warehouse_status_action != undefined) {
+                        var StatusObject = {};
+                        StatusObject.RefundCase_Id = caseID;
+                        StatusObject.RefundCaseStatus = status;
+                        WarehouseSVC.UpdateCaseHistory(caseID, user.name + '|' + status);
+                        WarehouseSVC.UpdateCaseStatus(StatusObject).success(function (data) {
+                            vm.BackToWarehouse();
+                        });
+                    } else {
+                        vm.UpdateWarehouseStatusAction(caseID, status);
+                    }
+                };
+                vm.BackToWarehouse = function () {
+                    $state.go('warehouse');
+                };
+                vm.logout = function () {
+                    Logout($auth, $rootScope, $state);
+                };
+            } else {
+                Logout($auth, $rootScope, $state);
+            }
+
+        }]);
+})();
+(function () {
 
     'use strict';
     angular
@@ -1179,7 +1288,7 @@ var user, NotificationInterval;
                 return $http.post(configuration.path + '/Warehouse/UpdateCaseStatus' + '?token=' + $auth.getToken(), JSON.stringify(Status));
             };
             factory.UpdateCaseData = function (id, data) {
-                return $http.post(configuration.path + '/Warehouse/UpdateCaseData/' + id + '?token=' + $auth.getToken(), JSON.stringify(data))
+                return $http.post(configuration.path + '/Warehouse/UpdateCaseData/' + id + '?token=' + $auth.getToken(), JSON.stringify(data));
             };
             factory.GetAllBufferCases=function () {
                 return $http.get(configuration.path + '/Warehouse/AllBufferCases' + '?token=' + $auth.getToken());
@@ -1189,6 +1298,12 @@ var user, NotificationInterval;
             };
             factory.GetAllArchivedCases=function () {
                 return $http.get(configuration.path + '/Warehouse/AllArchivedCases' + '?token=' + $auth.getToken());
+            };
+            factory.UpdateCaseHistory=function (id, message) {
+                return $http.get(configuration.path + '/Warehouse/UpdateCaseHistory/' + id +'/'+message+ '?token=' + $auth.getToken());
+            };
+            factory.GetHistory=function (id) {
+                return $http.get(configuration.path + '/Warehouse/GetHistory/' + id + '?token=' + $auth.getToken());
             };
             return factory;
         }]);

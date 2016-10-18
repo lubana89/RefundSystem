@@ -61,9 +61,11 @@ Route::group(['prefix' => 'Warehouse', 'middleware' => ['ability:Admin|Warehouse
     Route::get('AllBufferCases','WarehouseController@GetAllCasesInBuffer');
     Route::get('AllForecastCases', 'WarehouseController@GetAllForecastCases');
     Route::get('AllArchivedCases', 'WarehouseController@GetAllArchivedCases');
-    Route::get('ReturnedCase/{id}', 'WarehouseController@GetReturnedCase');
+    Route::get('ReturnedCase/{data}', 'WarehouseController@GetReturnedCase');
     Route::post('UpdateCaseStatus', 'WarehouseController@UpdateCaseStatus');
     Route::post('UpdateCaseData/{id}', 'WarehouseController@UpdateCase');
+    Route::get('UpdateCaseHistory/{id}/{message}','WarehouseController@UpdateCaseHistory');
+    Route::get('GetHistory/{id}','WarehouseController@GetCaseHistory');
 
     Route::get('GetAllSellers', 'FetchBasicDataController@GetAllSellers');
 
@@ -97,6 +99,7 @@ Route::get('Customer/Refund/{id}', 'CustomerController@DecryptLink');
 Route::get('wish', 'FetchBasicDataController@GetWishes');
 Route::get('reason', 'FetchBasicDataController@GetReasons');
 Route::get('itemCondition', 'FetchBasicDataController@GetConditions');
+Route::get('item_status_action','FetchBasicDataController@GetStatusAction');
 
 Route::get('BarCode','CustomerController@GetBarCode');
 Route::get('QR', 'CustomerController@GetQR');

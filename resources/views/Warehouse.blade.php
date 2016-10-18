@@ -8,9 +8,9 @@
     <button class="btn btn-info" id="notificationBtn" style="float:right;margin-right:2%"   ng-click="warehouse.ShowNotifications()"><i class="glyphicon glyphicon-bell"> </i><span class="button__badge" ng-if="warehouse.NotificationCount!=0">{{warehouse.NotificationCount}}</span></button>
 </div>
 <div style="margin:2%">
-<button class="btn btn-warning" ng-click="warehouse.AllBufferCases()"><span>Buffer(F2)</span></button>
-<button class="btn btn-warning" ng-click="warehouse.AllForecastCases()"><span>Forecast(F4)</span></button>
-<button class="btn btn-warning" ng-click="warehouse.AllArchivedCases()"><span>Archived(F8)</span></button>
+<button class="btn btn-warning" ng-click="warehouse.AllBufferCases(true)"><span>Buffer(F2)</span></button>
+<button class="btn btn-warning" ng-click="warehouse.AllForecastCases(true)"><span>Forecast(F4)</span></button>
+<button class="btn btn-warning" ng-click="warehouse.AllArchivedCases(true)"><span>Archived(F8)</span></button>
 </div>
 <div class="container" style="margin-bottom: 2%">
     <div class="row">
@@ -30,46 +30,6 @@
     </div>
 </div>
 
-<div id="DetailDiv" hidden style="margin-bottom: 2%">
-
-    <div class="detail" >
-        <label >Customer Email :-</label>
-        <label> {{ warehouse.EditFormData.emailAddress}} </label>
-
-    </div>
-
-    <div class="detail" >
-        <label >Order Number :-</label>
-        <label> {{ warehouse.EditFormData.orderNumber}} </label>
-    </div>
-    <div class="detail" >
-        <label>Item SKU :-</label>
-        <label> {{ warehouse.EditFormData.itemSKU}} </label>
-
-    </div>
-    <div class="detail" >
-        <label>Price :-</label>
-        <label> {{ warehouse.EditFormData.price}} </label>
-    </div>
-    <div class="detail" >
-        <label >Date :-</label>
-        <label> {{ warehouse.EditFormData.date}} </label>
-
-    </div>
-    <div class="detail">
-        <label>Reason :-</label>
-        <label> {{ warehouse.EditFormData.reason}} </label>
-    </div>
-    <div class="detail">
-        <label >Item Condition :-</label>
-        <label> {{ warehouse.EditFormData.condition}} </label>
-    </div>
-    <div class="detail">
-        <label >Wish :-</label>
-        <label> {{ warehouse.EditFormData.wish}} </label>
-    </div>
-
-</div>
 <div class="table-responsive" ng-if="warehouse.CasesGrid !=''">
     <table class="table table-bordered">
         <tr>

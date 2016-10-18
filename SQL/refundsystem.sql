@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 15. Sep 2016 um 09:03
--- Server-Version: 5.7.11
--- PHP-Version: 5.6.19
+-- Generation Time: Oct 18, 2016 at 09:33 AM
+-- Server version: 5.7.11
+-- PHP Version: 5.6.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,13 +17,26 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Datenbank: `refundsystem`
+-- Database: `refundsystem`
 --
 
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `caseimages`
+-- Table structure for table `casehistory`
+--
+
+CREATE TABLE `casehistory` (
+  `casehistory_Id` int(11) NOT NULL,
+  `RefundCase_Id` int(11) NOT NULL,
+  `Time` datetime NOT NULL,
+  `HistoryLog` text NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `caseimages`
 --
 
 CREATE TABLE `caseimages` (
@@ -36,7 +49,7 @@ CREATE TABLE `caseimages` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `caselinks`
+-- Table structure for table `caselinks`
 --
 
 CREATE TABLE `caselinks` (
@@ -50,7 +63,7 @@ CREATE TABLE `caselinks` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `casemessages`
+-- Table structure for table `casemessages`
 --
 
 CREATE TABLE `casemessages` (
@@ -65,7 +78,7 @@ CREATE TABLE `casemessages` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `itemcondition`
+-- Table structure for table `itemcondition`
 --
 
 CREATE TABLE `itemcondition` (
@@ -74,18 +87,25 @@ CREATE TABLE `itemcondition` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Daten für Tabelle `itemcondition`
+-- Dumping data for table `itemcondition`
 --
 
 INSERT INTO `itemcondition` (`ItemCondition_Id`, `ItemCondition`) VALUES
-(1, 'condition1'),
-(2, 'condition2'),
-(3, 'condition3');
+(1, 'New, Package Unopened'),
+(2, 'New Unused, Package Opened or Damaged'),
+(3, 'New, Missing Parts'),
+(4, 'New, Others'),
+(5, 'Used, As New'),
+(6, 'Moderately Used But Functional'),
+(7, 'Defect In Use'),
+(8, 'Defect on Arrival'),
+(9, 'Damaged On Arrival'),
+(10, 'Other');
 
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `log`
+-- Table structure for table `log`
 --
 
 CREATE TABLE `log` (
@@ -100,7 +120,7 @@ CREATE TABLE `log` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `migrations`
+-- Table structure for table `migrations`
 --
 
 CREATE TABLE `migrations` (
@@ -111,7 +131,7 @@ CREATE TABLE `migrations` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `notifications`
+-- Table structure for table `notifications`
 --
 
 CREATE TABLE `notifications` (
@@ -130,7 +150,7 @@ CREATE TABLE `notifications` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `password_resets`
+-- Table structure for table `password_resets`
 --
 
 CREATE TABLE `password_resets` (
@@ -142,7 +162,7 @@ CREATE TABLE `password_resets` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `permissions`
+-- Table structure for table `permissions`
 --
 
 CREATE TABLE `permissions` (
@@ -155,7 +175,7 @@ CREATE TABLE `permissions` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Daten für Tabelle `permissions`
+-- Dumping data for table `permissions`
 --
 
 INSERT INTO `permissions` (`id`, `name`, `display_name`, `description`, `created_at`, `updated_at`) VALUES
@@ -167,7 +187,7 @@ INSERT INTO `permissions` (`id`, `name`, `display_name`, `description`, `created
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `permission_role`
+-- Table structure for table `permission_role`
 --
 
 CREATE TABLE `permission_role` (
@@ -176,7 +196,7 @@ CREATE TABLE `permission_role` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Daten für Tabelle `permission_role`
+-- Dumping data for table `permission_role`
 --
 
 INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES
@@ -192,7 +212,7 @@ INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `reason`
+-- Table structure for table `reason`
 --
 
 CREATE TABLE `reason` (
@@ -201,18 +221,22 @@ CREATE TABLE `reason` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Daten für Tabelle `reason`
+-- Dumping data for table `reason`
 --
 
 INSERT INTO `reason` (`Reason_Id`, `Reason`) VALUES
-(1, 'reason1'),
-(2, 'reason2'),
-(3, 'reason3');
+(1, 'Wrong Item'),
+(2, 'Don\'t Like/ Doesn\'t Fit'),
+(3, 'Doesn\'t match item description'),
+(4, 'Wrong Order Placement'),
+(5, 'Transport Damage on Arrival'),
+(6, 'Guarantee/Warranty'),
+(7, 'Others');
 
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `refundcase`
+-- Table structure for table `refundcase`
 --
 
 CREATE TABLE `refundcase` (
@@ -226,7 +250,7 @@ CREATE TABLE `refundcase` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `roles`
+-- Table structure for table `roles`
 --
 
 CREATE TABLE `roles` (
@@ -239,7 +263,7 @@ CREATE TABLE `roles` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Daten für Tabelle `roles`
+-- Dumping data for table `roles`
 --
 
 INSERT INTO `roles` (`id`, `name`, `display_name`, `description`, `created_at`, `updated_at`) VALUES
@@ -250,7 +274,7 @@ INSERT INTO `roles` (`id`, `name`, `display_name`, `description`, `created_at`, 
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `role_user`
+-- Table structure for table `role_user`
 --
 
 CREATE TABLE `role_user` (
@@ -259,7 +283,7 @@ CREATE TABLE `role_user` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Daten für Tabelle `role_user`
+-- Dumping data for table `role_user`
 --
 
 INSERT INTO `role_user` (`user_id`, `role_id`) VALUES
@@ -268,7 +292,7 @@ INSERT INTO `role_user` (`user_id`, `role_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -282,7 +306,7 @@ CREATE TABLE `users` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Daten für Tabelle `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
@@ -291,7 +315,37 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `remember_token`, `creat
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `wish`
+-- Table structure for table `warehouseitem_status_action`
+--
+
+CREATE TABLE `warehouseitem_status_action` (
+  `statusaction_Id` int(11) NOT NULL,
+  `action` text NOT NULL,
+  `status` text NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `warehouseitem_status_action`
+--
+
+INSERT INTO `warehouseitem_status_action` (`statusaction_Id`, `action`, `status`) VALUES
+(1, 'Restock Rack', 'New - Restock as New'),
+(2, 'B-Ware Rack', 'New - Package opened'),
+(3, 'B-Ware Rack', 'New - Package damaged'),
+(4, 'B-Ware Rack', 'New - Others'),
+(5, 'B-Ware Rack', 'B-Ware - Restock as B'),
+(6, 'B-Ware Storage', 'B-Ware - need treatment(Repair,Reapck..)'),
+(7, 'B-Ware Storage', 'B-Ware - Others'),
+(8, 'Discard', 'Defect - Discard'),
+(9, 'Defect-Storage', 'Defect-Storage as Replacement Parts'),
+(10, 'Defect-Factory', 'Defect-Return to Factory'),
+(11, 'Hold Case', 'Not in Package'),
+(12, 'Hold Case', 'Others');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `wish`
 --
 
 CREATE TABLE `wish` (
@@ -300,176 +354,198 @@ CREATE TABLE `wish` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Daten für Tabelle `wish`
+-- Dumping data for table `wish`
 --
 
 INSERT INTO `wish` (`Wish_Id`, `Wish`) VALUES
-(3, 'wish3'),
-(1, 'wish1'),
-(2, 'wish2'),
-(4, 'wish4');
+(3, 'Repair'),
+(1, 'Refund'),
+(2, 'Replace'),
+(4, 'Others');
 
 --
--- Indizes der exportierten Tabellen
+-- Indexes for dumped tables
 --
 
 --
--- Indizes für die Tabelle `caseimages`
+-- Indexes for table `casehistory`
+--
+ALTER TABLE `casehistory`
+  ADD PRIMARY KEY (`casehistory_Id`);
+
+--
+-- Indexes for table `caseimages`
 --
 ALTER TABLE `caseimages`
   ADD PRIMARY KEY (`Image_Id`),
   ADD KEY `RefundCase_Id` (`RefundCase_Id`);
 
 --
--- Indizes für die Tabelle `caselinks`
+-- Indexes for table `caselinks`
 --
 ALTER TABLE `caselinks`
   ADD PRIMARY KEY (`RefundCase_Id`),
   ADD KEY `Seller_Id` (`Seller_Id`);
 
 --
--- Indizes für die Tabelle `casemessages`
+-- Indexes for table `casemessages`
 --
 ALTER TABLE `casemessages`
   ADD PRIMARY KEY (`CaseMessage_Id`),
   ADD KEY `RefundCase_Id` (`RefundCase_Id`);
 
 --
--- Indizes für die Tabelle `itemcondition`
+-- Indexes for table `itemcondition`
 --
 ALTER TABLE `itemcondition`
   ADD PRIMARY KEY (`ItemCondition_Id`);
 
 --
--- Indizes für die Tabelle `log`
+-- Indexes for table `log`
 --
 ALTER TABLE `log`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `User_Id` (`User_Id`);
 
 --
--- Indizes für die Tabelle `notifications`
+-- Indexes for table `notifications`
 --
 ALTER TABLE `notifications`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indizes für die Tabelle `password_resets`
+-- Indexes for table `password_resets`
 --
 ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`),
   ADD KEY `token` (`token`);
 
 --
--- Indizes für die Tabelle `permissions`
+-- Indexes for table `permissions`
 --
 ALTER TABLE `permissions`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `permissions_name_unique` (`name`);
 
 --
--- Indizes für die Tabelle `permission_role`
+-- Indexes for table `permission_role`
 --
 ALTER TABLE `permission_role`
   ADD PRIMARY KEY (`permission_id`,`role_id`),
   ADD KEY `permission_role_role_id_foreign` (`role_id`);
 
 --
--- Indizes für die Tabelle `reason`
+-- Indexes for table `reason`
 --
 ALTER TABLE `reason`
   ADD PRIMARY KEY (`Reason_Id`);
 
 --
--- Indizes für die Tabelle `refundcase`
+-- Indexes for table `refundcase`
 --
 ALTER TABLE `refundcase`
   ADD PRIMARY KEY (`RefundCase_Id`),
   ADD KEY `Seller_Id` (`Seller_Id`);
 
 --
--- Indizes für die Tabelle `roles`
+-- Indexes for table `roles`
 --
 ALTER TABLE `roles`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `roles_name_unique` (`name`);
 
 --
--- Indizes für die Tabelle `role_user`
+-- Indexes for table `role_user`
 --
 ALTER TABLE `role_user`
   ADD PRIMARY KEY (`user_id`,`role_id`),
   ADD KEY `role_user_role_id_foreign` (`role_id`);
 
 --
--- Indizes für die Tabelle `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_email_unique` (`email`);
 
 --
--- Indizes für die Tabelle `wish`
+-- Indexes for table `warehouseitem_status_action`
+--
+ALTER TABLE `warehouseitem_status_action`
+  ADD PRIMARY KEY (`statusaction_Id`);
+
+--
+-- Indexes for table `wish`
 --
 ALTER TABLE `wish`
   ADD PRIMARY KEY (`Wish_Id`);
 
 --
--- AUTO_INCREMENT für exportierte Tabellen
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT für Tabelle `caseimages`
+-- AUTO_INCREMENT for table `casehistory`
+--
+ALTER TABLE `casehistory`
+  MODIFY `casehistory_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+--
+-- AUTO_INCREMENT for table `caseimages`
 --
 ALTER TABLE `caseimages`
-  MODIFY `Image_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `Image_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 --
--- AUTO_INCREMENT für Tabelle `casemessages`
+-- AUTO_INCREMENT for table `casemessages`
 --
 ALTER TABLE `casemessages`
-  MODIFY `CaseMessage_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `CaseMessage_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
--- AUTO_INCREMENT für Tabelle `itemcondition`
+-- AUTO_INCREMENT for table `itemcondition`
 --
 ALTER TABLE `itemcondition`
-  MODIFY `ItemCondition_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ItemCondition_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
--- AUTO_INCREMENT für Tabelle `log`
+-- AUTO_INCREMENT for table `log`
 --
 ALTER TABLE `log`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=333;
 --
--- AUTO_INCREMENT für Tabelle `notifications`
+-- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 --
--- AUTO_INCREMENT für Tabelle `permissions`
+-- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
--- AUTO_INCREMENT für Tabelle `reason`
+-- AUTO_INCREMENT for table `reason`
 --
 ALTER TABLE `reason`
-  MODIFY `Reason_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Reason_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
--- AUTO_INCREMENT für Tabelle `refundcase`
+-- AUTO_INCREMENT for table `refundcase`
 --
 ALTER TABLE `refundcase`
-  MODIFY `RefundCase_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `RefundCase_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=243;
 --
--- AUTO_INCREMENT für Tabelle `roles`
+-- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
--- AUTO_INCREMENT für Tabelle `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 --
--- AUTO_INCREMENT für Tabelle `wish`
+-- AUTO_INCREMENT for table `warehouseitem_status_action`
+--
+ALTER TABLE `warehouseitem_status_action`
+  MODIFY `statusaction_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT for table `wish`
 --
 ALTER TABLE `wish`
   MODIFY `Wish_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;

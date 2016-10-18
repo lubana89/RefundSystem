@@ -66,6 +66,14 @@
                         'casedId': -1
                     }
                 })
+                .state('warehouseitem', {
+                    url: '/warehouseitem',
+                    templateUrl: '../resources/views/WarehouseItem.blade.php',
+                    controller: 'WarehouseItemCtrl as warehouseitem',
+                    params: {
+                        'casedata': ''
+                    }
+                })
             ;
         }])
         .run(['$rootScope', '$state','$window', function ($rootScope, $state,$window) {

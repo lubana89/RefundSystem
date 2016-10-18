@@ -27,10 +27,11 @@ class WarehouseController extends Controller
     public function GetAllArchivedCases()
     {
         $data = DB::table('refundcase')
-            ->where('RefundCaseStatus', '=', 'refund-close case')
+            ->where('RefundCaseStatus', 'Like', '%Closed%')
             ->get();
         return response()->json($data);
     }
+
     //Future Cases
     public function GetAllForecastCases()
     {
@@ -39,36 +40,37 @@ class WarehouseController extends Controller
             ->get();
         return response()->json($data);
     }
+
     //Buffer Cases
     public function GetAllCasesInBuffer()
     {
         $data = DB::table('refundcase')
-            ->where([
-                ['RefundCaseStatus', '<>', 'Label Generated'],
-                ['RefundCaseStatus', '<>', 'refund-close case'],
-                ['RefundCaseStatus', '<>', 'Link Generated']
-            ])
+            ->where('RefundCaseStatus', '=', 'In Warehouse')
+            ->orwhere('RefundCaseStatus', '=', 'In Process')
             ->get();
         return response()->json($data);
     }
+
     //update case status of returned items
     public function UpdateCaseStatus(Request $request)
     {
         DB::table('refundcase')
             ->where('RefundCase_Id', '=', $request->input('RefundCase_Id'))
             ->update(['RefundCaseStatus' => $request->input('RefundCaseStatus')]);
+
         //Log
         $this->log->Log('WarehouseController', 'UpdateCaseStatus', 'Updated Case Status Id=' . $request->input('RefundCase_Id') . ' Status=' . $request->input('RefundCaseStatus'));
         return 'true';
     }
 
-    // fetch Case by id
-    public function GetReturnedCase($id)
+    // fetch Case by data
+    public function GetReturnedCase($data)
     {
-        $data = DB::table('refundcase')
-            ->where('RefundCase_Id', '=', $id)
+        $returndata = DB::table('refundcase')
+            ->where('RefundCase_Id', 'LIKE', '%' . $data . '%')
+            ->orWhere('RefundCaseDetail', 'LIKE', '%' . $data . '%')
             ->get();
-        return response()->json($data);
+        return response()->json($returndata);
     }
 
     // update case
@@ -86,5 +88,19 @@ class WarehouseController extends Controller
         }
     }
 
+    public function GetCaseHistory($id)
+    {
+        $data = DB::table('casehistory')
+            ->where('RefundCase_Id', '=',$id )
+            ->get();
+        return response()->json($data);
+    }
 
+    public function UpdateCaseHistory($id, $message)
+    {
+        //insert into history
+        DB::table('casehistory')->insert(
+            ['RefundCase_Id' => $id, 'Time' => date('Y-m-d H:i:s'), 'HistoryLog' => $message]
+        );
+    }
 }

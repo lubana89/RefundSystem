@@ -88,6 +88,8 @@ class CustomerController extends Controller
             DB::table('refundcase')
                 ->where('RefundCase_Id', '=', $CaseId)
                 ->update(['RefundCaseDetail' => $request->getContent(), 'RefundCaseStatus' => 'Label Generated', 'RefundCaseStatusKey' => Session::get('TrackingID')]);
+            //update case history
+            $this->UpdateCaseHistory($CaseId,'Customer|Label Generated ');
             return 'true';
         } else {
             return response()->json('UP');
@@ -105,6 +107,12 @@ class CustomerController extends Controller
             return view('errors.InvalidLink');
         }
     }
-
+    public function UpdateCaseHistory($id,$message)
+    {
+        //insert into history
+        DB::table('casehistory')->insert(
+            ['RefundCase_Id' => $id, 'Time' => date('Y-m-d H:i:s'), 'HistoryLog' => $message]
+        );
+    }
 
 }
