@@ -39,7 +39,7 @@ app.controller('CustomerRefundCtrl', ['$scope', '$http', function ($scope, $http
     // on form submit generate qr code
     $scope.SubmitForm = function () {
         $http.post(configuration.path + '/UpdateCaseData', JSON.stringify($scope.form)).success(function (data) {
-           // window.location.href = configuration.path + '/QR';
+            // window.location.href = configuration.path + '/QR';
             window.location.href = configuration.path + '/BarCode';
         });
     };
@@ -84,43 +84,52 @@ app.controller('CustomerRefundTrackCtrl', ['$scope', '$http', function ($scope, 
     };
 
     $scope.SubmitForm = function () {
-        var trackID=$scope.getUrlParameter('trackID');
-        var url=configuration.path+ "/Status/";
-        if(trackID!=undefined)
-        url += trackID;
+        var trackID = $scope.getUrlParameter('trackID');
+        var url = configuration.path + "/Status/";
+        if (trackID != undefined)
+            url += trackID;
         else
-            url +=$('.trackerID').val();
+            url += $('.trackerID').val();
         window.location.href = url;
 
 
     };
 
-    $scope.openDialog=function(){
+    $scope.openDialog = function () {
 
         $('.dialogForm').show();
-        $('.ui-widget-overlay').css('opacity','0.3');
+        $('.ui-widget-overlay').css('opacity', '0.3');
         $('.returnBtn').attr('disabled', true);
         $('.trackBtn').attr('disabled', true);
         $('.trackerID').attr('disabled', true);
 
     }
 
-    $scope.close=function(){
+    $scope.close = function () {
 
         $('.dialogForm').hide();
-        $('.ui-widget-overlay').css('opacity','1');
+        $('.ui-widget-overlay').css('opacity', '1');
         $('.returnBtn').attr('disabled', false);
         $('.trackBtn').attr('disabled', false);
         $('.trackerID').attr('disabled', false);
+        $("input[name='sellerName']").val('');
+        $("input[name='email']").val('');
+        $("input[name='orderNr']").val('');
     }
 
-    $scope.send=function() {
-        var sellerName = $( "input[name='sellerName']" ).val();
-        var email = $( "input[name='email']" ).val();
-        var orderNr = $( "input[name='orderNr']" ).val();
-        alert(sellerName+" "+email+" "+orderNr);
+    $scope.send = function () {
+        var reqstcaseobj = {};
+        reqstcaseobj.sellerName = $("input[name='sellerName']").val();
+        reqstcaseobj.email = $("input[name='email']").val();
+        reqstcaseobj.orderNr = $("input[name='orderNr']").val();
+        if (reqstcaseobj.email != '') {
+            $http.post(configuration.path + '/RequestCase', JSON.stringify(reqstcaseobj)).success(function (data) {
+                $scope.close();
+               alert(data);
+            });
+        }
 
-    }
+    };
 
     $scope.init = function () {
 

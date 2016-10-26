@@ -8,7 +8,6 @@ use Crypt;
 use DB;
 use Session;
 use JWTAuth;
-use App\Http\Controllers\LogController;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Contracts\Encryption\DecryptException;
 

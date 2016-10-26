@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/RefundSystem/Elixer/CSS/all.css">
     <script src="/RefundSystem/Elixer/JS/Dependencies.js"></script>
     <script src="/RefundSystem/Elixer/JS/Controllers/Customer.js"></script>
+
     @include('Configuration.Configuration')
 </head>
 

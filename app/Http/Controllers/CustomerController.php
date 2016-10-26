@@ -13,6 +13,12 @@ use Illuminate\Contracts\Encryption\DecryptException;
 
 class CustomerController extends Controller
 {
+    private $Message = 'Thanks for request!! we will contact you soon. ';
+    public function __construct()
+    {
+
+        $this->mailHandler = new MailController;
+    }
 
     //To generate random strings
     private function generateRandomString($length = 16)
@@ -115,4 +121,8 @@ class CustomerController extends Controller
         );
     }
 
+    public function RequestCase(Request $request){
+        $this->mailHandler->Email('Request Case',$request->getContent());
+        return $this->Message;
+    }
 }

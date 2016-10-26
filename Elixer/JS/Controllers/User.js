@@ -534,7 +534,7 @@ var user, NotificationInterval;
             //create new user
             vm.SubmitNewUserForm = function () {
                 var UserBox = $('#addUserDiv');
-                UserBox.remove();
+                UserBox.dialog('destroy');
                 ApiSVC.CreateUser(vm.EditFormData).success(function (data) {
                     vm.refresh();
                 });
@@ -829,6 +829,9 @@ var user, NotificationInterval;
                     $('#messageDiv').remove();
                     vm.refresh();
                 });
+            };
+            vm.WarehouseItem=function(RefundCase){
+                $state.go('warehouseitem', {casedata: RefundCase});
             };
             vm.SearchClick = function (clearGrid) {
                 vm.GridInit('black', clearGrid);

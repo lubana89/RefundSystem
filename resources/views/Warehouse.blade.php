@@ -41,6 +41,7 @@
             <th>Update Status</th>
             <th>Edit Case</th>
             <th>Case Message</th>
+            <th>Case Detail</th>
         </tr>
         <tr ng-repeat="RefundCase in warehouse.CasesGrid" ng-style="warehouse.GridStyle">
             <td>{{RefundCase.RefundCase_Id}}</td>
@@ -51,6 +52,7 @@
             <td><button class="btn btn-primary btn-xs" ng-click="warehouse.UpdateStatusCase(RefundCase.RefundCase_Id)" ><span class="glyphicon glyphicon-pencil"></span></button></td>
             <td><button class="btn btn-primary btn-xs" ng-click="warehouse.EditCase(RefundCase)" ><span class="glyphicon glyphicon-pencil"></span></button></td>
             <td><button class="btn btn-primary btn-xs" ng-click="warehouse.AddComment(RefundCase)" ><span class="glyphicon glyphicon-pencil"></span></button></td>
+            <td><button class="btn btn-primary btn-xs" ng-click="warehouse.WarehouseItem(RefundCase)" ><span class="glyphicon glyphicon-book"></span></button></td>
         </tr>
     </table>
 </div>

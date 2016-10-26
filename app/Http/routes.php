@@ -92,7 +92,7 @@ Route::group(['prefix' => 'Communication', 'middleware' => ['ability:All,Communi
 
 
 });
-
+Route::post('RequestCase', 'CustomerController@RequestCase');
 Route::post('UpdateCaseData', 'CustomerController@UpdateCaseData');
 Route::get('Customer/Refund/{id}/Fetch', 'FetchBasicDataController@FetchData');
 Route::get('Customer/Refund/{id}', 'CustomerController@DecryptLink');
