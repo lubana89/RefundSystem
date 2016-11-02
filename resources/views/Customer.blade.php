@@ -36,23 +36,111 @@
         </div>
     </div>
     <div class="dialogForm" title="Eingabe" hidden>
-        <div>
-            <form class="rqstform">
-                <div class="form-group">
-                    <input name="sellerName" class="form-control" placeholder="Sellers Name" required/>
-                </div>
-                <div class="form-group">
-                    <input name="email" class="form-control" placeholder="Email" required/>
-                </div>
-                <div class="form-group">
-                    <input name="orderNr" class="form-control" placeholder="Ordernumber" required/>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary" ng-click="send()"><span
-                                class="glyphicon glyphicon-log-in"></span></button>
-                    <button type="button" class="btn btn-danger" ng-click="close()"><span
-                                class="glyphicon glyphicon-remove"></span></button>
-                </div>
+        <div id="wrapper">
+            <form  class="form-horizontal" id="formElem" name="CustomerForm" novalidate role="form"
+                  ng-submit="CustomerForm.$valid && send()">
+                <fieldset class="step">
+                    <legend>Sender:</legend>
+                    <div class="form-group">
+                        <label for="name" class="col-sm-5 control-label"> Name</label>
+                        <div class="col-sm-7">
+                            <input class="form-control" ng-model="form.name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="col-sm-5 control-label"> Email</label>
+                        <div class="col-sm-7">
+                            <input class="form-control" name="email" ng-model="form.emailAddress"
+                                   ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/">
+                            <span ng-show="CustomerForm.email.$error.pattern">Not a valid mail!</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="street" class="col-sm-5 control-label"> Street</label>
+                        <div class="col-sm-7">
+                            <input class="form-control" ng-model="form.street">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="plz" class="col-sm-5 control-label"> PLZ</label>
+                        <div class="col-sm-7">
+                            <input class="form-control" ng-model="form.plz">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="city" class="col-sm-5 control-label"> City</label>
+                        <div class="col-sm-7">
+                            <input class="form-control" ng-model="form.city">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="country" class="col-sm-5 control-label"> Country</label>
+                        <div class="col-sm-7">
+                            <input class="form-control" ng-model="form.country">
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset class="step">
+                    <legend>Order:</legend>
+                    <div class="form-group">
+                        <label for="orderId" class="col-sm-5 control-label">Order Number</label>
+                        <div class="col-sm-7">
+                            <input class="form-control" ng-model="form.orderNumber">
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset class="step">
+                    <legend>Bank:</legend>
+                    <div class="form-group">
+                        <label for="BankAccountHolderName" class="col-sm-5 control-label">Account Holder Name</label>
+                        <div class="col-sm-7">
+                            <input class="form-control" ng-model="form.bankAccountHolderName">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="IBAN" class="col-sm-5 control-label">IBAN</label>
+                        <div class="col-sm-7">
+                            <input class="form-control" ng-model="form.IBAN">
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset class="step">
+                    <legend>Item:</legend>
+                    <div class="form-group">
+                        <label for="reason" class="col-sm-5 control-label">Reason</label>
+                        <div class="col-sm-7">
+                            <select ng-model="form.reason" ng-options="x for x in reasons">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemCondition" class="col-sm-5 control-label">Item Condition</label>
+                        <div class="col-sm-7">
+                            <select ng-model="form.condition" ng-options="x for x in conditions">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="wish" class="col-sm-5 control-label">Wish</label>
+                        <div class="col-sm-7">
+                            <select ng-model="form.wish" ng-options="x for x in wishes">
+                            </select>
+                        </div>
+                    </div>
+
+                </fieldset>
+                <fieldset class="step">
+                    <legend>Send Mail</legend>
+                    <div class="form-group">
+                        <div >
+                            <button type="submit" class="btn btn-primary"><span
+                                        class="glyphicon glyphicon-log-in"></span></button>
+                            <button type="button" class="btn btn-danger" ng-click="close()"><span
+                                        class="glyphicon glyphicon-remove"></span></button>
+                        </div>
+                    </div>
+                </fieldset>
+
             </form>
         </div>
     </div>

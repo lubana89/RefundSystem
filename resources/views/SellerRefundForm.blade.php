@@ -78,7 +78,7 @@
                     <fieldset class="step">
                         <legend>Bank:</legend>
                         <div class="form-group">
-                            <label for="BankAccountHolderName" class="col-sm-5 control-label">Kontoinhaber</label>
+                            <label for="BankAccountHolderName" class="col-sm-5 control-label">Account Holder Name</label>
                             <div class="col-sm-7">
                                 <input class="form-control" ng-model="form.bankAccountHolderName">
                             </div>

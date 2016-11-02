@@ -1,4 +1,5 @@
 var elixir = require('laravel-elixir');
+
 require('laravel-elixir-js-uglify');
 /*
  |--------------------------------------------------------------------------
@@ -68,5 +69,4 @@ elixir(function (mix) {
     );*/
 
 });
-
 

@@ -141,7 +141,12 @@ class AuthenticateController extends Controller
                     'user_id' => $request->input('id'),
                     'role_id' => $request->input('role')
                 ]);
-
+            if ($request->input('role') == "2" || $request->input('role') == "1") {
+                DB::table('seller_links')->insert([
+                    'user_id' => $request->input('id'),
+                    'link' => Hash::make($request->input('id'))
+                ]);
+            }
             return response()->json("assigned");
         } else {
             return response()->json('UP');

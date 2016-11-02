@@ -58,36 +58,123 @@
 </div>
 
 <div id="editDiv" hidden>
-    <form class="form-horizontal" role="form" style="margin-top:5%;" action="#">
-        <div class="form-group">
-            <label for="reason" class="col-sm-2 control-label">Reason</label>
-            <div class="col-sm-4">
-                <select ng-model="warehouse.EditFormData.reason" ng-options="x for x in warehouse.reasons">
-                </select>
+    <form class="form-horizontal" name="ediForm" novalidate role="form" style="margin-top:5%;" ng-submit="ediForm.$valid && warehouse.SubmitEditedForm()" >
+        <fieldset class="step">
+            <legend>Sender:</legend>
+            <div class="form-group">
+                <label for="name" class="col-sm-5 control-label"> Name</label>
+                <div class="col-sm-7">
+                    <input class="form-control" ng-model="warehouse.EditFormData.name">
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="itemCondition" class="col-sm-2 control-label">Item Condition</label>
-            <div class="col-sm-4">
-                <select ng-model="warehouse.EditFormData.condition" ng-options="x for x in warehouse.conditions">
-                </select>
+            <div class="form-group">
+                <label for="email" class="col-sm-5 control-label"> Email</label>
+                <div class="col-sm-7">
+                    <input class="form-control" name="email" ng-model="warehouse.EditFormData.emailAddress"
+                           ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/">
+                    <span ng-show="ediForm.email.$error.pattern">Not a valid mail!</span>
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="wish" class="col-sm-2 control-label">Wish</label>
-            <div class="col-sm-4">
-                <select ng-model="warehouse.EditFormData.wish" ng-options="x for x in warehouse.wishes">
-                </select>
+            <div class="form-group">
+                <label for="street" class="col-sm-5 control-label"> Street</label>
+                <div class="col-sm-7">
+                    <input class="form-control" ng-model="warehouse.EditFormData.street">
+                </div>
             </div>
-        </div>
+            <div class="form-group">
+                <label for="plz" class="col-sm-5 control-label"> PLZ</label>
+                <div class="col-sm-7">
+                    <input class="form-control" ng-model="warehouse.EditFormData.plz">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="city" class="col-sm-5 control-label"> City</label>
+                <div class="col-sm-7">
+                    <input class="form-control" ng-model="warehouse.EditFormData.city">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="country" class="col-sm-5 control-label"> Country</label>
+                <div class="col-sm-7">
+                    <input class="form-control" ng-model="warehouse.EditFormData.country">
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="step">
+            <legend>Order:</legend>
+            <div class="form-group">
+                <label for="orderId" class="col-sm-5 control-label">Order Number</label>
+                <div class="col-sm-7">
+                    <input class="form-control" ng-model="warehouse.EditFormData.orderNumber">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="date" class="col-sm-5 control-label">Date</label>
+                <div class="col-sm-7">
+                    <input class="form-control date" type="text" jqdatepicker ng-model="warehouse.EditFormData.date">
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="step">
+            <legend>Bank:</legend>
+            <div class="form-group">
+                <label for="BankAccountHolderName" class="col-sm-5 control-label">Account Holder Name</label>
+                <div class="col-sm-7">
+                    <input class="form-control" ng-model="warehouse.EditFormData.bankAccountHolderName">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="IBAN" class="col-sm-5 control-label">IBAN</label>
+                <div class="col-sm-7">
+                    <input class="form-control" ng-model="warehouse.EditFormData.IBAN">
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="step">
+            <legend>Item:</legend>
+            <div class="form-group">
+                <label for="itemSKU" class="col-sm-5 control-label">Item SKU</label>
+                <div class="col-sm-7">
+                    <input class="form-control" ng-model="warehouse.EditFormData.itemSKU">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="price" class="col-sm-5 control-label">Price</label>
+                <div class="col-sm-7">
+                    <input class="form-control" ng-model="warehouse.EditFormData.price">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="reason" class="col-sm-5 control-label">Reason</label>
+                <div class="col-sm-7">
+                    <select ng-model="warehouse.EditFormData.reason" ng-options="x for x in warehouse.reasons">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="itemCondition" class="col-sm-5 control-label">Item Condition</label>
+                <div class="col-sm-7">
+                    <select ng-model="warehouse.EditFormData.condition" ng-options="x for x in warehouse.conditions">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="wish" class="col-sm-5 control-label">Wish</label>
+                <div class="col-sm-7">
+                    <select ng-model="warehouse.EditFormData.wish" ng-options="x for x in warehouse.wishes">
+                    </select>
+                </div>
+            </div>
 
-
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-success" ng-click="warehouse.SubmitEditedForm()">Update</button>
+        </fieldset>
+        <fieldset class="step">
+            <legend>Update</legend>
+            <div class="form-group">
+                <div >
+                    <button type="submit" class="btn btn-success">Update</button>
+                </div>
             </div>
-        </div>
-
+        </fieldset>
     </form>
 </div>
 <div id="messageDiv" class="panel panel-info" hidden>

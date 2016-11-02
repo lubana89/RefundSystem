@@ -14,6 +14,7 @@ use Illuminate\Contracts\Encryption\DecryptException;
 class CustomerController extends Controller
 {
     private $Message = 'Thanks for request!! we will contact you soon. ';
+
     public function __construct()
     {
 
@@ -68,6 +69,7 @@ class CustomerController extends Controller
             return view('errors.InvalidLink');
         }
     }
+
     //Generate bar Code and link for tracking status
     public function GetBarCode()
     {
@@ -82,6 +84,7 @@ class CustomerController extends Controller
             return view('errors.InvalidLink');
         }
     }
+
     //Update Case Related Data
     public function UpdateCaseData(Request $request)
     {
@@ -95,7 +98,7 @@ class CustomerController extends Controller
                 ->where('RefundCase_Id', '=', $CaseId)
                 ->update(['RefundCaseDetail' => $request->getContent(), 'RefundCaseStatus' => 'Label Generated', 'RefundCaseStatusKey' => Session::get('TrackingID')]);
             //update case history
-            $this->UpdateCaseHistory($CaseId,'Customer|Label Generated ');
+            $this->UpdateCaseHistory($CaseId, 'Customer|Label Generated ');
             return 'true';
         } else {
             return response()->json('UP');
@@ -113,7 +116,8 @@ class CustomerController extends Controller
             return view('errors.InvalidLink');
         }
     }
-    public function UpdateCaseHistory($id,$message)
+
+    public function UpdateCaseHistory($id, $message)
     {
         //insert into history
         DB::table('casehistory')->insert(
@@ -121,8 +125,18 @@ class CustomerController extends Controller
         );
     }
 
-    public function RequestCase(Request $request){
-        $this->mailHandler->Email('Request Case',$request->getContent());
+    public function RequestCase(Request $request)
+    {
+
+        if (!$request->input('sellerLink')) {
+            $selleremailadress = 'no-reply@oubo.de';
+
+        } else {
+            $sellerID = DB::table('seller_links')->select('user_id')->where('link', '=', $request->input('sellerLink'))->get();
+            $selleremail = DB::table('users')->select('email')->where('id', '=', $sellerID[0]->user_id)->get();
+            $selleremailadress= $selleremail[0]->email;
+        }
+        $this->mailHandler->Email('Request Case', config('app.url') . '/#/sellerrefundform?customerdata=' . urlencode($request->getContent()),$selleremailadress );
         return $this->Message;
     }
 }

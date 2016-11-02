@@ -380,16 +380,16 @@ div.upload input {
 
 .dialogForm {
     width: 200px;
-    height: 100px;
     position: absolute;
     top: 0;
     bottom: 15%;
     left: 0;
     right: 22.5%;
-    transform: scale(1.5);
     margin: auto;
 }
-
+.dialogForm .step .form-group{
+    margin: auto;
+}
 .ui-widget-overlay {
     background: 100% 50% repeat-x;
     opacity: 1;

@@ -1,3 +1,14 @@
+function getUrlParameter(name, url) {
+    if (!url) {
+        url = window.location.href;
+    }
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+};
 var app = angular.module('Customer', []).directive('jqdatepicker', function () {
     return {
         restrict: 'A',
@@ -67,24 +78,30 @@ app.controller('CustomerRefundCtrl', ['$scope', '$http', function ($scope, $http
     };
 }]);
 app.controller('CustomerRefundTrackCtrl', ['$scope', '$http', function ($scope, $http) {
+    $scope.form={};
+    $scope.reasons = [];
+    $scope.wishes = [];
+    $scope.conditions = [];
 
-    $scope.getUrlParameter = function getUrlParameter(sParam) {
-        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-            sURLVariables = sPageURL.split('&'),
-            sParameterName,
-            i;
+    $http.get(configuration.path + '/wish').success(function (data) {
+        $.each(data, function (index) {
+            $scope.wishes.push(data[index].Wish);
+        });
+    });
+    $http.get(configuration.path + '/reason').success(function (data) {
+        $.each(data, function (index) {
+            $scope.reasons.push(data[index].Reason);
+        });
+    });
+    $http.get(configuration.path + '/itemCondition').success(function (data) {
+        $.each(data, function (index) {
+            $scope.conditions.push(data[index].ItemCondition);
+        });
+    });
 
-        for (i = 0; i < sURLVariables.length; i++) {
-            sParameterName = sURLVariables[i].split('=');
-
-            if (sParameterName[0] === sParam) {
-                return sParameterName[1] === undefined ? true : sParameterName[1];
-            }
-        }
-    };
 
     $scope.SubmitForm = function () {
-        var trackID = $scope.getUrlParameter('trackID');
+        var trackID = getUrlParameter('trackID');
         var url = configuration.path + "/Status/";
         if (trackID != undefined)
             url += trackID;
@@ -118,12 +135,13 @@ app.controller('CustomerRefundTrackCtrl', ['$scope', '$http', function ($scope, 
     }
 
     $scope.send = function () {
-        var reqstcaseobj = {};
-        reqstcaseobj.sellerName = $("input[name='sellerName']").val();
-        reqstcaseobj.email = $("input[name='email']").val();
-        reqstcaseobj.orderNr = $("input[name='orderNr']").val();
-        if (reqstcaseobj.email != '') {
-            $http.post(configuration.path + '/RequestCase', JSON.stringify(reqstcaseobj)).success(function (data) {
+        if ($scope.form.emailAddress != undefined) {
+            var SID=getUrlParameter('SID');
+            if(SID !=undefined)
+            $scope.form.sellerLink=SID;
+
+            $http.post(configuration.path + '/RequestCase', JSON.stringify($scope.form)).success(function (data) {
+                $scope.form={};
                 $scope.close();
                alert(data);
             });
@@ -133,7 +151,7 @@ app.controller('CustomerRefundTrackCtrl', ['$scope', '$http', function ($scope, 
 
     $scope.init = function () {
 
-        var trackID = $scope.getUrlParameter('trackID');
+        var trackID = getUrlParameter('trackID');
         $('.trackerID').val(trackID);
     };
 

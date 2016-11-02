@@ -46,7 +46,7 @@
                             <div class="col-sm-7">
                                 <input class="form-control" name="email" ng-model="form.emailAddress"
                                        ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/">
-                                <span ng-show="SellerForm.email.$error.pattern">Not a valid mail!</span>
+                                <span ng-show="CustomerForm.email.$error.pattern">Not a valid mail!</span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -92,7 +92,7 @@
                     <fieldset class="step">
                         <legend>Bank:</legend>
                         <div class="form-group">
-                            <label for="BankAccountHolderName" class="col-sm-5 control-label">Kontoinhaber</label>
+                            <label for="BankAccountHolderName" class="col-sm-5 control-label">Account Holder Name</label>
                             <div class="col-sm-7">
                                 <input class="form-control" ng-model="form.bankAccountHolderName">
                             </div>

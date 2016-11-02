@@ -29,6 +29,17 @@ function eraseCookie(e) {
 function Back(e) {
     void 0 == window.history.back() ? e.go("users") : window.history.back()
 }
+function getUrlParameter(name, url) {
+    if (!url) {
+        url = window.location.href;
+    }
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+};
 var user, NotificationInterval;
 (function () {
 
@@ -227,7 +238,7 @@ var user, NotificationInterval;
             vm.ReGetNotificationCount();
             NotificationInterval = setInterval(function () {
                 vm.ReGetNotificationCount();
-            }, 300000);
+            }, 60000);
             //get all notifications
             vm.AllNotifications = function () {
                 $state.go('notification');
@@ -429,6 +440,22 @@ var user, NotificationInterval;
         .module('RefundSystemApp')
         .controller('SellerRefundFormCtrl', ['$scope', '$http', '$auth', '$rootScope', '$state', 'SellerSVC', function ($scope, $http, $auth, $rootScope, $state, SellerSVC) {
             if (user && getCookie('Role') != null) {
+                $scope.form = {
+                    sellerNumber: user.id,
+                    emailAddress: "",
+                    orderNumber: "",
+                    date: "",
+                    price: "",
+                    itemSKU: "",
+                    reason: "",
+                    condition: "",
+                    wish: ""
+                };
+                $scope.customerdata=JSON.parse(getUrlParameter('customerdata'));
+                if($scope.customerdata !=undefined){
+                    $scope.form=$scope.customerdata;
+                    $scope.form.sellerNumber=user.id;
+                }
                 $scope.reasons = [];
                 $scope.wishes = [];
                 $scope.conditions = [];
@@ -450,20 +477,7 @@ var user, NotificationInterval;
                     $.each(data, function (index) {
                         $scope.conditions.push(data[index].ItemCondition);
                     });
-
-
                 });
-                $scope.form = {
-                    sellerNumber: user.id,
-                    emailAddress: "",
-                    orderNumber: "",
-                    date: "",
-                    price: "",
-                    itemSKU: "",
-                    reason: "",
-                    condition: "",
-                    wish: ""
-                };
                 // submit new case
                 $scope.SubmitForm = function () {
                     if ($scope.form.sellerNumber != "") {
@@ -727,7 +741,7 @@ var user, NotificationInterval;
             vm.ReGetNotificationCount();
             NotificationInterval = setInterval(function () {
                 vm.ReGetNotificationCount();
-            }, 300000);
+            }, 60000);
 
             vm.ShowNotifications = function () {
                 vm.HideDialog();
@@ -817,7 +831,7 @@ var user, NotificationInterval;
                 $(document).off('click').on('click', '.sendMessage', function () {
                     vm.MessageSubmitted(messagecase, $('.msgText').val());
                 });
-                $('<div id="messageDiv" />').html(textArea).append(btn).dialog({width: 700, title: 'Add Message'});
+                $('<div id="casemessageDiv" />').html(textArea).append(btn).dialog({width: 700, title: 'Add Message'});
             };
             vm.MessageSubmitted = function (messageCase, messageText) {
                 var messageobj = {};
@@ -826,7 +840,7 @@ var user, NotificationInterval;
                 messageobj.Seller_Id = messageCase.Seller_Id;
                 messageobj.Message = messageText;
                 CommunicationSVC.AddMessage(messageobj).success(function (data) {
-                    $('#messageDiv').remove();
+                    $('#casemessageDiv').dialog("destroy");
                     vm.refresh();
                 });
             };

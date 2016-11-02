@@ -1,6 +1,6 @@
 <?php
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -52,7 +52,7 @@ class SellerController extends Controller
 
             //Log
             $this->log->Log('SellerController', 'GenerateLink', $request->getContent());
-            $this->mailHandler->Email('Refund Link', config('app.url') . '/Customer/Refund/' . $refundLink);
+            $this->mailHandler->Email('Refund Link', config('app.url') . '/Customer/Refund/' . $refundLink,Auth::user()->email);
             return $this->htmlGeneratedLinkMessage;
 
         } else {
@@ -114,7 +114,7 @@ class SellerController extends Controller
     public function GetMailLink($id)
     {
         $refundLink = DB::table('caselinks')->select('CaseLink')->where('RefundCase_Id', '=', $id)->get();
-        $this->mailHandler->Email('Refund Link', config('app.url') . '/Customer/Refund/' . $refundLink[0]->CaseLink);
+        $this->mailHandler->Email('Refund Link', config('app.url') . '/Customer/Refund/' . $refundLink[0]->CaseLink,Auth::user()->email);
         return $this->htmlGeneratedLinkMessage;
     }
 }
