@@ -53,6 +53,7 @@ Route::group(['prefix' => 'Seller', 'middleware' => ['ability:Admin|Seller,Selle
     Route::get('GetLink/{id}', 'SellerController@GetCaseLink');
     Route::get('MailLink/{id}', 'SellerController@GetMailLink');
     Route::get('GetAllAdmins', 'FetchBasicDataController@GetAllAdmins');
+    Route::get('MyRefundLinkGenerator/{id}','SellerController@GetMyRefundLink');
 
 });
 
@@ -92,7 +93,7 @@ Route::group(['prefix' => 'Communication', 'middleware' => ['ability:All,Communi
 
 
 });
-Route::post('RequestCase', 'CustomerController@RequestCase');
+Route::post('RequestCase/{link}', 'CustomerController@RequestCase');
 Route::post('UpdateCaseData', 'CustomerController@UpdateCaseData');
 Route::get('Customer/Refund/{id}/Fetch', 'FetchBasicDataController@FetchData');
 Route::get('Customer/Refund/{id}', 'CustomerController@DecryptLink');

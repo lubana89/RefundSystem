@@ -15,11 +15,12 @@
 Dear OUBO,
 <br/>
 <br/>
+Customer has Requested For Refund.
 Please Login To Our Reclamation System and then Click on following button.
 <br/>
 <br/>
 <br/>
-<a class="btn" href={!! $data !!} target="_blank">Generate Link</a>
+<a class="btn" href={!! $data !!} target="_blank"> Generate Link</a>
 
 <br/>
 

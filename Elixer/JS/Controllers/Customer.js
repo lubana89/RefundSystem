@@ -136,11 +136,11 @@ app.controller('CustomerRefundTrackCtrl', ['$scope', '$http', function ($scope, 
 
     $scope.send = function () {
         if ($scope.form.emailAddress != undefined) {
-            var SID=getUrlParameter('SID');
-            if(SID !=undefined)
-            $scope.form.sellerLink=SID;
+            var SID=-1;
+            if(getUrlParameter('SID') !=null)
+                SID=getUrlParameter('SID');
 
-            $http.post(configuration.path + '/RequestCase', JSON.stringify($scope.form)).success(function (data) {
+            $http.post(configuration.path + '/RequestCase/'+SID, JSON.stringify($scope.form)).success(function (data) {
                 $scope.form={};
                 $scope.close();
                alert(data);

@@ -1,2 +1,2 @@
-https://github.com/scotch-io/laravel-angular-token-authentication
-https://scotch.io/tutorials/token-based-authentication-for-angularjs-and-laravel-apps
+https://scotch.io/tutorials/role-based-authentication-in-laravel-with-jwt
+http://ryanchenkie.com/token-based-authentication-for-angularjs-and-laravel-apps/

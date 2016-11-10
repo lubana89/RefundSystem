@@ -117,4 +117,9 @@ class SellerController extends Controller
         $this->mailHandler->Email('Refund Link', config('app.url') . '/Customer/Refund/' . $refundLink[0]->CaseLink,Auth::user()->email);
         return $this->htmlGeneratedLinkMessage;
     }
+    public function GetMyRefundLink($id){
+        $refundLink = DB::table('seller_links')->select('link')->where('user_id', '=', $id)->get();
+        $this->mailHandler->Email('Refund Link', config('app.url') . '/customer/?SID=' . $refundLink[0]->link,Auth::user()->email);
+        return $this->htmlGeneratedLinkMessage;
+    }
 }

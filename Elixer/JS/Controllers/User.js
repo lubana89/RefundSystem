@@ -215,6 +215,9 @@ var user, NotificationInterval;
             vm.AddImage = function (id) {
                 $state.go('upload', {casedId: id});
             };
+            vm.GetMyRefundLinkGenerator=function () {
+                SellerSVC.MyRefundLinkGenerator();
+            };
             vm.refresh = function () {
                 vm.CasesGrid = [];
                 SellerSVC.GetAllSellerCase().success(function (data) {
@@ -1282,6 +1285,9 @@ var user, NotificationInterval;
             };
             factory.MailLink = function (id) {
                 return $http.get(configuration.path + '/Seller/MailLink/' + id + '?token=' + $auth.getToken());
+            };
+            factory.MyRefundLinkGenerator = function (id) {
+                return $http.get(configuration.path + '/Seller/MyRefundLinkGenerator/' + user.id + '?token=' + $auth.getToken());
             };
             return factory;
         }]);

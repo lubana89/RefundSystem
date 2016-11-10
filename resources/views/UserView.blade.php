@@ -2,6 +2,7 @@
 <div data-ng-include="getGlobals('configuration_MenuPath')"></div>
 <div style="margin:2%">
 			<button class="btn btn-primary" ng-click="user.refresh()"><span class="glyphicon glyphicon-refresh"> Refresh </span></button>
+            <button class="btn btn-primary" ng-if="user.Role=='Seller'" ng-click="user.GetMyRefundLinkGenerator()"> General Refund Link </button>
 			<button class="btn btn-danger" style="float:right;margin-right:2%" ng-if="user.Role=='Seller'" ng-click="user.CreateNotification()"><span class="glyphicon glyphicon-bell"> Notify Admin</span></button>
 			<button class="btn btn-info" id="notificationBtn" style="float:right;margin-right:2%"   ng-click="user.ShowNotifications()"><i class="glyphicon glyphicon-bell"> </i><span class="button__badge" ng-if="user.NotificationCount!=0">{{user.NotificationCount}}</span></button>
 

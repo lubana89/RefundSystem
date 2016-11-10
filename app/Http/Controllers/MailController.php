@@ -25,11 +25,12 @@ class MailController extends Controller
                 });
                 break;
             case 'Request Case':
-                Mail::send('emails.RqstNewCase', array('data' => json_decode($Body, true)), function ($message) use ($Subject,$From,$FromName,$TO) {
+                Mail::send('emails.RqstNewCase', array('data' => $Body), function ($message) use ($Subject,$From,$FromName,$TO) {
                     $message->to($TO)->subject($Subject);
                     $message->from($From, $FromName);
                 });
                 break;
+
         }
         return;
     }

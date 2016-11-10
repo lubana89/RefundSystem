@@ -125,17 +125,18 @@ class CustomerController extends Controller
         );
     }
 
-    public function RequestCase(Request $request)
+    public function RequestCase(Request $request,$link)
     {
 
-        if (!$request->input('sellerLink')) {
+        if ($link == -1) {
             $selleremailadress = 'no-reply@oubo.de';
 
         } else {
-            $sellerID = DB::table('seller_links')->select('user_id')->where('link', '=', $request->input('sellerLink'))->get();
+            $sellerID = DB::table('seller_links')->select('user_id')->where('link', '=', $link)->get();
             $selleremail = DB::table('users')->select('email')->where('id', '=', $sellerID[0]->user_id)->get();
             $selleremailadress= $selleremail[0]->email;
         }
+
         $this->mailHandler->Email('Request Case', config('app.url') . '/#/sellerrefundform?customerdata=' . urlencode($request->getContent()),$selleremailadress );
         return $this->Message;
     }
